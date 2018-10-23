@@ -45,8 +45,7 @@ export default class AudioPlayer extends React.Component {
     };
 
     componentDidMount() {
-        const playlist = playerUtils.makePlaylistArray(this.props.audiobooks);
-        playerUtils.setupAndPlay(playlist, this.props.audiobook.hash);
+        playerUtils.setupAndPlay(this.props.audiobooks, this.props.audiobook);
 
         interval = setInterval(() => {
             if (this.state.loadingProgress === false) {
@@ -61,10 +60,13 @@ export default class AudioPlayer extends React.Component {
       }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.audiobook !== nextProps.audiobook) {
+            playerUtils.setupAndPlay(nextProps.audiobooks, nextProps.audiobook);
+           }
         if (this.props !== nextProps) {
             this.setState({
                 audiobook: nextProps.audiobook,
-                // playlist: nextProps.audiobooks, #dont activate. It will flaw playlist
+                playlist: nextProps.audiobooks, // dont activate. It will flaw playlist
                 progress: nextProps.progress,
                 fullscreen: nextProps.fullscreen,
                 loadingProgress: true
@@ -74,12 +76,6 @@ export default class AudioPlayer extends React.Component {
                     loadingProgress: false
                 });
            }, 1500);
-        //    if (this.props.audiobook !== nextProps.audiobook) {
-        //     const playlist = playerUtils.makePlaylistArray(this.props.audiobooks);
-        //     console.log('Playlist in AP componentWillReceiveProps');
-        //     console.log(playlist);
-        //     playerUtils.setupAndPlay(playlist, this.props.audiobook.hash);
-        //    }
         }
     }
 

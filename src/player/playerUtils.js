@@ -11,41 +11,22 @@ let position = 0;
 let progress = 0;
 
 const playerUtils = {
-    setupAndPlay(playlist, idToPlay) {
-        //Creates the player
+    async setupAndPlay(audiobooks, audioBookToPlay) {
+        const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
+        console.log('PLAYLIST: ');
+        console.log(playlist);
+        // Creates the player
         TrackPlayer.setupPlayer().then(async () => {
             // Adds a track to the queue
             await TrackPlayer.add(playlist).then(function() {
                 // The tracks were added
-                console.log('in TrackPlayer.add');
-                console.log(TrackPlayer.getQueue());
             });
             // Starts playing it
-            console.log('UserHash: ' + idToPlay);
-            TrackPlayer.skip(idToPlay);
+            console.log('UserHash: ' + audioBookToPlay.hash);
+            TrackPlayer.skip(audioBookToPlay.hash);
             TrackPlayer.play();
         });
     },
-    // startAudioBook(audiobookURL) {
-    //     console.log('playerUtils.startAudioBook()');
-    //     //Creates the player
-    //     TrackPlayer.setupPlayer().then(async () => {
-    //         // Adds a track to the queue
-    //         await TrackPlayer.add({
-    //             id: 'trackId',
-    //             url: audiobookURL,
-    //             title: 'Track Title',
-    //             artist: 'Track Artist',
-    //             artwork: 'https://www.cts-reisen.de/_Resources/Persistent/c088016fa7a93ea0d33b66c33e0d2a0dbff56ffe/GR-Gruppenreisen-Athen-Parthenon-Tempel-4134x2326-1280x720.jpg'
-    //         });
-    //         // Starts playing it
-    //         TrackPlayer.play();
-    //     });
-
-
-        // RNAudioStreamer.setUrl(audiobookURL);
-        // RNAudioStreamer.play();
-    // },
     playAudioBook() {
         console.log('playerUtils.playAudioBook()');
         // RNAudioStreamer.play();
@@ -82,17 +63,26 @@ const playerUtils = {
           }
         return autoplayStatus;
     },
-    makePlaylistArray(audiobooks) {
+    async makePlaylistArray(audiobooks, audioBookToPlay) {
+        const autoplayState = await playerUtils.loadAutoplayStatus();
         const tracks = [];
-        let i;
-        for (i = 0; i < Object.keys(audiobooks).length; i++) {
-        // for (i = 6; i < 8; i++) {
+        if (!autoplayState) {
             const track = {};
-            track.id = audiobooks[i].hash,
-            track.url = playerUtils.makeFileUrl(audiobooks[i].hash), // Load media from the network
-            track.title = audiobooks[i].title,
-            track.artist = audiobooks[i].author,
+            track.id = audioBookToPlay.hash,
+            track.url = playerUtils.makeFileUrl(audioBookToPlay.hash), // Load media from the network
+            track.title = audioBookToPlay.title,
+            track.artist = audioBookToPlay.author,
             tracks.push(track);
+        } else {
+            let i;
+            for (i = 0; i < Object.keys(audiobooks).length; i++) {
+                const track = {};
+                track.id = audiobooks[i].hash,
+                track.url = playerUtils.makeFileUrl(audiobooks[i].hash), // Load media from the network
+                track.title = audiobooks[i].title,
+                track.artist = audiobooks[i].author,
+                tracks.push(track);
+            }
         }
         return tracks;
     },
