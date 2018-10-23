@@ -9,7 +9,6 @@ import utils from '../../utils/utils';
 import settings from '../../../settings';
 
 const API_ENDPOINT_ADD_USER = settings.getBackendHost().concat('/api/user');
-console.log(API_ENDPOINT_ADD_USER);
 
 const promptTitle = 'Bitte gib deine E-Mail Adresse an';
 const promtPlaceholder = 'me@myself.ii';
@@ -35,7 +34,6 @@ class EmailPromptProv extends React.Component {
 
     async loadingAsync() {
         const usermailGet = await utils.getUserParameter('email');
-        console.log('E-Mail in Prompt: ' + usermailGet);
         
         this.setState({ 
           userEmail: usermailGet,

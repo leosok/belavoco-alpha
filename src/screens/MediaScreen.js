@@ -26,7 +26,6 @@ import apiUtils from '../api/apiUtils';
 import utils from '../utils/utils';
 
 const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
-console.log(API_ENDPOINT_ALL);
 
 export default class MediaScreen extends Component {
   static navigationOptions = {

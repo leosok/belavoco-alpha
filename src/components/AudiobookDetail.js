@@ -49,8 +49,8 @@ class AudiobookDetail extends React.Component {
       }
 
     startPlayPress = () => {
-        const fileUrl = BACKEND_HOST.concat(this.props.audiobook.hash, '/play');
-        playerUtils.startAudioBook(fileUrl);
+        // const fileUrl = BACKEND_HOST.concat(this.props.audiobook.hash, '/play');
+        // playerUtils.startAudioBook(fileUrl);
         this.props.selectionHandlerList(this.props.audiobook);
       }
 

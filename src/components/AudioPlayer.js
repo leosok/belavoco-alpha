@@ -3,7 +3,7 @@ import React from 'react';
 
 import { View,
          Text, 
-         DeviceEventEmitter 
+        //  DeviceEventEmitter 
         } from 'react-native';
 
 import * as Progress from 'react-native-progress';
@@ -45,6 +45,9 @@ export default class AudioPlayer extends React.Component {
     };
 
     componentDidMount() {
+        const playlist = playerUtils.makePlaylistArray(this.props.audiobooks);
+        playerUtils.setupAndPlay(playlist, this.props.audiobook.hash);
+
         interval = setInterval(() => {
             if (this.state.loadingProgress === false) {
                 this.setState({
@@ -71,6 +74,12 @@ export default class AudioPlayer extends React.Component {
                     loadingProgress: false
                 });
            }, 1500);
+        //    if (this.props.audiobook !== nextProps.audiobook) {
+        //     const playlist = playerUtils.makePlaylistArray(this.props.audiobooks);
+        //     console.log('Playlist in AP componentWillReceiveProps');
+        //     console.log(playlist);
+        //     playerUtils.setupAndPlay(playlist, this.props.audiobook.hash);
+        //    }
         }
     }
 
@@ -87,15 +96,16 @@ export default class AudioPlayer extends React.Component {
     }
 
     playOrPause() {
-            if (String(this.state.playingState) === 'PLAYING') {
-                playerUtils.pauseAudioBook();
-            } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING' || 'ERROR') {
-                playerUtils.playAudioBook();
-            }
-            // RNAudioStreamer.status((status) => {
-            //     console.log('in playOrPause() AP: ' + status);
-            // });
+        playerUtils.getState();
+        if (String(this.state.playingState) === 'PLAYING') {
+            playerUtils.pauseAudioBook();
+        } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING' || 'ERROR') {
+            playerUtils.playAudioBook();
         }
+        // RNAudioStreamer.status((status) => {
+        //     console.log('in playOrPause() AP: ' + status);
+        // });
+    }
 
     async afterFinish() {
         //TODO: make following code in a function randomPlay().
