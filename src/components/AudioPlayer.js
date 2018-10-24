@@ -35,8 +35,8 @@ export default class AudioPlayer extends React.Component {
       }
 
       state = {
-        audiobook: this.props.audiobook,
-        playlist: this.props.audiobooks,
+        // audiobook: this.props.audiobook,
+        // playlist: this.props.audiobooks,
         playingState: 'PLAYING',
         progress: this.props.progress,
         fullscreen: this.props.fullscreen,
@@ -65,8 +65,8 @@ export default class AudioPlayer extends React.Component {
            }
         if (this.props !== nextProps) {
             this.setState({
-                audiobook: nextProps.audiobook,
-                playlist: nextProps.audiobooks, // dont activate. It will flaw playlist
+                // audiobook: nextProps.audiobook,
+                // playlist: nextProps.audiobooks, // dont activate. It will flaw playlist
                 progress: nextProps.progress,
                 fullscreen: nextProps.fullscreen,
                 loadingProgress: true
@@ -110,16 +110,16 @@ export default class AudioPlayer extends React.Component {
         if (autoplayState === false) {
             this.props.playFinishHandlerMS(null);
         } else if (autoplayState === true && this.state.playlist.length > 0) {
-            const index = this.state.playlist.indexOf(this.state.audiobook);
+            const index = this.state.playlist.indexOf(this.state.audiobook); // ACHTUNG: hier ist noch ein state.audiobook. muss entfernt/ersetzt werden
             const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.playlist, index);
             this.setState({ 
-                audiobook: randomAudiobook[0],
-                playlist: randomAudiobook[1]
+                audiobook: randomAudiobook[0], // ACHTUNG: hier ist noch ein state.audiobook
+                playlist: randomAudiobook[1] // ACHTUNG: hier ist noch ein state.playlist
             });
             this.props.playFinishHandlerMS(randomAudiobook[0]);
             playerUtils.startAudioBook(randomAudiobook[0].file_url);
         } else if (autoplayState === true && this.state.playlist.length === 0) {
-            this.setState({ audiobook: null });
+            this.setState({ audiobook: null }); // ACHTUNG: hier ist noch ein state.audiobook
         }
     }
 
@@ -157,8 +157,8 @@ export default class AudioPlayer extends React.Component {
                                 />
                             </View>
                             <View style={infoContainer}>
-                                <Text style={authorStyle}>{this.state.audiobook.author}</Text>
-                                <Text style={titleStyle}>{this.state.audiobook.title}</Text>
+                                <Text style={authorStyle}>{this.props.audiobook.author}</Text>
+                                <Text style={titleStyle}>{this.props.audiobook.title}</Text>
                             </View>
                             <IconButton 
                                 onPress={this.minimizePlayer.bind(this)}
@@ -180,7 +180,7 @@ export default class AudioPlayer extends React.Component {
                             <View style={progressDisplayStyle}>
                                 <ProgressDisplay
                                     position={this.state.position}
-                                    length={this.state.audiobook.length}
+                                    length={this.props.audiobook.length}
                                 />
                             </View>
                         </View>
@@ -199,8 +199,8 @@ export default class AudioPlayer extends React.Component {
                             />
                         </View>
                         <View style={infoContainer}>
-                            <Text style={authorStyle}>{this.state.audiobook.author}</Text>
-                            <Text style={titleStyle}>{this.state.audiobook.title}</Text>
+                            <Text style={authorStyle}>{this.props.audiobook.author}</Text>
+                            <Text style={titleStyle}>{this.props.audiobook.title}</Text>
                         </View>
                         <IconButton 
                             onPress={this.minimizePlayer.bind(this)}
@@ -222,7 +222,7 @@ export default class AudioPlayer extends React.Component {
                         <View style={progressDisplayStyle}>
                             <ProgressDisplay
                                 position={this.state.position}
-                                length={this.state.audiobook.length}
+                                length={this.props.audiobook.length}
                             />
                         </View>
                     </View>
