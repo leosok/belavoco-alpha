@@ -7,17 +7,28 @@ import {
     } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import TrackPlayer from 'react-native-track-player';
+
 import { Spinner } from '.';
+
 
 // Make a component
 class PlayButton extends Component {
+    constructor(props) {
+        super(props);
+        this.playbackState = null;
+      }
 
     onPress = () => {
         this.props.PlayButtonPress();
     }
 
+    
     renderPlayMode(iconStyle, playingState) {
-        if (String(playingState) === 'PLAYING') {
+        TrackPlayer.getState().then(async (state) => {
+            this.playbackState = state;
+            });
+        if (this.playbackState === TrackPlayer.STATE_PLAYING) {
           return (
             <Icon
                 name={
@@ -31,7 +42,7 @@ class PlayButton extends Component {
                 color='grey'
             />
           );
-        } else if (String(playingState) === 'PAUSED') {
+        } else if (this.playbackState === TrackPlayer.STATE_PAUSED) {
             return (
                 <Icon
                     name={
@@ -45,25 +56,25 @@ class PlayButton extends Component {
                     color='grey'
                 />
             );
-        } else if (String(playingState) === 'BUFFERING' || String(playingState) === 'STOPPED') {
+        } else if (this.playbackState === TrackPlayer.STATE_BUFFERING || this.playbackState === null) {
             return (
                 <Spinner />
             );
-        } else if (String(playingState) === 'ERROR') {
-            return (
-                <Icon
-                    name={
-                        Platform.OS === 'ios'
-                            ? 'ios-close'
-                            : 'md-close'
-                        }
-                    size={45}
-                    style={iconStyle}
-                    type='ionicon'
-                    color='grey'
-                />
-            );
-        } else if (String(playingState) === 'FINISHED') {
+        // } else if (String(playingState) === 'ERROR') {
+        //     return (
+        //         <Icon
+        //             name={
+        //                 Platform.OS === 'ios'
+        //                     ? 'ios-close'
+        //                     : 'md-close'
+        //                 }
+        //             size={45}
+        //             style={iconStyle}
+        //             type='ionicon'
+        //             color='grey'
+        //         />
+        //     );
+        } else if (this.playbackState === TrackPlayer.STATE_STOPPED) {
             return (
                 <Icon
                     name={

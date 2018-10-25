@@ -8,6 +8,7 @@ import { View,
 
 import * as Progress from 'react-native-progress';
 // import RNAudioStreamer from 'react-native-audio-streamer';
+import TrackPlayer from 'react-native-track-player';
 
 // import PlayButton from './common/PlayButton';
 
@@ -92,7 +93,6 @@ export default class AudioPlayer extends React.Component {
     }
 
     playOrPause() {
-        playerUtils.getState();
         if (String(this.state.playingState) === 'PLAYING') {
             playerUtils.pauseAudioBook();
         } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING' || 'ERROR') {

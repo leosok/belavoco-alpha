@@ -13,8 +13,6 @@ let progress = 0;
 const playerUtils = {
     async setupAndPlay(audiobooks, audioBookToPlay) {
         const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
-        console.log('PLAYLIST: ');
-        console.log(playlist);
         // Creates the player
         TrackPlayer.setupPlayer().then(async () => {
             // Adds a track to the queue
@@ -22,7 +20,6 @@ const playerUtils = {
                 // The tracks were added
             });
             // Starts playing it
-            console.log('UserHash: ' + audioBookToPlay.hash);
             TrackPlayer.skip(audioBookToPlay.hash);
             TrackPlayer.play();
         });
