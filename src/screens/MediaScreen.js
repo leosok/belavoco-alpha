@@ -3,11 +3,13 @@ import {
   View, 
   ScrollView, 
   StyleSheet, 
-  RefreshControl, 
-  AsyncStorage,
-  TouchableOpacity } from 'react-native';
+  RefreshControl
+   } from 'react-native';
 
 import axios from 'axios';
+
+import TrackPlayer from 'react-native-track-player';
+import { observer } from 'mobx-react';
 
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
@@ -25,8 +27,11 @@ import Colors from '../constants/Colors';
 import apiUtils from '../api/apiUtils';
 import utils from '../utils/utils';
 
+import PlayerStore from '../stores/Player';
+
 const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
 
+@observer
 export default class MediaScreen extends Component {
   static navigationOptions = {
     title: 'Hörbücher',

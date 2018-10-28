@@ -2,7 +2,7 @@ import { ONESIGNAL_API_KEY_LOCAL } from './environ';
 
 let ONESIGNAL_API_KEY = '$ONESIGNAL_API_KEY';
 const BACKEND_HOST = 'https://www.belavo.co';
-const BACKEND_HOST_DEBUG = 'http://192.168.1.4:5000';
+const BACKEND_HOST_DEBUG = 'http://192.168.1.4:8080';
 
 const DEBUG = true;
 // const DEBUG = false;

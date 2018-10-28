@@ -6,6 +6,8 @@ import { View,
         //  DeviceEventEmitter 
         } from 'react-native';
 
+import { observer } from 'mobx-react';
+
 import * as Progress from 'react-native-progress';
 // import RNAudioStreamer from 'react-native-audio-streamer';
 import TrackPlayer from 'react-native-track-player';
@@ -23,12 +25,13 @@ import {
 import playerUtils from '../player/playerUtils';
 import audiobookUtils from '../audiobook/audiobookUtils';
 
-import Colors from '../constants/Colors';
+import PlayerStore from '../stores/Player';
 
 // Make a component
 
 let interval;
 
+@observer
 export default class AudioPlayer extends React.Component {
     constructor(props) {
         super(props);
@@ -46,23 +49,13 @@ export default class AudioPlayer extends React.Component {
     };
 
     componentDidMount() {
-        playerUtils.setupAndPlay(this.props.audiobooks, this.props.audiobook);
-
-        interval = setInterval(() => {
-            if (this.state.loadingProgress === false) {
-                this.setState({
-                    progress: playerUtils.getProgress()[0],
-                    position: playerUtils.getProgress()[1],
-                });
-            }
-        }, 500);
-        // this.subscription = DeviceEventEmitter.addListener(
-        //             'RNAudioStreamerStatusChanged', this._statusChanged.bind(this));
+        TrackPlayer.setupPlayer();
+        playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
       }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.audiobook !== nextProps.audiobook) {
-            playerUtils.setupAndPlay(nextProps.audiobooks, nextProps.audiobook);
+            playerUtils.resetAndPlay(nextProps.audiobooks, nextProps.audiobook);
            }
         if (this.props !== nextProps) {
             this.setState({
@@ -84,47 +77,16 @@ export default class AudioPlayer extends React.Component {
         clearInterval(interval);
     }
 
-    _statusChanged(status) {
-        this.setState({ playingState: status });
-
-        if (status === 'FINISHED') {
-            this.afterFinish();
-        }
-    }
-
-    playOrPause() {
-        if (String(this.state.playingState) === 'PLAYING') {
-            playerUtils.pauseAudioBook();
-        } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING' || 'ERROR') {
-            playerUtils.playAudioBook();
-        }
-        // RNAudioStreamer.status((status) => {
-        //     console.log('in playOrPause() AP: ' + status);
-        // });
-    }
-
-    async afterFinish() {
-        //TODO: make following code in a function randomPlay().
-        //TODO: AND, make a fucntion sequentialPlay() --> playing audiobook after audiobook
-        const autoplayState = await playerUtils.loadAutoplayStatus();
-        if (autoplayState === false) {
-            this.props.playFinishHandlerMS(null);
-        } else if (autoplayState === true && this.state.playlist.length > 0) {
-            const index = this.state.playlist.indexOf(this.state.audiobook); // ACHTUNG: hier ist noch ein state.audiobook. muss entfernt/ersetzt werden
-            const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.playlist, index);
-            this.setState({ 
-                audiobook: randomAudiobook[0], // ACHTUNG: hier ist noch ein state.audiobook
-                playlist: randomAudiobook[1] // ACHTUNG: hier ist noch ein state.playlist
-            });
-            this.props.playFinishHandlerMS(randomAudiobook[0]);
-            playerUtils.startAudioBook(randomAudiobook[0].file_url);
-        } else if (autoplayState === true && this.state.playlist.length === 0) {
-            this.setState({ audiobook: null }); // ACHTUNG: hier ist noch ein state.audiobook
-        }
-    }
-
     PlayButtonPress() {
         this.playOrPause();
+    }
+
+    async playOrPause() {
+        if (PlayerStore.playbackState === TrackPlayer.STATE_PAUSED) {
+            await TrackPlayer.play();
+          } else {
+            await TrackPlayer.pause();
+          }
     }
 
     minimizePlayer() {

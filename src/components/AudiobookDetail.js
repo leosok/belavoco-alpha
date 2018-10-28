@@ -12,7 +12,6 @@ import {
     InfoIcon,
     LikeButtonGeneric } from './common';
 
-import playerUtils from '../player/playerUtils';
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
 

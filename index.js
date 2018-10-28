@@ -3,7 +3,7 @@
 import { AppRegistry } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 
-import PlayerStore, { playbackStates } from './src/stores/Player';
+import PlayerStore, { playbackStates, playbackType } from './src/stores/Player';
 
 import App from './App';
 import { name as appName } from './app.json';
@@ -29,7 +29,11 @@ TrackPlayer.registerEventHandler(async (data) => {
     //   PlayerStore.playbackState = data.state;
     // }
     if (data.type === 'playback-state') {
-          PlayerStore.playbackState = data.state;
+        // PlayerStore.playbackType = data.type;
+        PlayerStore.playbackState = data.state;
+    } else if (data.type === 'playback-queue-ended') {
+        // console.log('QUEUE ENDEDin index.js!!!!!');
+        PlayerStore.playbackType = data.type;
     }
   });
 

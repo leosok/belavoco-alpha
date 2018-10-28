@@ -5,30 +5,26 @@ import {
     StyleSheet,
     Platform
     } from 'react-native';
-import { Icon } from 'react-native-elements';
 
+import { observer } from 'mobx-react';
 import TrackPlayer from 'react-native-track-player';
+
+import { Icon } from 'react-native-elements';
 
 import { Spinner } from '.';
 
+import PlayerStore from '../../stores/Player';
+
 
 // Make a component
+@observer
 class PlayButton extends Component {
-    constructor(props) {
-        super(props);
-        this.playbackState = null;
-      }
-
     onPress = () => {
         this.props.PlayButtonPress();
     }
 
-    
-    renderPlayMode(iconStyle, playingState) {
-        TrackPlayer.getState().then(async (state) => {
-            this.playbackState = state;
-            });
-        if (this.playbackState === TrackPlayer.STATE_PLAYING) {
+    renderPlayMode(iconStyle) {
+        if (PlayerStore.playbackState === TrackPlayer.STATE_PLAYING) {
           return (
             <Icon
                 name={
@@ -42,7 +38,7 @@ class PlayButton extends Component {
                 color='grey'
             />
           );
-        } else if (this.playbackState === TrackPlayer.STATE_PAUSED) {
+        } else if (PlayerStore.playbackState === TrackPlayer.STATE_PAUSED) {
             return (
                 <Icon
                     name={
@@ -56,25 +52,14 @@ class PlayButton extends Component {
                     color='grey'
                 />
             );
-        } else if (this.playbackState === TrackPlayer.STATE_BUFFERING || this.playbackState === null) {
+        } else if (PlayerStore.playbackState === TrackPlayer.STATE_BUFFERING || 
+                    PlayerStore.playbackState === TrackPlayer.STATE_NONE || 
+                    // PlayerStore.playbackState === TrackPlayer.STATE_STOPPED || 
+                    PlayerStore.playbackState === undefined) {
             return (
                 <Spinner />
             );
-        // } else if (String(playingState) === 'ERROR') {
-        //     return (
-        //         <Icon
-        //             name={
-        //                 Platform.OS === 'ios'
-        //                     ? 'ios-close'
-        //                     : 'md-close'
-        //                 }
-        //             size={45}
-        //             style={iconStyle}
-        //             type='ionicon'
-        //             color='grey'
-        //         />
-        //     );
-        } else if (this.playbackState === TrackPlayer.STATE_STOPPED) {
+        } else if (PlayerStore.playbackState === TrackPlayer.STATE_STOPPED) {
             return (
                 <Icon
                     name={
@@ -88,7 +73,7 @@ class PlayButton extends Component {
                     color='grey'
                 />
             );
-        } 
+        }
     }
 
     render() {
@@ -102,18 +87,6 @@ class PlayButton extends Component {
             >
                 {this.renderPlayMode(iconStyle, playingState)}
             </TouchableOpacity>
-
-
-        // if (this.state.isLoading) {
-        //   return <Spinner size="small" />;
-        // }
-        // return (
-        //     <TouchableOpacity
-        //       onPress={this.onPress}
-        //       style={buttonStyle}
-        //     >
-        //       {this.renderPlayMode(iconStyle, playingState)}
-        //     </TouchableOpacity>
         );
     }
 }
