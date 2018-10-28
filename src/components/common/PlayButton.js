@@ -24,6 +24,11 @@ class PlayButton extends Component {
     }
 
     renderPlayMode(iconStyle) {
+        console.log('State in PB: ');
+        console.log(PlayerStore.playbackState);
+        console.log('Type in PB: ');
+        console.log(PlayerStore.playbackType);
+
         if (PlayerStore.playbackState === TrackPlayer.STATE_PLAYING) {
           return (
             <Icon

@@ -13,14 +13,14 @@ let progress = 0;
 const playerUtils = {
     async resetAndPlay(audiobooks, audioBookToPlay) {
         const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
-        console.log(playlist);
+        // console.log('Playlist: ' + playlist);
         // Creates the player
 
-        //TODO: Reset führt zu einem "Queue ended"-event. Daher deaktiviert. Falls es ein Problem ist (Mixup in Playlist), muss Alternative gefunden werden.
-        await TrackPlayer.reset();
-        await TrackPlayer.add(playlist);
-        await TrackPlayer.skip(audioBookToPlay.hash);
-        await TrackPlayer.play();
+        TrackPlayer.reset();
+        TrackPlayer.add(playlist).then(() => {
+            TrackPlayer.skip(audioBookToPlay.hash);
+            TrackPlayer.play();
+        });
     },
     playAudioBook() {
         console.log('playerUtils.playAudioBook()');

@@ -3,7 +3,8 @@ import {
   View, 
   ScrollView, 
   StyleSheet, 
-  RefreshControl
+  RefreshControl,
+  DeviceEventEmitter
    } from 'react-native';
 
 import axios from 'axios';
@@ -71,6 +72,11 @@ export default class MediaScreen extends Component {
         });
   }
 
+  componentDidMount() {
+    this.subscription = DeviceEventEmitter.addListener(
+                'playFinished', this.playFinished.bind(this));
+}
+
   _onRefresh = () => {
     this.setState({ refreshing: true },
     this.refreshData()
@@ -95,6 +101,15 @@ export default class MediaScreen extends Component {
 
   choiceHandler(someArg) {
     this.setState({ typeChoice: someArg });
+  }
+
+  playFinished(status) {
+    PlayerStore.playbackType = null;
+    this.setState({
+      playerActivity: false,
+      playerFullScreen: false,
+      selectedAudiobook: null,
+    });
   }
 
   initialUserhashHandler(someArg) {
