@@ -44,7 +44,6 @@ export default class MediaScreen extends Component {
     this.initialUserhashHandler.bind(this);
     this.minimizePlayerHandler.bind(this);
     this.selectionHandlerMediaScreen = this.selectionHandlerMediaScreen.bind(this);
-    this.playFinishHandlerMS = this.playFinishHandlerMS.bind(this);
   }
 
   state = {
@@ -104,7 +103,6 @@ export default class MediaScreen extends Component {
   }
 
   playFinished(status) {
-    PlayerStore.playbackType = null;
     this.setState({
       playerActivity: false,
       playerFullScreen: false,
@@ -128,20 +126,6 @@ export default class MediaScreen extends Component {
       selectedAudiobook: audiobookToPlay,
       playerActivity: true
     });
-  }
-
-  playFinishHandlerMS(audiobook) {
-    if (audiobook === null) {
-      this.setState({
-        playerActivity: false,
-        playerFullScreen: false,
-        selectedAudiobook: audiobook,
-      });
-    } else {
-      this.setState({
-        selectedAudiobook: audiobook,
-      });
-    }
   }
 
   renderChoiceButtons(choiceHandler) {
@@ -183,7 +167,7 @@ export default class MediaScreen extends Component {
       );
   }
 
-  renderPlayer(playFinishHandlerMS, minimizePlayerHandler) {
+  renderPlayer(minimizePlayerHandler) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
       return (
         <Card>
@@ -193,7 +177,6 @@ export default class MediaScreen extends Component {
               audiobooks={this.state.audiobooks}
               progress={0}
               minimizePlayerHandler={minimizePlayerHandler.bind(this)}
-              playFinishHandlerMS={playFinishHandlerMS}
               fullscreen={this.state.playerFullScreen}
             />
           </CardSectionAP>
@@ -206,7 +189,6 @@ export default class MediaScreen extends Component {
     const choiceHandler = this.choiceHandler;
     const initialUserhashHandler = this.initialUserhashHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
-    const playFinishHandlerMS = this.playFinishHandlerMS;
     const minimizePlayerHandler = this.minimizePlayerHandler;
 
     return (
@@ -226,7 +208,7 @@ export default class MediaScreen extends Component {
         >
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
-        {this.renderPlayer(playFinishHandlerMS, minimizePlayerHandler)}
+        {this.renderPlayer(minimizePlayerHandler)}
       </View>
       );
     }

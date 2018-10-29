@@ -26,6 +26,7 @@ import playerUtils from '../player/playerUtils';
 import audiobookUtils from '../audiobook/audiobookUtils';
 
 import PlayerStore from '../stores/Player';
+import TrackStore from '../stores/Track';
 
 // Make a component
 
@@ -50,6 +51,15 @@ export default class AudioPlayer extends React.Component {
 
     componentDidMount() {
         TrackPlayer.setupPlayer();
+        // TrackPlayer.updateOptions({
+        //     stopWithApp: true,
+        //     capabilities: [
+        //       TrackPlayer.CAPABILITY_PLAY,
+        //       TrackPlayer.CAPABILITY_PAUSE,
+        //       TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        //       TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+        //     ]
+        // });
         playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
       }
 
@@ -119,8 +129,8 @@ export default class AudioPlayer extends React.Component {
                                 />
                             </View>
                             <View style={infoContainer}>
-                                <Text style={authorStyle}>{this.props.audiobook.author}</Text>
-                                <Text style={titleStyle}>{this.props.audiobook.title}</Text>
+                                <Text style={authorStyle}>{TrackStore.artist}</Text>
+                                <Text style={titleStyle}>{TrackStore.title}</Text>
                             </View>
                             <IconButton 
                                 onPress={this.minimizePlayer.bind(this)}
@@ -130,7 +140,7 @@ export default class AudioPlayer extends React.Component {
                                 color='grey'
                             />
                         </View>
-                        <View style={progressContainerStyle}>
+                        {/* <View style={progressContainerStyle}>
                             <View style={progressBarStyle}>
                                 <Progress.Bar
                                     progress={this.state.progress}
@@ -145,7 +155,7 @@ export default class AudioPlayer extends React.Component {
                                     length={this.props.audiobook.length}
                                 />
                             </View>
-                        </View>
+                        </View> */}
                     </View>
                     {this.renderComments()}
                 </View>
@@ -161,8 +171,8 @@ export default class AudioPlayer extends React.Component {
                             />
                         </View>
                         <View style={infoContainer}>
-                            <Text style={authorStyle}>{this.props.audiobook.author}</Text>
-                            <Text style={titleStyle}>{this.props.audiobook.title}</Text>
+                            <Text style={authorStyle}>{TrackStore.artist}</Text>
+                            <Text style={titleStyle}>{TrackStore.title}</Text>
                         </View>
                         <IconButton 
                             onPress={this.minimizePlayer.bind(this)}
@@ -172,7 +182,7 @@ export default class AudioPlayer extends React.Component {
                             color='grey'
                         />
                     </View>
-                    <View style={progressContainerStyle}>
+                    {/* <View style={progressContainerStyle}>
                         <View style={progressBarStyle}>
                             <Progress.Bar
                                 progress={this.state.progress}
@@ -187,7 +197,7 @@ export default class AudioPlayer extends React.Component {
                                 length={this.props.audiobook.length}
                             />
                         </View>
-                    </View>
+                    </View> */}
                 </View>
             );
         }
