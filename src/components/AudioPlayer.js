@@ -51,15 +51,15 @@ export default class AudioPlayer extends React.Component {
 
     componentDidMount() {
         TrackPlayer.setupPlayer();
-        // TrackPlayer.updateOptions({
-        //     stopWithApp: true,
-        //     capabilities: [
-        //       TrackPlayer.CAPABILITY_PLAY,
-        //       TrackPlayer.CAPABILITY_PAUSE,
-        //       TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-        //       TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-        //     ]
-        // });
+        TrackPlayer.updateOptions({
+            // stopWithApp: true,
+            capabilities: [
+              TrackPlayer.CAPABILITY_PLAY,
+              TrackPlayer.CAPABILITY_PAUSE,
+            //   TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+            //   TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+            ]
+        });
         playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
       }
 

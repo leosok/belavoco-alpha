@@ -20,12 +20,10 @@ TrackPlayer.registerEventHandler(async (data) => {
           TrackStore.artist = track.artist;
           TrackStore.artwork = track.artwork;
         }
-    //   } else if (data.type === 'remote-play') {
-    //         console.log('PLAY!!!!');
-    //         TrackPlayer.play();
-    //   } else if (data.type === 'remote-pause') {
-    //         console.log('PAUSE!!!!');
-    //         TrackPlayer.pause();
+      } else if (data.type === 'remote-play') {
+            TrackPlayer.play();
+      } else if (data.type === 'remote-pause') {
+            TrackPlayer.pause();
     //   } else if(data.type == 'remote-next') {
     //     TrackPlayer.skipToNext()
     //   } else if(data.type == 'remote-previous') {
