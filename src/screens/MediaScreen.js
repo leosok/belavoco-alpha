@@ -173,7 +173,7 @@ export default class MediaScreen extends Component {
             <AudioPlayer
               audiobook={this.state.selectedAudiobook}
               audiobooks={this.state.audiobooks}
-              progress={0}
+              // progress={0}
               minimizePlayerHandler={minimizePlayerHandler.bind(this)}
               fullscreen={this.state.playerFullScreen}
             />

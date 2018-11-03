@@ -33,8 +33,8 @@ class ProgressBar extends ProgressComponent {
     render() {
       return (
         <View style={styles.progress}>
-          <View style={{ flex: this.getProgress(), backgroundColor: 'red' }} />
-          <View style={{ flex: 1 - this.getProgress(), backgroundColor: 'grey' }} />
+          <View style={{ flex: this.getProgress(), backgroundColor: 'grey' }} />
+          <View style={{ flex: 1 - this.getProgress() }} />
         </View>
       );
     }
@@ -252,15 +252,19 @@ const styles = {
         flex: 3,
     },
     progressContainerStyle: {
+        marginLeft: 5,
+        marginRight: 5,
         alignItems: 'center',
         flexDirection: 'row',
         flex: 1,
     },
     progress: {
-        height: 3,
-        width: '80%',
-        // marginTop: 10,
         flexDirection: 'row',
+        height: 8,
+        width: '80%',
+        borderWidth: 0.5,
+        borderRadius: 4,
+        borderColor: 'grey',
     },
     buttonContainer: {
         justifyContent: 'center',
