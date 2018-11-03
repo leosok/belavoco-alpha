@@ -5,7 +5,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    AsyncStorage } from 'react-native';
+    } from 'react-native';
+
 import {
     Card,
     CardSection,
@@ -15,8 +16,6 @@ import {
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
 
-const BACKEND_HOST = settings.getBackendHost().concat('/api/get/');
-
 // Make a component
 class AudiobookDetail extends React.Component {
     constructor(props) {
@@ -25,47 +24,21 @@ class AudiobookDetail extends React.Component {
       }
 
     state = {
-        isLoading: true,
         selectedAudiobook: null,
-        like: false,
+        like: this.props.audiobook.liked,
     }
 
-    async componentWillMount() {
-        await this.loadLikeState();
-        this.setState({
-            isLoading: false
-        });
-    }
-
-    async likeHandler() {
-        const id = String(this.props.audiobook.id);
-
+    async likeHandler(alterLike) {
         this.setState({
             like: !this.state.like
-        }, () => {
-            AsyncStorage.setItem('audiobook_'.concat(id), JSON.stringify(this.state.like));
-            });
+        });
+        this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
       }
 
     startPlayPress = () => {
-        // const fileUrl = BACKEND_HOST.concat(this.props.audiobook.hash, '/play');
-        // playerUtils.startAudioBook(fileUrl);
         this.props.selectionHandlerList(null);
         this.props.selectionHandlerList(this.props.audiobook);
       }
-
-    async loadLikeState() {
-        const id = String(this.props.audiobook.id);
-        let likeState = await AsyncStorage.getItem('audiobook_'.concat(id));
-
-        if (likeState === null) {
-          likeState = false;
-        }
-
-        this.setState({
-            like: likeState
-        });
-    }
 
     render() {
         const {
@@ -77,7 +50,7 @@ class AudiobookDetail extends React.Component {
             hash,
             times_liked,
             times_played,
-            length
+            length,
         } = this.props.audiobook;
 
         const {

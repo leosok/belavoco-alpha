@@ -22,33 +22,25 @@ const playerUtils = {
             TrackPlayer.play();
         });
     },
-    playAudioBook() {
-        console.log('playerUtils.playAudioBook()');
-        // RNAudioStreamer.play();
-    },
-    pauseAudioBook() {
-        console.log('playerUtils.pauseAudioBook()');
-        // RNAudioStreamer.pause();
-    },
     async getState() {
         const state = await TrackPlayer.getState();
         console.log('playerUtils.getState(): ' + state);
         // RNAudioStreamer.pause();
     },
-    getProgress() {
-        // console.log('playerUtils.getProgress()');
-        // RNAudioStreamer.duration((err, duration) => {
-        //     length = duration;
-        //    });
+    // getProgress() {
+    //     // console.log('playerUtils.getProgress()');
+    //     // RNAudioStreamer.duration((err, duration) => {
+    //     //     length = duration;
+    //     //    });
 
-        // RNAudioStreamer.currentTime((err, currentTime) => {
-        //     position = currentTime;
-        // });
-        if (length > 0) {
-            progress = (position / length);
-        }
-        return [progress, position, length];
-    },
+    //     // RNAudioStreamer.currentTime((err, currentTime) => {
+    //     //     position = currentTime;
+    //     // });
+    //     if (length > 0) {
+    //         progress = (position / length);
+    //     }
+    //     return [progress, position, length];
+    // },
     async loadAutoplayStatus() {
         let autoplayStatus = await AsyncStorage.getItem('autoplay');
         if (autoplayStatus === 'true') {

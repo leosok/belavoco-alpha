@@ -20,19 +20,22 @@ class LikeButtonGeneric extends React.Component {
       likePress = () => {
         const oldLike = this.props.like;
         const hash = this.props.hash;
+        let alterLike = 0;
 
-        if (oldLike === false) {
+        if (oldLike == false) {
             this.props.addLike(hash);
+            alterLike = 1;
         }
 
-        if (oldLike === true) {
+        if (oldLike == true) {
             this.props.substractLike(hash);
+            alterLike = -1;
         }
-        this.props.likeHandler();
+        this.props.likeHandler(alterLike);
         }
 
     renderLikeState(iconStyle) {
-        if (String(this.state.like) === 'true') {
+        if (this.state.like == true) {
             return (
                 <Icon
                     name='ios-heart'
