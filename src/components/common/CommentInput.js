@@ -51,13 +51,13 @@ const styles = {
     },
     textInputStyle: {
         flex: 1,
-        padding: 5,
-        borderColor: 'grey',
-        borderRadius: 20,
+        borderRadius: 15,
+        borderColor: 'black',
         borderWidth: 1,
-        fontSize: 20,
+        margin: 5,
+        padding: 5,
+        fontSize: 14,
         alignSelf: 'center',
-        color: '#f4424e'
     },
 };
 

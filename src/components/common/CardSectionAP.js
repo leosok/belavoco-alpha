@@ -1,6 +1,7 @@
 // Import a library to help create a component
 import React from 'react';
-import { View } from 'react-native';
+// import { View, Text } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Colors from '../../constants/Colors';
 
@@ -9,8 +10,6 @@ import Colors from '../../constants/Colors';
 class CardSectionAP extends React.Component {
     
     setPlayerSize() {
-        // console.log(this.props);
-        // console.log('inCSAP: ' + this.props.children.props.fullscreen);
         if (this.props.children.props.fullscreen === true) {
         return {
             padding: 5,
@@ -27,31 +26,21 @@ class CardSectionAP extends React.Component {
         };
     }
 
+    setColors() {
+        if (this.props.children.props.fullscreen === true) {
+            return [Colors.audioPlayer, 'white'];
+        }
+        return [Colors.audioPlayer, Colors.audioPlayer];
+    }
+
     render() {
         return (
-            // <View style={styles.containerStyle}>
-            <View style={this.setPlayerSize()}>
+            <LinearGradient colors={this.setColors()} style={this.setPlayerSize()}>
                 {this.props.children}
-            </View>
+            </LinearGradient>
         );
     }
 }
-
-const styles = {
-    containerStyle: {
-        // borderWidth: 1,
-        // borderColor: 'black',
-        padding: 5,
-        height: 80, 
-        backgroundColor: '#92e8a9',
-        // justifyContent: 'flex-start',
-        // flexDirection: 'row',
-        // position: 'relative',
-        alignSelf: 'stretch',
-        // flex: 1,
-    },
-};
-
 
 // Make the compoent available to other parts of the app
 export { CardSectionAP };

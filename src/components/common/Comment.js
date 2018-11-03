@@ -123,14 +123,15 @@ const styles = {
         borderRadius: 15,
         borderColor: 'black',
         borderWidth: 1,
-        backgroundColor: Colors.tabIconDefault,
+        // backgroundColor: Colors.tabIconDefault,
         margin: 5,
         marginBottom: 5,
-        // backgroundColor: '#fff',
-        // justifyContent: 'flex-start',
-        // flexDirection: 'row',
-        // borderColor: '#ddd',
-        // position: 'relative',
+
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 5,
+        // elevation: 5
     },
     textStyle: {
         fontSize: 14,
@@ -158,10 +159,8 @@ const styles = {
     },
     buttonContainerStyle: {
         flex: 2,
-
     },
 };
-
 
 // Make the compoent available to other parts of the app
 export { Comment };
