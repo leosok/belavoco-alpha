@@ -3,23 +3,43 @@ import React from 'react';
 import { View, TextInput } from 'react-native';
 
 import { IconButton } from '.';
+import apiUtils from '../../api/apiUtils';
+import utils from '../../utils/utils';
 
 // Make a component
 class CommentInput extends React.Component {
 
     state = {
         comment: '',
+        visible: false,
     };
 
-    render() {
-        const {
-            containerStyle,
-            textInputStyle,
-        } = styles;
+    toggleVisibility() {
+        this.setState({ visible: !this.state.visible });
+    }
 
+    async transmitComment() {
+        const userhashGet = await utils.getUserParameter('hash');
+        console.log(userhashGet);
+        this.toggleVisibility();
+        //TODO: API call refresh comments
+        apiUtils.transmitComment(userhashGet, this.state.comment);
+    }
+
+    renderInput(containerStyle, textInputStyle) {
+        if (this.state.visible === false) {
+            return (
+                <IconButton 
+                    onPress={this.toggleVisibility.bind(this)}
+                    name='add'
+                    size={45}
+                    type='ionicon'
+                    color='grey'
+                />
+            );
+        }
         return (
             <View style={containerStyle}>
-                {/* <View style={textInputContainerStyle} /> */}
                 <TextInput
                     style={textInputStyle}
                     multiline={true}
@@ -31,12 +51,25 @@ class CommentInput extends React.Component {
                     }
                 />
                 <IconButton 
-                    onPress={this.props.onPress}
-                    name='add'
+                    onPress={this.transmitComment.bind(this)}
+                    name='checkmark'
                     size={45}
                     type='ionicon'
                     color='grey'
                 />
+            </View>
+        );
+    }
+
+    render() {
+        const {
+            containerStyle,
+            textInputStyle,
+        } = styles;
+
+        return (
+            <View style={containerStyle}>
+                {this.renderInput(containerStyle, textInputStyle)}
             </View>
         );
     }
@@ -45,8 +78,9 @@ class CommentInput extends React.Component {
 const styles = {
     containerStyle: {
         flexDirection: 'row',
-        borderColor: 'black',
-        borderTopWidth: 1,
+        alignSelf: 'center',
+        // borderColor: 'black',
+        // borderTopWidth: 1,
         paddingTop: 5,
     },
     textInputStyle: {

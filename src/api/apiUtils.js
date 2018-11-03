@@ -5,6 +5,7 @@ import utils from '../utils/utils';
 
 const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
+const API_ENDPOINT_TRANSMIT_COMMENT = settings.getBackendHost().concat('/api/comment');
 //TODO: Beeceptor configuration in settings.js
 //For Testing:
 // const API_ENDPOINT_UPDATE_USER = 'https://belavoco.free.beeceptor.com';
@@ -54,6 +55,19 @@ const apiUtils = {
             'Authorization': userhash,
           };
         return (myheaders);
+    },
+    transmitComment(userhash, comment) {
+        fetch(API_ENDPOINT_TRANSMIT_COMMENT, {
+            method: 'POST',
+            headers: {
+                'Authorization': userhash,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                comment
+            })
+        });
     },
     function9() {
         console.log(7);
