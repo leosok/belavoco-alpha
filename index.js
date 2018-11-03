@@ -23,7 +23,7 @@ TrackPlayer.registerEventHandler(async (data) => {
       } else if (data.type === 'remote-play') {
             TrackPlayer.play();
       } else if (data.type === 'remote-pause') {
-            TrackPlayer.pause();
+          TrackPlayer.pause();
     //   } else if(data.type == 'remote-next') {
     //     TrackPlayer.skipToNext()
     //   } else if(data.type == 'remote-previous') {
@@ -32,13 +32,14 @@ TrackPlayer.registerEventHandler(async (data) => {
         PlayerStore.playbackState = data.state;
       }
     if (data.type === 'playback-queue-ended') {
-        i = i + 1;
-        PlayerStore.playbackType = data.type;
-        // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay()) 
-        // --> Fix for unexpected bhavior
-        if (i % 2 !== 0) {
-            DeviceEventEmitter.emit('playFinished', 'FINISHED');
-        }
+      console.log('QUEUE ENDED!!!!');
+      i = i + 1;
+      PlayerStore.playbackType = data.type;
+      // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay()) 
+      // --> Fix for unexpected bhavior
+      if (i % 2 !== 0) {
+        DeviceEventEmitter.emit('playFinished', 'FINISHED');
+      }
     }
 });
 

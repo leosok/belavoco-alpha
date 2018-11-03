@@ -28,8 +28,6 @@ import Colors from '../constants/Colors';
 import apiUtils from '../api/apiUtils';
 import utils from '../utils/utils';
 
-import PlayerStore from '../stores/Player';
-
 const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
 
 @observer
@@ -74,7 +72,7 @@ export default class MediaScreen extends Component {
   componentDidMount() {
     this.subscription = DeviceEventEmitter.addListener(
                 'playFinished', this.playFinished.bind(this));
-}
+  }
 
   _onRefresh = () => {
     this.setState({ refreshing: true },

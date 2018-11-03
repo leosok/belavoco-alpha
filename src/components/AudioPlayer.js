@@ -8,9 +8,7 @@ import { View,
 
 import { observer } from 'mobx-react';
 
-import * as Progress from 'react-native-progress';
-// import RNAudioStreamer from 'react-native-audio-streamer';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { ProgressComponent } from 'react-native-track-player';
 
 // import PlayButton from './common/PlayButton';
 
@@ -23,7 +21,6 @@ import {
     } from './common';
 
 import playerUtils from '../player/playerUtils';
-import audiobookUtils from '../audiobook/audiobookUtils';
 
 import PlayerStore from '../stores/Player';
 import TrackStore from '../stores/Track';
@@ -31,6 +28,17 @@ import TrackStore from '../stores/Track';
 // Make a component
 
 let interval;
+
+class ProgressBar extends ProgressComponent {
+    render() {
+      return (
+        <View style={styles.progress}>
+          <View style={{ flex: this.getProgress(), backgroundColor: 'red' }} />
+          <View style={{ flex: 1 - this.getProgress(), backgroundColor: 'grey' }} />
+        </View>
+      );
+    }
+  }
 
 @observer
 export default class AudioPlayer extends React.Component {
@@ -40,13 +48,9 @@ export default class AudioPlayer extends React.Component {
       }
 
       state = {
-        // audiobook: this.props.audiobook,
-        // playlist: this.props.audiobooks,
         playingState: 'PLAYING',
-        progress: this.props.progress,
         fullscreen: this.props.fullscreen,
         position: 0,
-        loadingProgress: false,
     };
 
     componentDidMount() {
@@ -61,6 +65,12 @@ export default class AudioPlayer extends React.Component {
             ]
         });
         playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
+
+        interval = setInterval(async () => {
+            this.setState({
+                position: await TrackPlayer.getPosition()
+            });
+        }, 500);
       }
 
     componentWillReceiveProps(nextProps) {
@@ -69,22 +79,9 @@ export default class AudioPlayer extends React.Component {
            }
         if (this.props !== nextProps) {
             this.setState({
-                // audiobook: nextProps.audiobook,
-                // playlist: nextProps.audiobooks, // dont activate. It will flaw playlist
-                progress: nextProps.progress,
                 fullscreen: nextProps.fullscreen,
-                loadingProgress: true
             });
-            setTimeout(() => {
-                this.setState({
-                    loadingProgress: false
-                });
-           }, 1500);
         }
-    }
-
-    componentWillUnmount() {
-        clearInterval(interval);
     }
 
     PlayButtonPress() {
@@ -109,8 +106,6 @@ export default class AudioPlayer extends React.Component {
             containerStyle,
             infoContainerStyle,
             progressContainerStyle,
-            progressBarStyle,
-            progressDisplayStyle,
             buttonContainer,
             infoContainer,
             authorStyle,
@@ -140,22 +135,13 @@ export default class AudioPlayer extends React.Component {
                                 color='grey'
                             />
                         </View>
-                        {/* <View style={progressContainerStyle}>
-                            <View style={progressBarStyle}>
-                                <Progress.Bar
-                                    progress={this.state.progress}
-                                    width={null}
-                                    color='grey'
-                                    animated={false}
-                                />
-                            </View>
-                            <View style={progressDisplayStyle}>
-                                <ProgressDisplay
-                                    position={this.state.position}
-                                    length={this.props.audiobook.length}
-                                />
-                            </View>
-                        </View> */}
+                        <View style={progressContainerStyle}>
+                            <ProgressBar />
+                            <ProgressDisplay
+                                position={this.state.position}
+                                length={this.props.audiobook.length}
+                            />
+                        </View>
                     </View>
                     {this.renderComments()}
                 </View>
@@ -182,22 +168,13 @@ export default class AudioPlayer extends React.Component {
                             color='grey'
                         />
                     </View>
-                    {/* <View style={progressContainerStyle}>
-                        <View style={progressBarStyle}>
-                            <Progress.Bar
-                                progress={this.state.progress}
-                                width={null}
-                                color='grey'
-                                animated={false}
-                            />
-                        </View>
-                        <View style={progressDisplayStyle}>
-                            <ProgressDisplay
-                                position={this.state.position}
-                                length={this.props.audiobook.length}
-                            />
-                        </View>
-                    </View> */}
+                    <View style={progressContainerStyle}>
+                        <ProgressBar />
+                        <ProgressDisplay
+                            position={this.state.position}
+                            length={this.props.audiobook.length}
+                        />
+                    </View>
                 </View>
             );
         }
@@ -279,12 +256,11 @@ const styles = {
         flexDirection: 'row',
         flex: 1,
     },
-    progressBarStyle: {
-        flex: 3,
-    },
-    progressDisplayStyle: {
-        //minWidth: 35,
-        flex: 1,
+    progress: {
+        height: 3,
+        width: '80%',
+        // marginTop: 10,
+        flexDirection: 'row',
     },
     buttonContainer: {
         justifyContent: 'center',
@@ -309,17 +285,8 @@ const styles = {
     },
 };
 const stylesLargeAP = {
-    containerStyle: {
-        flexDirection: 'row',
-        flex: 1,
-    },
     movedPlayerStyle: {
         // paddingTop: 5,
         height: 80, 
-    },
-    downButton: {
-        // flex: 1,
-        alignItems: 'flex-end',
-        // justifyContent: 'flex-end',
     },
 };

@@ -5,7 +5,6 @@ import { View, Text } from 'react-native';
 
 // Make a component
 const ProgressDisplay = (props) => {
-
     const {
         fontStyle,
     } = styles;
