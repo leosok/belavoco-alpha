@@ -9,11 +9,14 @@ import TrackStore from './src/stores/Track';
 import App from './App';
 import { name as appName } from './app.json';
 
+import apiUtils from './src/api/apiUtils';
+
 let i = 0;
 
 AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerEventHandler(async (data) => {
     if (data.type === 'playback-track-changed') {
+        apiUtils.sendPlayCount();
         if (data.nextTrack) {
           const track = await TrackPlayer.getTrack(data.nextTrack);
           TrackStore.title = track.title;

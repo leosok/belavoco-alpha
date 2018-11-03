@@ -1,7 +1,9 @@
 import axios from 'axios';
+import TrackPlayer from 'react-native-track-player';
 
 import settings from '../../settings';
 import utils from '../utils/utils';
+import playerUtils from '../player/playerUtils';
 
 const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
@@ -68,6 +70,15 @@ const apiUtils = {
                 comment
             })
         });
+    },
+    async sendPlayCount() {
+        const trackhash = await TrackPlayer.getCurrentTrack();
+        const userhash = await utils.getUserParameter('hash');
+        const data = {};
+        axios.put(playerUtils.makeFileUrl(trackhash), data, { 
+            headers: this.getRequestHeader(userhash),
+        })
+        .catch(e => console.log(e));
     },
     function9() {
         console.log(7);
