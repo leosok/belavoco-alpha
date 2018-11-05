@@ -20,10 +20,9 @@ class CommentInput extends React.Component {
 
     async transmitComment() {
         const userhashGet = await utils.getUserParameter('hash');
-        console.log(userhashGet);
         this.toggleVisibility();
-        //TODO: API call refresh comments
-        apiUtils.transmitComment(userhashGet, this.state.comment);
+        this.props.remoteRefresh('addComment');
+        apiUtils.transmitComment(this.props.trackhash, userhashGet, this.state.comment);
     }
 
     renderInput(containerStyle, textInputStyle) {

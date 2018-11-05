@@ -6,7 +6,10 @@ import apiUtils from '../../api/apiUtils';
 
 import { LikeButtonGeneric, IconButton } from '.';
 
+import utils from '../../utils/utils';
 import Colors from '../../constants/Colors';
+
+// this.loadUserhash();
 
 // Make a component
 class Comment extends React.Component {
@@ -17,27 +20,31 @@ class Comment extends React.Component {
 
     state = {
         like: false,
+        userhash: '',
     }
 
     async componentDidMount() {
-        await this.loadLikeState();
+        await this.loadInitialState();
     }
 
     onDelete() {
-        console.log('Delete!!!!');
+        apiUtils.deleteComment(this.state.userhash, this.props.id);
+        this.props.remoteRefresh();
     }
 
-    async loadLikeState() {
+    async loadInitialState() {
         const id = '3';
         // const id = String(this.props.comment.id);
         let likeState = await AsyncStorage.getItem('comment_'.concat(id));
+        const userhashG = await utils.getUserParameter('hash');
 
         if (likeState === null) {
           likeState = false;
         }
 
         this.setState({
-            like: likeState
+            like: likeState,
+            userhash: userhashG
         });
     }
 
@@ -54,14 +61,14 @@ class Comment extends React.Component {
       }
 
     renderDeleteButton() {
-        //TODO Hier muss der richtige User Parameter gecallt werden mit vorhandener Funktion
-        const userhash = '123';
-        if (this.props.user.userhash === userhash) {
+        // console.log('renderDeleteButton');
+        // console.log(this.props);
+        if (this.props.user.hash === this.state.userhash) {
             //TODO: Hier Comment Delete Funktion einfügen
             return (
                 <IconButton 
-                    onPress={this.onDelete}
-                    name='close'
+                    onPress={() => this.onDelete()}
+                    name='trash'
                     size={20}
                     type='ionicon'
                     color='grey'
@@ -95,9 +102,9 @@ class Comment extends React.Component {
                             <View style={infoStyle}>
                                 <Text style={infoTextStyle}>
                                     <Text>sagt </Text>
-                                    <Text style={{ fontWeight: 'bold' }}>{this.props.user.username}</Text>
+                                    <Text style={{ fontWeight: 'bold' }}>{this.props.user.user_name}</Text>
                                     <Text> am </Text>
-                                    <Text style={{ fontWeight: 'bold' }}>{this.props.date}</Text>
+                                    <Text style={{ fontWeight: 'bold' }}>{this.props.time}</Text>
                                 </Text>
                             </View>
                             <View style={buttonContainerStyle}>
@@ -121,10 +128,13 @@ class Comment extends React.Component {
 const styles = {
     containerStyle: {
         borderRadius: 15,
-        borderColor: 'black',
-        borderWidth: 1,
+        // borderColor: 'black',
+        // borderWidth: 1,
         // backgroundColor: Colors.tabIconDefault,
-        margin: 5,
+        // backgroundColor: Colors.containerColor,
+        backgroundColor: '#fff',
+        opacity: 0.6,
+        // margin: 5,
         marginBottom: 5,
 
         // shadowColor: '#000',
@@ -136,26 +146,29 @@ const styles = {
     textStyle: {
         fontSize: 14,
         margin: 5,
+        marginLeft: 10,
+        marginRight: 10,
     },
     metaStyle: {
         flexDirection: 'row',
         marginBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
     },
     infoContainerStyle: {
         flexDirection: 'row',
         width: '100%',
-        marginLeft: 5,
-        marginRight: 5,
     },
     infoStyle: {
-        flex: 8,
+        flex: 13,
     },
     infoTextStyle: {
         fontSize: 12,
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        marginRight: 5,
     },
     deleteContainerStyle: {
-        flex: 1,
+        flex: 2,
     },
     buttonContainerStyle: {
         flex: 2,

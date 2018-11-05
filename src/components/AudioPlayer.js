@@ -6,6 +6,9 @@ import { View,
         //  DeviceEventEmitter 
         } from 'react-native';
 
+import moment from 'moment';
+import 'moment/locale/de';
+import axios from 'axios';
 import { observer } from 'mobx-react';
 
 import TrackPlayer, { ProgressComponent } from 'react-native-track-player';
@@ -20,14 +23,20 @@ import {
     Comment
     } from './common';
 
+import settings from '../../settings';
+import utils from '../utils/utils';
+import apiUtils from '../api/apiUtils';
 import playerUtils from '../player/playerUtils';
 
 import PlayerStore from '../stores/Player';
 import TrackStore from '../stores/Track';
 
+import { Spinner } from './common/Spinner';
+
 // Make a component
 
 let interval;
+const API_ENDPOINT_COMMENTS = settings.getBackendHost().concat('/api/comment/');
 
 class ProgressBar extends ProgressComponent {
     render() {
@@ -51,6 +60,9 @@ export default class AudioPlayer extends React.Component {
         playingState: 'PLAYING',
         fullscreen: this.props.fullscreen,
         position: 0,
+        comments: [],
+        loadingComments: true,
+        loadingLatestComment: false,
     };
 
     componentDidMount() {
@@ -84,6 +96,30 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
+    async refreshCommentData() {
+        const userhash = await utils.getUserParameter('hash');
+        const endpoint = API_ENDPOINT_COMMENTS.concat(this.props.audiobook.hash);
+        axios.get(endpoint, { 
+          headers: apiUtils.getRequestHeader(userhash)
+        })
+        .then(response => this.setState({
+            comments: response.data,
+            loadingComments: false,
+            loadingLatestComment: false,
+           }))
+        .catch(e => console.log(e));
+      }
+
+    remoteRefresh(mode) {
+        console.log('MODE: ' + mode);
+        if (mode === 'addComment') {
+            this.setState({
+                loadingLatestComment: true,
+            });
+        }
+        this.refreshCommentData();
+    }
+
     PlayButtonPress() {
         this.playOrPause();
     }
@@ -97,6 +133,13 @@ export default class AudioPlayer extends React.Component {
     }
 
     minimizePlayer() {
+        if (this.state.fullscreen === false) {
+            this.refreshCommentData();
+        } else if (this.state.fullscreen === true) {
+            this.setState({
+                loadingComments: true,
+            });
+        }
         this.props.minimizePlayerHandler();
     }
 
@@ -143,7 +186,12 @@ export default class AudioPlayer extends React.Component {
                             />
                         </View>
                     </View>
-                    {this.renderComments()}
+                    <CommentSection
+                        trackhash={this.props.audiobook.hash} 
+                        remoteRefresh={this.remoteRefresh.bind(this)}
+                    >
+                        {this.renderComments()}
+                    </CommentSection>
                 </View>
             );
         } else if (this.state.fullscreen === false) {
@@ -180,55 +228,34 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
-    renderComments() {
-        const text = 'Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text';
-        const user1 = { username: 'Max', userhash: '123' };
-        const user2 = { username: 'Leo', userhash: '456' };
-        const date = '01.01.2019';
+    renderCommentsOnly() {
         return (
-            <CommentSection>
+
+            this.state.comments.map(comment => 
                 <Comment 
-                    text={text}
-                    user={user1}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user2}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user1}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user2}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user1}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user2}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user1}
-                    date={date}
-                />
-                <Comment 
-                    text={text}
-                    user={user2}
-                    date={date}
-                />
-            </CommentSection>
+                    key={comment.id} 
+                    id={comment.id} 
+                    text={comment.content} 
+                    user={comment.user} 
+                    // time={moment(comment.pub_date).locale('de').calendar()} 
+                    time={moment(comment.pub_date).locale('de').format("DD.MM.YY")}
+                    remoteRefresh={this.remoteRefresh.bind(this)}
+                />)
         );
+    }
+
+    renderComments() {
+        if (this.state.loadingComments === true) {
+            return <Spinner />;
+        } else if (this.state.loadingLatestComment === true) {
+            return (
+                <View>
+                    <Spinner />
+                    {this.renderCommentsOnly()}
+                </View>
+            );
+        } 
+        return (this.renderCommentsOnly());
     }
 
     render() {
@@ -238,7 +265,7 @@ export default class AudioPlayer extends React.Component {
             </View>
         );
     }
-  }
+}
 
 const styles = {
     containerStyle: {

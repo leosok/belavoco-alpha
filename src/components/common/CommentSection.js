@@ -8,7 +8,6 @@ import Colors from '../../constants/Colors';
 
 // Make a component
 const CommentSection = (props) => {
-
     const {
         containerStyle,
         scrollStyle,
@@ -19,7 +18,10 @@ const CommentSection = (props) => {
             <ScrollView style={scrollStyle}>
                 {props.children}
             </ScrollView>
-            <CommentInput />
+            <CommentInput 
+                trackhash={props.trackhash} 
+                remoteRefresh={props.remoteRefresh}
+            />
         </View>
     );
 };
@@ -28,7 +30,9 @@ const styles = {
     containerStyle: {
         flex: 1,
         padding: 5,
-        margin: 15,
+        marginTop: 10,
+        margin: 5,
+
         // borderRadius: 5,
         // borderColor: 'black',
         // borderWidth: 1,

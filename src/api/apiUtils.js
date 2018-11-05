@@ -7,7 +7,7 @@ import playerUtils from '../player/playerUtils';
 
 const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
-const API_ENDPOINT_TRANSMIT_COMMENT = settings.getBackendHost().concat('/api/comment');
+const API_ENDPOINT_COMMENT = settings.getBackendHost().concat('/api/comment/');
 //TODO: Beeceptor configuration in settings.js
 //For Testing:
 // const API_ENDPOINT_UPDATE_USER = 'https://belavoco.free.beeceptor.com';
@@ -58,8 +58,9 @@ const apiUtils = {
           };
         return (myheaders);
     },
-    transmitComment(userhash, comment) {
-        fetch(API_ENDPOINT_TRANSMIT_COMMENT, {
+    transmitComment(trackhash, userhash, comment) {
+        const endpoint = API_ENDPOINT_COMMENT.concat(trackhash);
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Authorization': userhash,
@@ -71,6 +72,20 @@ const apiUtils = {
             })
         });
     },
+    deleteComment(userhash, commentId) {
+        const endpoint = API_ENDPOINT_COMMENT.concat(commentId);
+        fetch(endpoint, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': userhash,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                },
+            // body: JSON.stringify({
+            //     comment
+            // })
+        });
+    },
     async sendPlayCount() {
         const trackhash = await TrackPlayer.getCurrentTrack();
         const userhash = await utils.getUserParameter('hash');
@@ -79,6 +94,12 @@ const apiUtils = {
             headers: this.getRequestHeader(userhash),
         })
         .catch(e => console.log(e));
+    },
+    function7() {
+        console.log(7);
+    },
+    function8() {
+        console.log(7);
     },
     function9() {
         console.log(7);
