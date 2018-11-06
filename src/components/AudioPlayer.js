@@ -3,7 +3,7 @@ import React from 'react';
 
 import { View,
          Text, 
-        //  DeviceEventEmitter 
+         TouchableOpacity 
         } from 'react-native';
 
 import moment from 'moment';
@@ -166,10 +166,15 @@ export default class AudioPlayer extends React.Component {
                                     PlayButtonPress={PlayButtonPress}
                                 />
                             </View>
-                            <View style={infoContainer}>
+                            <TouchableOpacity
+                                onPress={this.minimizePlayer.bind(this)}
+                                style={infoContainer}
+                            >
+                            {/* <View style={infoContainer}> */}
                                 <Text style={authorStyle}>{TrackStore.artist}</Text>
                                 <Text style={titleStyle}>{TrackStore.title}</Text>
-                            </View>
+                            </TouchableOpacity>
+                            {/* </View> */}
                             <IconButton 
                                 onPress={this.minimizePlayer.bind(this)}
                                 name='arrow-round-down'
@@ -204,10 +209,15 @@ export default class AudioPlayer extends React.Component {
                                 PlayButtonPress={PlayButtonPress}
                             />
                         </View>
-                        <View style={infoContainer}>
+                        <TouchableOpacity
+                            onPress={this.minimizePlayer.bind(this)}
+                            style={infoContainer}
+                        >
+                        {/* <View style={infoContainer}> */}
                             <Text style={authorStyle}>{TrackStore.artist}</Text>
                             <Text style={titleStyle}>{TrackStore.title}</Text>
-                        </View>
+                        </TouchableOpacity>
+                        {/* </View> */}
                         <IconButton 
                             onPress={this.minimizePlayer.bind(this)}
                             name='arrow-round-up'
@@ -303,7 +313,7 @@ const styles = {
         justifyContent: 'space-around',
         flexDirection: 'column',
         marginLeft: 8,
-        flex: 4
+        flex: 4,
     },
     authorStyle: {
         fontSize: 15,

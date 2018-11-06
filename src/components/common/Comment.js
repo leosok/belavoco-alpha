@@ -64,7 +64,6 @@ class Comment extends React.Component {
         // console.log('renderDeleteButton');
         // console.log(this.props);
         if (this.props.user.hash === this.state.userhash) {
-            //TODO: Hier Comment Delete Funktion einfügen
             return (
                 <IconButton 
                     onPress={() => this.onDelete()}
