@@ -37,7 +37,7 @@ class PlayButton extends Component {
                         ? 'ios-pause'
                         : 'md-pause'
                     }
-                size={45}
+                size={35}
                 style={iconStyle}
                 type='ionicon'
                 color='grey'
@@ -51,7 +51,7 @@ class PlayButton extends Component {
                             ? 'ios-play'
                             : 'md-play'
                         }
-                    size={45}
+                    size={35}
                     style={iconStyle}
                     type='ionicon'
                     color='grey'
@@ -72,7 +72,7 @@ class PlayButton extends Component {
                             ? 'ios-square'
                             : 'md-square'
                         }
-                    size={45}
+                    size={35}
                     style={iconStyle}
                     type='ionicon'
                     color='grey'
@@ -99,8 +99,8 @@ class PlayButton extends Component {
 const styles = StyleSheet.create({
     buttonStyle: {
         alignSelf: 'center',
-        marginRight: 8,
-        marginLeft: 8,
+        marginRight: 5,
+        marginLeft: 5,
     },
     iconStyle: {
         height: 50,

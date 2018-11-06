@@ -6,10 +6,6 @@ import settings from '../../settings';
 
 const BACKEND_HOST = settings.getBackendHost().concat('/api/get/');
 
-let length = 0;
-let position = 0;
-let progress = 0;
-
 const playerUtils = {
     async resetAndPlay(audiobooks, audioBookToPlay) {
         const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
@@ -27,20 +23,14 @@ const playerUtils = {
         console.log('playerUtils.getState(): ' + state);
         // RNAudioStreamer.pause();
     },
-    // getProgress() {
-    //     // console.log('playerUtils.getProgress()');
-    //     // RNAudioStreamer.duration((err, duration) => {
-    //     //     length = duration;
-    //     //    });
-
-    //     // RNAudioStreamer.currentTime((err, currentTime) => {
-    //     //     position = currentTime;
-    //     // });
-    //     if (length > 0) {
-    //         progress = (position / length);
-    //     }
-    //     return [progress, position, length];
-    // },
+    async forwardThirty() {
+        const newPosition = await TrackPlayer.getPosition() + 30;
+        TrackPlayer.seekTo(newPosition);
+    },
+    async rewindThirty() {
+        const newPosition = await TrackPlayer.getPosition() - 30;
+        TrackPlayer.seekTo(newPosition);
+    },
     async loadAutoplayStatus() {
         let autoplayStatus = await AsyncStorage.getItem('autoplay');
         if (autoplayStatus === 'true') {

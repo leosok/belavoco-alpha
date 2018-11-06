@@ -149,6 +149,7 @@ export default class AudioPlayer extends React.Component {
             containerStyle,
             infoContainerStyle,
             progressContainerStyle,
+            playButtonContainer,
             buttonContainer,
             infoContainer,
             authorStyle,
@@ -161,9 +162,25 @@ export default class AudioPlayer extends React.Component {
                     <View style={stylesLargeAP.movedPlayerStyle}>
                         <View style={infoContainerStyle}>
                             <View style={buttonContainer}>
-                                <PlayButton
-                                    playingState={this.state.playingState}
-                                    PlayButtonPress={PlayButtonPress}
+                                <IconButton 
+                                    onPress={playerUtils.rewindThirty.bind(this)}
+                                    name='undo'
+                                    size={25}
+                                    type='ionicon'
+                                    color='grey'
+                                />
+                                <View style={playButtonContainer}>
+                                    <PlayButton
+                                        playingState={this.state.playingState}
+                                        PlayButtonPress={PlayButtonPress}
+                                    />
+                                </View>
+                                <IconButton 
+                                    onPress={playerUtils.forwardThirty.bind(this)}
+                                    name='redo'
+                                    size={25}
+                                    type='ionicon'
+                                    color='grey'
                                 />
                             </View>
                             <TouchableOpacity
@@ -204,9 +221,25 @@ export default class AudioPlayer extends React.Component {
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
                         <View style={buttonContainer}>
-                            <PlayButton
-                                playingState={this.state.playingState}
-                                PlayButtonPress={PlayButtonPress}
+                            <IconButton 
+                                onPress={playerUtils.rewindThirty.bind(this)}
+                                name='undo'
+                                size={25}
+                                type='ionicon'
+                                color='grey'
+                            />
+                            <View style={playButtonContainer}>
+                                <PlayButton
+                                    playingState={this.state.playingState}
+                                    PlayButtonPress={PlayButtonPress}
+                                />
+                            </View>
+                            <IconButton 
+                                onPress={playerUtils.forwardThirty.bind(this)}
+                                name='redo'
+                                size={25}
+                                type='ionicon'
+                                color='grey'
                             />
                         </View>
                         <TouchableOpacity
@@ -303,17 +336,26 @@ const styles = {
         borderRadius: 4,
         borderColor: 'grey',
     },
-    buttonContainer: {
+    playButtonContainer: {
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
+        // padding: 5,
         flex: 1,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 7,
+        flex: 2,
     },
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        marginLeft: 8,
-        flex: 4,
+        marginLeft: 12,
+        flex: 5,
     },
     authorStyle: {
         fontSize: 15,
