@@ -101,11 +101,11 @@ export default class MediaScreen extends Component {
   }
 
   playFinished(status) {
-    this.setState({
-      playerActivity: false,
-      playerFullScreen: false,
-      selectedAudiobook: null,
-    });
+    // this.setState({
+    //   playerActivity: false,
+    //   playerFullScreen: false,
+    //   selectedAudiobook: null,
+    // });
   }
 
   initialUserhashHandler(someArg) {

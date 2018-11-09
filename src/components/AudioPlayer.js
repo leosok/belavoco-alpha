@@ -273,7 +273,6 @@ export default class AudioPlayer extends React.Component {
 
     renderCommentsOnly() {
         return (
-
             this.state.comments.map(comment => 
                 <Comment 
                     key={comment.id} 

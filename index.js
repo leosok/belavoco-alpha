@@ -40,6 +40,9 @@ TrackPlayer.registerEventHandler(async (data) => {
       PlayerStore.playbackType = data.type;
       // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay()) 
       // --> Fix for unexpected bhavior
+      TrackStore.title = ' - - - ';
+      TrackStore.artist = ' - - - ';
+      // TrackStore.artwork = null;
       if (i % 2 !== 0) {
         DeviceEventEmitter.emit('playFinished', 'FINISHED');
       }
