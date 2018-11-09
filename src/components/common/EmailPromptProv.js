@@ -61,12 +61,13 @@ class EmailPromptProv extends React.Component {
         //TODO: Change JSON generation logic
         .then(data => {
             const userdata = utils.makeUserJSON(
-                usernameG, 
+                data.user_name,
                 this.state.promptValue, 
                 data.user_hash, 
                 oneSignalPlayId
             );
-            console.log('Userdata after Prompt: ' + userdata);
+            console.log('Userdata after Prompt: ');
+            console.log(userdata);
             AsyncStorage.setItem('userdata', JSON.stringify(userdata));
             this.props.initialUserhashHandler(data.user_hash);
         });
