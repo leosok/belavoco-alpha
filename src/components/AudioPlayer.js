@@ -35,6 +35,8 @@ import TrackStore from '../stores/Track';
 
 import { Spinner } from './common/Spinner';
 
+import Colors from '../constants/Colors';
+
 // Make a component
 
 let interval;
@@ -173,6 +175,7 @@ export default class AudioPlayer extends React.Component {
                                     size={thirtySize}
                                     type='materialicons'
                                     color='grey'
+                                    underlayColor={Colors.audioPlayer}
                                 />
                                 <View style={playButtonContainer}>
                                     <PlayButton
@@ -186,6 +189,7 @@ export default class AudioPlayer extends React.Component {
                                     size={thirtySize}
                                     type='materialicons'
                                     color='grey'
+                                    underlayColor={Colors.audioPlayer}
                                 />
                             </View>
                             <TouchableOpacity
@@ -243,6 +247,7 @@ export default class AudioPlayer extends React.Component {
                                 size={thirtySize}
                                 type='materialicons'
                                 color='grey'
+                                underlayColor={Colors.audioPlayer}
                             />
                             <View style={playButtonContainer}>
                                 <PlayButton
@@ -256,6 +261,7 @@ export default class AudioPlayer extends React.Component {
                                 size={thirtySize}
                                 type='materialicons'
                                 color='grey'
+                                underlayColor={Colors.audioPlayer}
                             />
                         </View>
                         <TouchableOpacity
@@ -385,7 +391,7 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 5,
+        marginLeft: 10,
         flex: 1,
     },
     commentsContainerStyle: {

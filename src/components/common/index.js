@@ -17,3 +17,4 @@ export * from './Comment';
 export * from './CommentInput';
 export * from './CommentSection';
 export * from './AutoPlaySwitch';
+export * from './FeedbackInput';

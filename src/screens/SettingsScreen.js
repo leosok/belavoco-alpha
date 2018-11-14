@@ -3,7 +3,7 @@ import { View,
   Text, 
   StyleSheet, 
   AsyncStorage,
-  } from 'react-native';
+  Linking } from 'react-native';
 
 import { 
   Card, 
@@ -11,6 +11,7 @@ import {
   Button,
   ChangeInput,
   AutoPlaySwitch,
+  FeedbackInput,
   } from '../components/common';
 
 import playerUtils from '../player/playerUtils';
@@ -31,12 +32,14 @@ export default class SettingsScreen extends Component {
     super(props);
     this.updateUsername.bind(this);
     this.updateUserEmail.bind(this);
+    this.updateFeedbackVisibility.bind(this);
   }
 
   state = { 
     loading: true,
     userData: '',
     autoplay: false,
+    feedbackVisible: false,
     debug: DEBUG_STATE,
   };
 
@@ -59,6 +62,12 @@ export default class SettingsScreen extends Component {
     await AsyncStorage.setItem('autoplay', JSON.stringify(value));
   }
 
+  toggleFeedbackVisibility() {
+    this.setState({ 
+      feedbackVisible: !this.state.feedbackVisible,
+    });
+  }
+
   async updateUsername(someArg) {
     const userdataGet = await utils.updateUserJSON('name', someArg);
     this.setState({ userData: userdataGet });
@@ -70,24 +79,54 @@ export default class SettingsScreen extends Component {
     this.setState({ userData: userdataGet });
   }
 
+  updateFeedbackVisibility() {
+    this.toggleFeedbackVisibility();
+  }
+
+  renderFeedbackInput() {
+    const updateFeedbackVisibility = this.updateFeedbackVisibility;
+    if (this.state.feedbackVisible === true) {
+      return (
+        <FeedbackInput 
+          handleToUpdate={updateFeedbackVisibility.bind(this)}
+        />
+      );
+    }
+  }
+
   renderDebugFeature() {
     if (this.state.debug === true) {
       return (
-        <Card>
-          <CardSection>
-            <Button
-              buttonText={'Logout'}
-              onPress={() => utils.logoutUserInDebug()}
-            />
-          </CardSection>
-        </Card>
+        <View>
+          <Card>
+            <CardSection>
+              <Button
+                buttonText={'Logout'}
+                onPress={() => utils.logoutUserInDebug()}
+              />
+            </CardSection>
+          </Card>
+          <Card>
+            <CardSection>
+              <Button
+                buttonText={'Feedback Beta'}
+                onPress={() => this.toggleFeedbackVisibility()}
+              />
+            </CardSection>
+          </Card>
+        </View>
       );
     }
   }
 
   render() {
     // console.log(this.state);
-    const { container, buttonContainer, infoContainer, titleStyle } = styles;
+    const { 
+      container, 
+      buttonContainer, 
+      infoContainer, 
+      titleStyle, 
+    } = styles;
     const updateUsername = this.updateUsername;
     // const updateUserEmail = this.updateUserEmail;
     return (
@@ -128,6 +167,15 @@ export default class SettingsScreen extends Component {
             <AutoPlaySwitch />
           </CardSection>
         </Card>
+        <Card>
+          <CardSection>
+            <Button
+                buttonText={'Feedback senden'}
+                onPress={() => Linking.openURL('mailto:info@belavo.co?subject=Feedback von ' + this.state.userData.username)}
+            />
+          </CardSection>
+        </Card>
+        {this.renderFeedbackInput()}
         {this.renderDebugFeature()}
       </View>
     );

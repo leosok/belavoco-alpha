@@ -8,6 +8,7 @@ import playerUtils from '../player/playerUtils';
 const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
 const API_ENDPOINT_COMMENT = settings.getBackendHost().concat('/api/comment/');
+const API_ENDPOINT_FEEDBACK = settings.getBackendHost().concat('/api/feedback/');
 //TODO: Beeceptor configuration in settings.js
 //For Testing:
 // const API_ENDPOINT_UPDATE_USER = 'https://belavoco.free.beeceptor.com';
@@ -94,6 +95,21 @@ const apiUtils = {
             headers: this.getRequestHeader(userhash),
         })
         .catch(e => console.log(e));
+    },
+    transmitFeedback(userhash, feedback) {
+        console.log('transmitFeedback userhash: ' + userhash);
+        console.log('transmitFeedback feedback: ' + feedback);
+        // fetch(API_ENDPOINT_FEEDBACK, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': userhash,
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //         },
+        //     body: JSON.stringify({
+        //         feedback
+        //     })
+        // });
     },
     function7() {
         console.log(7);
