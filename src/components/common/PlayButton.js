@@ -58,9 +58,9 @@ class PlayButton extends Component {
                     color='grey'
                 />
             );
-        } else if (PlayerStore.playbackState === TrackPlayer.STATE_BUFFERING || 
-                    PlayerStore.playbackState === TrackPlayer.STATE_NONE || 
-                    // PlayerStore.playbackState === TrackPlayer.STATE_STOPPED || 
+        } else if (PlayerStore.playbackState === TrackPlayer.STATE_BUFFERING ||
+                    PlayerStore.playbackState === TrackPlayer.STATE_NONE ||
+                    // PlayerStore.playbackState === TrackPlayer.STATE_STOPPED ||
                     PlayerStore.playbackState === undefined) {
             return (
                 <Spinner />
@@ -100,8 +100,8 @@ class PlayButton extends Component {
 const styles = StyleSheet.create({
     buttonStyle: {
         alignSelf: 'center',
-        marginRight: 5,
-        marginLeft: 5,
+        //marginRight: 5,
+        //marginLeft: 5,
     },
     iconStyle: {
         height: 50,

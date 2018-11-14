@@ -38,7 +38,7 @@ TrackPlayer.registerEventHandler(async (data) => {
       console.log('QUEUE ENDED!!!!');
       i = i + 1;
       PlayerStore.playbackType = data.type;
-      // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay()) 
+      // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay())
       // --> Fix for unexpected bhavior
       TrackStore.title = ' - - - ';
       TrackStore.artist = ' - - - ';
@@ -48,4 +48,3 @@ TrackPlayer.registerEventHandler(async (data) => {
       }
     }
 });
-

@@ -48,7 +48,7 @@ const apiUtils = {
     },
     updateUserData(userdata) {
         const data = { user: userdata };
-        axios.put(API_ENDPOINT_UPDATE_USER, data, { 
+        axios.put(API_ENDPOINT_UPDATE_USER, data, {
             headers: this.getRequestHeader(userdata.userhash),
         })
         .catch(e => console.log(e));
@@ -56,7 +56,7 @@ const apiUtils = {
     getRequestHeader(userhash) {
         const myheaders = {
             'Authorization': userhash,
-          };
+          }
         return (myheaders);
     },
     transmitComment(trackhash, userhash, comment) {
@@ -90,23 +90,19 @@ const apiUtils = {
     async sendPlayCount() {
         const trackhash = await TrackPlayer.getCurrentTrack();
         const userhash = await utils.getUserParameter('hash');
-        const data = {};
-        console.log('Tackhash in api call PLAY: ' + trackhash);
-        axios.put(playerUtils.makeFileUrl(trackhash), data, { 
-            headers: this.getRequestHeader(userhash),
-        })
-        .catch(e => console.log(e));
+        if (trackhash) {
+          fetch(playerUtils.makeFileUrl(trackhash), {
+              method: 'PUT',
+              headers: this.getRequestHeader(userhash)
+          });
+        }
     },
     transmitFeedback(userhash, feedback) {
         console.log('transmitFeedback userhash: ' + userhash);
         console.log('transmitFeedback feedback: ' + feedback);
         // fetch(API_ENDPOINT_FEEDBACK, {
         //     method: 'POST',
-        //     headers: {
-        //         'Authorization': userhash,
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json'
-        //         },
+        //     headers: headers: this.getRequestHeader(userhash),
         //     body: JSON.stringify({
         //         feedback
         //     })
