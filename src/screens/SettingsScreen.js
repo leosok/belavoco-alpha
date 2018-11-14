@@ -3,13 +3,14 @@ import { View,
   Text, 
   StyleSheet, 
   AsyncStorage,
-  Switch } from 'react-native';
+  } from 'react-native';
 
 import { 
   Card, 
   CardSection,
   Button,
   ChangeInput,
+  AutoPlaySwitch,
   } from '../components/common';
 
 import playerUtils from '../player/playerUtils';
@@ -124,12 +125,7 @@ export default class SettingsScreen extends Component {
             <View style={infoContainer}>
               <Text style={titleStyle}>{'Autoplay: '}</Text>
             </View>
-            <View style={buttonContainer}>
-              <Switch 
-                onValueChange={(value) => this.toggleAutoplayState(value)}
-                value={this.state.autoplay}
-              /> 
-            </View>
+            <AutoPlaySwitch />
           </CardSection>
         </Card>
         {this.renderDebugFeature()}

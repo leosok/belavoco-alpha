@@ -21,7 +21,8 @@ import {
     ProgressDisplay,
     IconButton, 
     CommentSection,
-    Comment
+    Comment,
+    AutoPlaySwitch
     } from './common';
 
 import settings from '../../settings';
@@ -156,6 +157,8 @@ export default class AudioPlayer extends React.Component {
             infoContainer,
             authorStyle,
             titleStyle,
+            autoPlayContainerStyle,
+            commentsContainerStyle,
         } = styles;
 
         if (this.state.fullscreen) {
@@ -210,12 +213,23 @@ export default class AudioPlayer extends React.Component {
                             />
                         </View>
                     </View>
-                    <CommentSection
-                        trackhash={this.props.audiobook.hash} 
-                        remoteRefresh={this.remoteRefresh.bind(this)}
-                    >
-                        {this.renderComments()}
-                    </CommentSection>
+                    <View style={autoPlayContainerStyle}>
+                        <View style={{ flex: 2 }}>
+                            <Text style={titleStyle}>{'Autoplay: '}</Text>
+                        </View>
+                        <View style={{ flex: 7, alignItems: 'flex-start' }}>
+                            <AutoPlaySwitch />
+                        </View>
+                    </View>
+                    <View style={commentsContainerStyle}>
+                        <CommentSection
+                            trackhash={this.props.audiobook.hash} 
+                            remoteRefresh={this.remoteRefresh.bind(this)}
+                        >
+                            {this.renderComments()}
+                        </CommentSection>
+                    </View>
+                    
                 </View>
             );
         } else if (this.state.fullscreen === false) {
@@ -366,6 +380,16 @@ const styles = {
         fontSize: 17,
         // marginLeft: 8,
         // flex: 1,
+    },
+    autoPlayContainerStyle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 5,
+        flex: 1,
+    },
+    commentsContainerStyle: {
+        flex: 8,
     },
 };
 const stylesLargeAP = {
