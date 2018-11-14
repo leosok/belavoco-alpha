@@ -91,6 +91,7 @@ const apiUtils = {
         const trackhash = await TrackPlayer.getCurrentTrack();
         const userhash = await utils.getUserParameter('hash');
         const data = {};
+        console.log('Tackhash in api call PLAY: ' + trackhash);
         axios.put(playerUtils.makeFileUrl(trackhash), data, { 
             headers: this.getRequestHeader(userhash),
         })
