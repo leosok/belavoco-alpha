@@ -21,7 +21,7 @@ const usernameG = 'noname';
 
 class EmailPromptProv extends React.Component {
 
-    state = { 
+    state = {
         promptValue: '',
         visiblePrompt: true,
         inputError: false,
@@ -34,8 +34,8 @@ class EmailPromptProv extends React.Component {
 
     async loadingAsync() {
         const usermailGet = await utils.getUserParameter('email');
-        
-        this.setState({ 
+
+        this.setState({
           userEmail: usermailGet,
          });
       }
@@ -43,7 +43,9 @@ class EmailPromptProv extends React.Component {
     async tranmitUserData() {
         const oneSignalPlayId = await utils.getPlayId();
         //TODO: Rebuild with axios
-        return fetch(API_ENDPOINT_ADD_USER, {
+        console.log('in EmailPrompt: ' + API_ENDPOINT_ADD_USER);
+        //return fetch('API_ENDPOINT_ADD_USER', {
+        return fetch('http://192.168.178.107:8080/api/user', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -62,8 +64,8 @@ class EmailPromptProv extends React.Component {
         .then(data => {
             const userdata = utils.makeUserJSON(
                 data.user_name,
-                this.state.promptValue, 
-                data.user_hash, 
+                this.state.promptValue,
+                data.user_hash,
                 oneSignalPlayId
             );
             console.log('Userdata after Prompt: ');
@@ -85,8 +87,8 @@ class EmailPromptProv extends React.Component {
                         cancelText={promtCancelButtonText}
                         defaultValue={promtErrorText}
                         onChangeText={(text) => {
-                            this.setState({ 
-                                promptValue: text 
+                            this.setState({
+                                promptValue: text
                             });
                         }}
                         onCancel={() => this.setState({
@@ -98,7 +100,7 @@ class EmailPromptProv extends React.Component {
                                 this.setState({
                                     visiblePrompt: false,
                                     inputError: false,
-                                }, () => { 
+                                }, () => {
                                     this.tranmitUserData();
                                 });
                             } else {
@@ -118,8 +120,8 @@ class EmailPromptProv extends React.Component {
                     submitText={promtSubmitButtonText}
                     cancelText={promtCancelButtonText}
                     onChangeText={(text) => {
-                        this.setState({ 
-                            promptValue: text 
+                        this.setState({
+                            promptValue: text
                         });
                     }}
                     onCancel={() => this.setState({
@@ -131,7 +133,7 @@ class EmailPromptProv extends React.Component {
                             this.setState({
                                 visiblePrompt: false,
                                 inputError: false,
-                            }, () => { 
+                            }, () => {
                                 this.tranmitUserData();
                             });
                         } else {

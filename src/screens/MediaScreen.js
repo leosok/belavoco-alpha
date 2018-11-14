@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { 
-  View, 
-  ScrollView, 
-  StyleSheet, 
+import {
+  View,
+  ScrollView,
+  StyleSheet,
   RefreshControl,
   DeviceEventEmitter
    } from 'react-native';
@@ -15,10 +15,10 @@ import { observer } from 'mobx-react';
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
 
-import { 
-  Card, 
-  CardSection, 
-  CardSectionAP, 
+import {
+  Card,
+  CardSection,
+  CardSectionAP,
   ButtonSmall,
   Spinner,
   EmailPromptProv } from '../components/common';
@@ -63,8 +63,8 @@ export default class MediaScreen extends Component {
   // TODO: userdata as state instead of only hash
   async loadingAsyncAndRefresh() {
     const userhashGet = await utils.getUserParameter('hash');
-    
-    this.setState({ userhash: userhashGet }, () => { 
+
+    this.setState({ userhash: userhashGet }, () => {
           this.refreshData();
         });
   }
@@ -82,7 +82,9 @@ export default class MediaScreen extends Component {
   }
 
   refreshData() {
-    axios.get(API_ENDPOINT_ALL, { 
+    console.log('in MediaScreen: ' + API_ENDPOINT_ALL);
+    axios.get(API_ENDPOINT_ALL, {
+    //axios.get('https://belavoco.free.beeceptor.com' + '/api/get/all', {
       headers: apiUtils.getRequestHeader(this.state.userhash)
     })
     .then(response => this.setState({
@@ -110,7 +112,7 @@ export default class MediaScreen extends Component {
 
   initialUserhashHandler(someArg) {
     this.setState(
-      { userhash: someArg }, () => { 
+      { userhash: someArg }, () => {
         this.refreshData();
     });
   }
@@ -192,8 +194,8 @@ export default class MediaScreen extends Component {
     return (
       <View style={styles.container}>
         {/* TODO: only load EmailPromptProv when email empty using userdata state */}
-        <EmailPromptProv 
-          initialUserhashHandler={initialUserhashHandler.bind(this)} 
+        <EmailPromptProv
+          initialUserhashHandler={initialUserhashHandler.bind(this)}
         />
         {this.renderChoiceButtons(choiceHandler)}
         <ScrollView
