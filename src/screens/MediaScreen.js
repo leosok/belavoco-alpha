@@ -82,7 +82,6 @@ export default class MediaScreen extends Component {
   }
 
   refreshData() {
-    console.log('in MediaScreen: ' + API_ENDPOINT_ALL);
     axios.get(API_ENDPOINT_ALL, {
     //axios.get('https://belavoco.free.beeceptor.com' + '/api/get/all', {
       headers: apiUtils.getRequestHeader(this.state.userhash)

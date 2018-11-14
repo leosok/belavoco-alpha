@@ -43,9 +43,7 @@ class EmailPromptProv extends React.Component {
     async tranmitUserData() {
         const oneSignalPlayId = await utils.getPlayId();
         //TODO: Die URL sollte hier nicht hardcoded sein. allerdings gibt es einen Fehler in iOS mit der concat() URL. WARUM??
-        console.log('in EmailPrompt: ' + API_ENDPOINT_ADD_USER);
-        //return fetch('API_ENDPOINT_ADD_USER', {
-        return fetch('http://192.168.178.107:8080/api/user', {
+        return fetch(API_ENDPOINT_ADD_USER, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
