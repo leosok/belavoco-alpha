@@ -10,6 +10,7 @@ import moment from 'moment';
 import 'moment/locale/de';
 import axios from 'axios';
 import { observer } from 'mobx-react';
+import { Icon } from 'react-native-elements';
 
 import TrackPlayer, { ProgressComponent } from 'react-native-track-player';
 
@@ -36,6 +37,7 @@ import { Spinner } from './common/Spinner';
 // Make a component
 
 let interval;
+const thirtySize = 30;
 const API_ENDPOINT_COMMENTS = settings.getBackendHost().concat('/api/comment/');
 
 class ProgressBar extends ProgressComponent {
@@ -162,11 +164,11 @@ export default class AudioPlayer extends React.Component {
                     <View style={stylesLargeAP.movedPlayerStyle}>
                         <View style={infoContainerStyle}>
                             <View style={buttonContainer}>
-                                <IconButton 
+                                <Icon 
                                     onPress={playerUtils.rewindThirty.bind(this)}
-                                    name='undo'
-                                    size={25}
-                                    type='ionicon'
+                                    name='replay-30'
+                                    size={thirtySize}
+                                    type='materialicons'
                                     color='grey'
                                 />
                                 <View style={playButtonContainer}>
@@ -175,11 +177,11 @@ export default class AudioPlayer extends React.Component {
                                         PlayButtonPress={PlayButtonPress}
                                     />
                                 </View>
-                                <IconButton 
+                                <Icon 
                                     onPress={playerUtils.forwardThirty.bind(this)}
-                                    name='redo'
-                                    size={25}
-                                    type='ionicon'
+                                    name='forward-30'
+                                    size={thirtySize}
+                                    type='materialicons'
                                     color='grey'
                                 />
                             </View>
@@ -221,11 +223,11 @@ export default class AudioPlayer extends React.Component {
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
                         <View style={buttonContainer}>
-                            <IconButton 
+                            <Icon 
                                 onPress={playerUtils.rewindThirty.bind(this)}
-                                name='undo'
-                                size={25}
-                                type='ionicon'
+                                name='replay-30'
+                                size={thirtySize}
+                                type='materialicons'
                                 color='grey'
                             />
                             <View style={playButtonContainer}>
@@ -234,11 +236,11 @@ export default class AudioPlayer extends React.Component {
                                     PlayButtonPress={PlayButtonPress}
                                 />
                             </View>
-                            <IconButton 
+                            <Icon 
                                 onPress={playerUtils.forwardThirty.bind(this)}
-                                name='redo'
-                                size={25}
-                                type='ionicon'
+                                name='forward-30'
+                                size={thirtySize}
+                                type='materialicons'
                                 color='grey'
                             />
                         </View>

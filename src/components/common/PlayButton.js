@@ -15,6 +15,7 @@ import { Spinner } from '.';
 
 import PlayerStore from '../../stores/Player';
 
+const iconSize = 45;
 
 // Make a component
 @observer
@@ -37,7 +38,7 @@ class PlayButton extends Component {
                         ? 'ios-pause'
                         : 'md-pause'
                     }
-                size={35}
+                size={iconSize}
                 style={iconStyle}
                 type='ionicon'
                 color='grey'
@@ -51,7 +52,7 @@ class PlayButton extends Component {
                             ? 'ios-play'
                             : 'md-play'
                         }
-                    size={35}
+                    size={iconSize}
                     style={iconStyle}
                     type='ionicon'
                     color='grey'
@@ -72,7 +73,7 @@ class PlayButton extends Component {
                             ? 'ios-square'
                             : 'md-square'
                         }
-                    size={35}
+                    size={iconSize}
                     style={iconStyle}
                     type='ionicon'
                     color='grey'
