@@ -40,7 +40,7 @@ import Colors from '../constants/Colors';
 // Make a component
 
 let interval;
-const thirtySize = 30;
+const thirtySize = 35;
 const API_ENDPOINT_COMMENTS = settings.getBackendHost().concat('/api/comment/');
 
 class ProgressBar extends ProgressComponent {
@@ -68,6 +68,7 @@ export default class AudioPlayer extends React.Component {
         comments: [],
         loadingComments: true,
         loadingLatestComment: false,
+        frButtons: 0                    // 0 - thirty buttons; 1 - skip buttons
     };
 
     componentDidMount() {
@@ -167,40 +168,8 @@ export default class AudioPlayer extends React.Component {
             return (
                 <View style={containerStyle}>
                     <View style={stylesLargeAP.movedPlayerStyle}>
-                        <View style={infoContainerStyle}>
-                            <View style={buttonContainer}>
-                                <Icon 
-                                    onPress={playerUtils.rewindThirty.bind(this)}
-                                    name='replay-30'
-                                    size={thirtySize}
-                                    type='materialicons'
-                                    color='grey'
-                                    underlayColor={Colors.audioPlayer}
-                                />
-                                <View style={playButtonContainer}>
-                                    <PlayButton
-                                        playingState={this.state.playingState}
-                                        PlayButtonPress={PlayButtonPress}
-                                    />
-                                </View>
-                                <Icon 
-                                    onPress={playerUtils.forwardThirty.bind(this)}
-                                    name='forward-30'
-                                    size={thirtySize}
-                                    type='materialicons'
-                                    color='grey'
-                                    underlayColor={Colors.audioPlayer}
-                                />
-                            </View>
-                            <TouchableOpacity
-                                onPress={this.minimizePlayer.bind(this)}
-                                style={infoContainer}
-                            >
-                            {/* <View style={infoContainer}> */}
-                                <Text style={authorStyle}>{TrackStore.artist}</Text>
-                                <Text style={titleStyle}>{TrackStore.title}</Text>
-                            </TouchableOpacity>
-                            {/* </View> */}
+                        <View style={stylesLargeAP.infoContainerStyle}>
+                            {this.renderButtonsLargePlayer(PlayButtonPress)}
                             <IconButton 
                                 onPress={this.minimizePlayer.bind(this)}
                                 name='arrow-round-down'
@@ -209,6 +178,15 @@ export default class AudioPlayer extends React.Component {
                                 color='grey'
                             />
                         </View>
+
+                        <TouchableOpacity 
+                            onPress={this.minimizePlayer.bind(this)}
+                            style={stylesLargeAP.infoContainer}
+                        >
+                            <Text style={titleStyle}>{TrackStore.artist} - </Text>
+                            <Text style={titleStyle}>{TrackStore.title}</Text>
+                        </TouchableOpacity>
+
                         <View style={progressContainerStyle}>
                             <ProgressBar />
                             <ProgressDisplay
@@ -240,39 +218,19 @@ export default class AudioPlayer extends React.Component {
             return (
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
-                        <View style={buttonContainer}>
-                            <Icon 
-                                onPress={playerUtils.rewindThirty.bind(this)}
-                                name='replay-30'
-                                size={thirtySize}
-                                type='materialicons'
-                                color='grey'
-                                underlayColor={Colors.audioPlayer}
-                            />
-                            <View style={playButtonContainer}>
-                                <PlayButton
-                                    playingState={this.state.playingState}
-                                    PlayButtonPress={PlayButtonPress}
-                                />
-                            </View>
-                            <Icon 
-                                onPress={playerUtils.forwardThirty.bind(this)}
-                                name='forward-30'
-                                size={thirtySize}
-                                type='materialicons'
-                                color='grey'
-                                underlayColor={Colors.audioPlayer}
+                        <View style={playButtonContainer}>
+                            <PlayButton
+                                playingState={this.state.playingState}
+                                PlayButtonPress={PlayButtonPress}
                             />
                         </View>
                         <TouchableOpacity
                             onPress={this.minimizePlayer.bind(this)}
                             style={infoContainer}
                         >
-                        {/* <View style={infoContainer}> */}
                             <Text style={authorStyle}>{TrackStore.artist}</Text>
                             <Text style={titleStyle}>{TrackStore.title}</Text>
                         </TouchableOpacity>
-                        {/* </View> */}
                         <IconButton 
                             onPress={this.minimizePlayer.bind(this)}
                             name='arrow-round-up'
@@ -306,6 +264,52 @@ export default class AudioPlayer extends React.Component {
                     remoteRefresh={this.remoteRefresh.bind(this)}
                 />)
         );
+    }
+
+    renderButtonsLargePlayer(PlayButtonPress) {
+        const {
+            playButtonContainer,
+            buttonContainer,
+        } = styles;
+
+        if (this.state.frButtons === 0) {
+            return (
+                <View style={{ flex: 1, flexDirection: 'row', }}>
+                    <TouchableOpacity 
+                        onPress={this.minimizePlayer.bind(this)} 
+                        style={{ flex: 2 }} 
+                    />
+                    <View style={buttonContainer}>
+                        <Icon 
+                            onPress={playerUtils.rewindThirty.bind(this)}
+                            name='replay-30'
+                            size={thirtySize}
+                            type='materialicons'
+                            color='grey'
+                            underlayColor={Colors.audioPlayer}
+                        />
+                        <View style={playButtonContainer}>
+                            <PlayButton
+                                playingState={this.state.playingState}
+                                PlayButtonPress={PlayButtonPress}
+                            />
+                        </View>
+                        <Icon 
+                            onPress={playerUtils.forwardThirty.bind(this)}
+                            name='forward-30'
+                            size={thirtySize}
+                            type='materialicons'
+                            color='grey'
+                            underlayColor={Colors.audioPlayer}
+                        /> 
+                    </View>
+                    <TouchableOpacity 
+                        onPress={this.minimizePlayer.bind(this)} 
+                        style={{ flex: 2 }} 
+                    />
+                </View>
+            );
+        }
     }
 
     renderComments() {
@@ -358,19 +362,19 @@ const styles = {
         borderColor: 'grey',
     },
     playButtonContainer: {
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
-        // padding: 5,
+        marginLeft: 5,
+        marginRight: 5,
         flex: 1,
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 7,
-        flex: 2,
+        //marginLeft: 7,
+        flex: 3,
     },
     infoContainer: {
         justifyContent: 'space-around',
@@ -401,6 +405,21 @@ const styles = {
 const stylesLargeAP = {
     movedPlayerStyle: {
         // paddingTop: 5,
-        height: 80, 
+        height: 90, 
+    },
+    infoContainerStyle: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        borderColor: '#ddd',
+        position: 'relative',
+        flex: 2,
+    },
+    infoContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginLeft: 10,
+        marginRight: 10,
+        flex: 1,
     },
 };
