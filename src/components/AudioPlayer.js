@@ -183,8 +183,16 @@ export default class AudioPlayer extends React.Component {
                             onPress={this.minimizePlayer.bind(this)}
                             style={stylesLargeAP.infoContainer}
                         >
-                            <Text style={titleStyle}>{TrackStore.artist} - </Text>
-                            <Text style={titleStyle}>{TrackStore.title}</Text>
+                            <View style={{ flex: 1 }} />
+                            <View style={{ flex: 100, flexDirection: 'row' }} >
+                                <Text 
+                                    numberOfLines={1} 
+                                    style={titleStyle} 
+                                >
+                                    {TrackStore.artist} - {TrackStore.title}
+                                </Text>
+                            </View>
+                            <View style={{ flex: 1 }} />
                         </TouchableOpacity>
 
                         <View style={progressContainerStyle}>
@@ -228,8 +236,8 @@ export default class AudioPlayer extends React.Component {
                             onPress={this.minimizePlayer.bind(this)}
                             style={infoContainer}
                         >
-                            <Text style={authorStyle}>{TrackStore.artist}</Text>
-                            <Text style={titleStyle}>{TrackStore.title}</Text>
+                            <Text numberOfLines={1} style={authorStyle}>{TrackStore.artist}</Text>
+                            <Text numberOfLines={1} style={titleStyle}>{TrackStore.title}</Text>
                         </TouchableOpacity>
                         <IconButton 
                             onPress={this.minimizePlayer.bind(this)}
