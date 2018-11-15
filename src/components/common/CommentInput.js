@@ -25,7 +25,12 @@ class CommentInput extends React.Component {
         apiUtils.transmitComment(this.props.trackhash, userhashGet, this.state.comment);
     }
 
-    renderInput(containerStyle, textInputStyle) {
+    renderInput() {
+        const {
+            containerStyle,
+            textInputStyle,
+        } = styles;
+
         if (this.state.visible === false) {
             return (
                 <IconButton 
@@ -61,14 +66,9 @@ class CommentInput extends React.Component {
     }
 
     render() {
-        const {
-            containerStyle,
-            textInputStyle,
-        } = styles;
-
         return (
-            <View style={containerStyle}>
-                {this.renderInput(containerStyle, textInputStyle)}
+            <View style={styles.containerStyle}>
+                {this.renderInput()}
             </View>
         );
     }

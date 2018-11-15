@@ -162,6 +162,7 @@ export default class AudioPlayer extends React.Component {
             titleStyle,
             autoPlayContainerStyle,
             commentsContainerStyle,
+            emptyTextStyle
         } = styles;
 
         if (this.state.fullscreen) {
@@ -259,21 +260,6 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
-    renderCommentsOnly() {
-        return (
-            this.state.comments.map(comment => 
-                <Comment 
-                    key={comment.id} 
-                    id={comment.id} 
-                    text={comment.content} 
-                    user={comment.user} 
-                    // time={moment(comment.pub_date).locale('de').calendar()} 
-                    time={moment(comment.pub_date).locale('de').format("DD.MM.YY")}
-                    remoteRefresh={this.remoteRefresh.bind(this)}
-                />)
-        );
-    }
-
     renderButtonsLargePlayer(PlayButtonPress) {
         const {
             playButtonContainer,
@@ -332,6 +318,25 @@ export default class AudioPlayer extends React.Component {
             );
         } 
         return (this.renderCommentsOnly());
+    }
+
+    renderCommentsOnly() {
+        console.log(this.state.comments.length);
+        if (this.state.comments.length == 0) {
+            return <Text style={styles.emptyTextStyle}>Noch keine Kommentare</Text>;
+        }
+        return (
+            this.state.comments.map(comment => 
+                <Comment 
+                    key={comment.id} 
+                    id={comment.id} 
+                    text={comment.content} 
+                    user={comment.user} 
+                    // time={moment(comment.pub_date).locale('de').calendar()} 
+                    time={moment(comment.pub_date).locale('de').format("DD.MM.YY")}
+                    remoteRefresh={this.remoteRefresh.bind(this)}
+                />)
+        );
     }
 
     render() {
@@ -408,6 +413,10 @@ const styles = {
     },
     commentsContainerStyle: {
         flex: 8,
+    },
+    emptyTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
     },
 };
 const stylesLargeAP = {
