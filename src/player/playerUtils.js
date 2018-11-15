@@ -46,7 +46,7 @@ const playerUtils = {
         if (!autoplayState) {
             const track = {};
             track.id = audioBookToPlay.hash,
-            track.url = playerUtils.makeFileUrl(audioBookToPlay.hash), // Load media from the network
+            track.url = playerUtils.makeFileUrl(audioBookToPlay.hash, audioBookToPlay.file_name), // Load media from the network
             track.title = audioBookToPlay.title,
             track.artist = audioBookToPlay.author,
             tracks.push(track);
@@ -55,7 +55,7 @@ const playerUtils = {
             for (i = 0; i < Object.keys(audiobooks).length; i++) {
                 const track = {};
                 track.id = audiobooks[i].hash,
-                track.url = playerUtils.makeFileUrl(audiobooks[i].hash), // Load media from the network
+                track.url = playerUtils.makeFileUrl(audiobooks[i].hash, audiobooks[i].file_name), // Load media from the network
                 track.title = audiobooks[i].title,
                 track.artist = audiobooks[i].author,
                 tracks.push(track);
@@ -63,8 +63,15 @@ const playerUtils = {
         }
         return tracks;
     },
-    makeFileUrl(hash) {
-        const fileUrl = BACKEND_HOST.concat(hash, '/play');
+    makeFileUrl(hash, fileName) {
+        let ending = '';
+        // Generating a audiofile specific suffix for the play call. Empty ending is for the sendPlayCount API call
+        if (fileName) {
+            ending = '.'.concat(fileName.split('.').pop());
+        }
+        console.log(ending);
+        const fileUrl = BACKEND_HOST.concat(hash, '/play', ending);
+        console.log(fileUrl);
         return fileUrl;
     },
     function6() {
