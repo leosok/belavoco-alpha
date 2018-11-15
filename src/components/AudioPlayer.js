@@ -65,6 +65,7 @@ export default class AudioPlayer extends React.Component {
         playingState: 'PLAYING',
         fullscreen: this.props.fullscreen,
         position: 0,
+        length: 0,
         comments: [],
         loadingComments: true,
         loadingLatestComment: false,
@@ -86,7 +87,8 @@ export default class AudioPlayer extends React.Component {
 
         interval = setInterval(async () => {
             this.setState({
-                position: await TrackPlayer.getPosition()
+                position: await TrackPlayer.getPosition(),
+                length: await TrackPlayer.getDuration()
             });
         }, 500);
       }
@@ -162,7 +164,6 @@ export default class AudioPlayer extends React.Component {
             titleStyle,
             autoPlayContainerStyle,
             commentsContainerStyle,
-            emptyTextStyle
         } = styles;
 
         if (this.state.fullscreen) {
@@ -200,18 +201,18 @@ export default class AudioPlayer extends React.Component {
                             <ProgressBar />
                             <ProgressDisplay
                                 position={this.state.position}
-                                length={this.props.audiobook.length}
+                                length={this.state.length}
                             />
                         </View>
                     </View>
-                    <View style={autoPlayContainerStyle}>
+                    {/* <View style={autoPlayContainerStyle}>
                         <View style={{ flex: 2 }}>
                             <Text style={titleStyle}>{'Autoplay: '}</Text>
                         </View>
                         <View style={{ flex: 7, alignItems: 'flex-start' }}>
                             <AutoPlaySwitch />
                         </View>
-                    </View>
+                    </View> */}
                     <View style={commentsContainerStyle}>
                         <CommentSection
                             trackhash={this.props.audiobook.hash} 
@@ -252,7 +253,7 @@ export default class AudioPlayer extends React.Component {
                         <ProgressBar />
                         <ProgressDisplay
                             position={this.state.position}
-                            length={this.props.audiobook.length}
+                            length={this.state.length}
                         />
                     </View>
                 </View>
