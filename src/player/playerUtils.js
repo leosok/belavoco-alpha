@@ -67,11 +67,9 @@ const playerUtils = {
         let ending = '';
         // Generating a audiofile specific suffix for the play call. Empty ending is for the sendPlayCount API call
         if (fileName) {
-            ending = '.'.concat(fileName.split('.').pop());
+            ending = '/'.concat(fileName.split('\\').pop());
         }
-        console.log(ending);
         const fileUrl = BACKEND_HOST.concat(hash, '/play', ending);
-        console.log(fileUrl);
         return fileUrl;
     },
     function6() {
