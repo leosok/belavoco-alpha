@@ -4,7 +4,8 @@ import {
   ScrollView,
   StyleSheet,
   RefreshControl,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  KeyboardAvoidingView
    } from 'react-native';
 
 import axios from 'axios';
@@ -71,7 +72,7 @@ export default class MediaScreen extends Component {
 
   componentDidMount() {
     this.subscription = DeviceEventEmitter.addListener(
-                'playFinished', this.playFinished.bind(this));
+                'playback-info', this.playbackState.bind(this));
   }
 
   _onRefresh = () => {
@@ -101,12 +102,13 @@ export default class MediaScreen extends Component {
     this.setState({ typeChoice: someArg });
   }
 
-  playFinished(status) {
-    // this.setState({
-    //   playerActivity: false,
-    //   playerFullScreen: false,
-    //   selectedAudiobook: null,
-    // });
+  playbackState(status) {
+    // console.log('Status in playbackState: ' + status);
+    // if (status === 'FINISHED') {
+    //   console.log(1);
+    // } else if (status === 'TRACK_CHANGED') {
+    //     console.log(2);
+    // }
   }
 
   initialUserhashHandler(someArg) {
@@ -191,7 +193,7 @@ export default class MediaScreen extends Component {
     const minimizePlayerHandler = this.minimizePlayerHandler;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         {/* TODO: only load EmailPromptProv when email empty using userdata state */}
         <EmailPromptProv
           initialUserhashHandler={initialUserhashHandler.bind(this)}
@@ -208,7 +210,7 @@ export default class MediaScreen extends Component {
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(minimizePlayerHandler)}
-      </View>
+      </KeyboardAvoidingView>
       );
     }
   }

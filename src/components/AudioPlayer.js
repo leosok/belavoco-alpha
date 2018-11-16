@@ -3,7 +3,8 @@ import React from 'react';
 
 import { View,
          Text, 
-         TouchableOpacity 
+         TouchableOpacity,
+         DeviceEventEmitter
         } from 'react-native';
 
 import moment from 'moment';
@@ -64,6 +65,7 @@ export default class AudioPlayer extends React.Component {
       state = {
         playingState: 'PLAYING',
         fullscreen: this.props.fullscreen,
+        trackhash: '',
         position: 0,
         length: 0,
         comments: [],
@@ -87,10 +89,14 @@ export default class AudioPlayer extends React.Component {
 
         interval = setInterval(async () => {
             this.setState({
+                trackhash: await TrackPlayer.getCurrentTrack(),
                 position: await TrackPlayer.getPosition(),
                 length: await TrackPlayer.getDuration()
             });
         }, 500);
+
+        this.subscription = DeviceEventEmitter.addListener(
+                    'playback-info', this.playbackState.bind(this));
       }
 
     componentWillReceiveProps(nextProps) {
@@ -104,9 +110,17 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
+    playbackState(status) {
+        if (status === 'FINISHED') {
+        } else if (status === 'TRACK_CHANGED') {
+            this.refreshCommentData();
+        }
+      }
+
     async refreshCommentData() {
         const userhash = await utils.getUserParameter('hash');
-        const endpoint = API_ENDPOINT_COMMENTS.concat(this.props.audiobook.hash);
+        const trackhash = await TrackPlayer.getCurrentTrack();
+        const endpoint = API_ENDPOINT_COMMENTS.concat(trackhash);
         axios.get(endpoint, { 
           headers: apiUtils.getRequestHeader(userhash)
         })
@@ -186,7 +200,7 @@ export default class AudioPlayer extends React.Component {
                             style={stylesLargeAP.infoContainer}
                         >
                             <View style={{ flex: 1 }} />
-                            <View style={{ flex: 100, flexDirection: 'row' }} >
+                            <View style={{ flex: 100, flexDirection: 'row', justifyContent: 'center' }} >
                                 <Text 
                                     numberOfLines={1} 
                                     style={titleStyle} 
@@ -215,7 +229,7 @@ export default class AudioPlayer extends React.Component {
                     </View> */}
                     <View style={commentsContainerStyle}>
                         <CommentSection
-                            trackhash={this.props.audiobook.hash} 
+                            trackhash={this.state.trackhash} 
                             remoteRefresh={this.remoteRefresh.bind(this)}
                         >
                             {this.renderComments()}
@@ -322,7 +336,6 @@ export default class AudioPlayer extends React.Component {
     }
 
     renderCommentsOnly() {
-        console.log(this.state.comments.length);
         if (this.state.comments.length == 0) {
             return <Text style={styles.emptyTextStyle}>Noch keine Kommentare</Text>;
         }

@@ -17,6 +17,7 @@ AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerEventHandler(async (data) => {
     if (data.type === 'playback-track-changed') {
         apiUtils.sendPlayCount();
+        DeviceEventEmitter.emit('playback-info', 'TRACK_CHANGED');
         if (data.nextTrack) {
           const track = await TrackPlayer.getTrack(data.nextTrack);
           TrackStore.title = track.title;
@@ -44,7 +45,7 @@ TrackPlayer.registerEventHandler(async (data) => {
       TrackStore.artist = ' - - - ';
       // TrackStore.artwork = null;
       if (i % 2 !== 0) {
-        DeviceEventEmitter.emit('playFinished', 'FINISHED');
+        DeviceEventEmitter.emit('playback-info', 'FINISHED');
       }
     }
 });

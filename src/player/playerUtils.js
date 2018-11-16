@@ -8,20 +8,22 @@ const BACKEND_HOST = settings.getBackendHost().concat('/api/get/');
 
 const playerUtils = {
     async resetAndPlay(audiobooks, audioBookToPlay) {
-        const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
-        // console.log('Playlist: ' + playlist);
-        // Creates the player
+        // The if clause ensures, that there is no PromiseRejection 
+        // from TrackPlayer, in case audioBookToPlay === ''
+        if (audioBookToPlay) {
+            const playlist = await playerUtils.makePlaylistArray(audiobooks, audioBookToPlay);
 
-        TrackPlayer.reset();
-        TrackPlayer.add(playlist).then(() => {
-            TrackPlayer.skip(audioBookToPlay.hash);
-            TrackPlayer.play();
-        });
+            // Creates the player
+            TrackPlayer.reset();
+            TrackPlayer.add(playlist).then(() => {
+                TrackPlayer.skip(audioBookToPlay.hash);
+                TrackPlayer.play();
+            });
+        } 
     },
     async getState() {
         const state = await TrackPlayer.getState();
         console.log('playerUtils.getState(): ' + state);
-        // RNAudioStreamer.pause();
     },
     async forwardThirty() {
         const newPosition = await TrackPlayer.getPosition() + 30;

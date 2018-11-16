@@ -35,12 +35,14 @@ class AudiobookDetail extends React.Component {
         this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
       }
 
-    startPlayPress = () => {
-        this.props.selectionHandlerList(null);
-        this.props.selectionHandlerList(this.props.audiobook);
+    startPlayPress() {
+        // '' ensures the Player to replay a track that is reclicked by setStating 
+        // seletedAudiobook in MediaScreen.js(refer to Audioplayer.js and playerUtils.js)
+        this.props.selectionHandlerList('');
+        setTimeout(() => this.props.selectionHandlerList(this.props.audiobook), 50);
       }
 
-    render() {
+      render() {
         const {
             id,
             author,
@@ -68,7 +70,7 @@ class AudiobookDetail extends React.Component {
         const substractLike = this.substractLike;
 
         return (
-            <TouchableOpacity onPress={this.startPlayPress}>
+            <TouchableOpacity onPress={() => this.startPlayPress()}>
             <Card>
                 <CardSection>
                     <View style={infoContainer}>
