@@ -1,5 +1,6 @@
 import axios from 'axios';
 import TrackPlayer from 'react-native-track-player';
+import DeviceInfo from 'react-native-device-info';
 
 import settings from '../../settings';
 import utils from '../utils/utils';
@@ -7,6 +8,7 @@ import playerUtils from '../player/playerUtils';
 
 const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
+const API_ENDPOINT_USER_VERSION = settings.getBackendHost().concat('/api/user/version');
 const API_ENDPOINT_COMMENT = settings.getBackendHost().concat('/api/comment/');
 const API_ENDPOINT_FEEDBACK = settings.getBackendHost().concat('/api/feedback/');
 //TODO: Beeceptor configuration in settings.js
@@ -102,14 +104,27 @@ const apiUtils = {
         console.log('transmitFeedback feedback: ' + feedback);
         // fetch(API_ENDPOINT_FEEDBACK, {
         //     method: 'POST',
-        //     headers: headers: this.getRequestHeader(userhash),
+        //     headers: this.getRequestHeader(userhash),
         //     body: JSON.stringify({
         //         feedback
         //     })
         // });
     },
-    function7() {
-        console.log(7);
+    async transmitVersionInfo() {
+        const userhash = await utils.getUserParameter('hash');
+        const systemName = DeviceInfo.getSystemName();
+        const buildVersion = DeviceInfo.getVersion();
+
+        fetch(API_ENDPOINT_USER_VERSION, {
+            method: 'PUT',
+            headers: this.getRequestHeader(userhash),
+            body: JSON.stringify({
+            version: {
+                system: systemName,
+                build_version: buildVersion,
+                },
+            })
+        });
     },
     function8() {
         console.log(7);

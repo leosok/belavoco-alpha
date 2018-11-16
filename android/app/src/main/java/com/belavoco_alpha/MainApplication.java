@@ -3,6 +3,7 @@ package com.belavoco_alpha;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.guichaguri.trackplayer.TrackPlayer;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNDeviceInfo(),
             new VectorIconsPackage(),
             new TrackPlayer(),
             new ReactNativeOneSignalPackage(),

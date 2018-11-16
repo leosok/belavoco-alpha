@@ -5519,6 +5519,11 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.2, react-lifecycles-com
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-device-info@^0.24.3:
+  version "0.24.3"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.24.3.tgz#f15eff8d09fe418eaf5e7c89ddaabbc5ed718fd7"
+  integrity sha512-usW00Wk6DoXH1eRSMt07j0uYvuka3SIEnJ9girlddAacyqwfa1QMVTN4eYmtaBzuMd/avhis8iHZQ3cLaR9CMA==
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -5553,10 +5558,10 @@ react-native-linear-gradient@^2.4.3:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.3.tgz#a7f5fe685b1a2ac788cca37828c5c9ca91357a16"
   integrity sha512-c1V5HMz9RWMaHA6hHQmwQqWNDJAGdhQG52Ht3wxp7XIAnqK4eJhPnuEjp6zI40eqYVqzmenZ8dU/PgXUVpg2ZQ==
 
-react-native-onesignal@^3.2.7:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.7.tgz#8e3245b720af68af7d01ff572c56cbb3521b88f5"
-  integrity sha512-OLoTfE5iC21r4UsE+ebzr0HSpRIC0HSsQ5yfbWV5hxtiRRZy+ASgbd8VMK5Xbl7B0KqxmP13X9b/cCi+DWZAdg==
+react-native-onesignal@^3.2.8:
+  version "3.2.8"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.8.tgz#594a293f1f30262958bb0af9b6e98ca04d2038e8"
+  integrity sha512-Br9cIsMTi6tQqIZmB2vh2vCNom78qglbWn+ywsjEhjN1HLlZ7C4D/2x8i8MT23xEA9iiznJl2XSo7wU7Tom+7Q==
   dependencies:
     invariant "^2.2.2"
 
