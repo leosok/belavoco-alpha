@@ -106,7 +106,7 @@ class Comment extends React.Component {
                                     <Text style={{ fontWeight: 'bold' }}>{this.props.time}</Text>
                                 </Text>
                             </View>
-                            <View style={buttonContainerStyle}>
+                            {/* <View style={buttonContainerStyle}>
                                 <LikeButtonGeneric
                                     hash={'test'}
                                     // hash={hash}
@@ -116,7 +116,7 @@ class Comment extends React.Component {
                                     addLike={apiUtils.addLikeComment.bind(this)}
                                     substractLike={apiUtils.substractLikeComment.bind(this)}
                                 />
-                            </View>
+                            </View> */}
                         </View>
                      </View>
             </View>
