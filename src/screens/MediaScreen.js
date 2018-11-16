@@ -5,7 +5,8 @@ import {
   StyleSheet,
   RefreshControl,
   DeviceEventEmitter,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
    } from 'react-native';
 
 import axios from 'axios';
@@ -155,6 +156,33 @@ export default class MediaScreen extends Component {
     }
   }
 
+  renderScreenContent() {
+    const choiceHandler = this.choiceHandler;
+    const initialUserhashHandler = this.initialUserhashHandler;
+    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
+    const minimizePlayerHandler = this.minimizePlayerHandler;
+    return (
+      //  {/* TODO: only load EmailPromptProv when email empty using userdata state */}
+      <View style={styles.container}>
+        <EmailPromptProv
+          initialUserhashHandler={initialUserhashHandler.bind(this)}
+        />
+        {this.renderChoiceButtons(choiceHandler)}
+        <ScrollView
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+          }
+        >
+        {this.renderAudioBookList(selectionHandlerMediaScreen)}
+        </ScrollView>
+        {this.renderPlayer(minimizePlayerHandler)}
+      </View>
+    );
+  }
+
   renderAudioBookList(selectionHandlerMediaScreen) {
     if (this.state.loading) {
         return <Spinner />;
@@ -187,30 +215,17 @@ export default class MediaScreen extends Component {
   }
 
   render() {
-    const choiceHandler = this.choiceHandler;
-    const initialUserhashHandler = this.initialUserhashHandler;
-    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
-    const minimizePlayerHandler = this.minimizePlayerHandler;
-
+    if (Platform.OS === 'ios') {
+      return (
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+          {this.renderScreenContent()}
+        </KeyboardAvoidingView>
+        );
+    }
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        {/* TODO: only load EmailPromptProv when email empty using userdata state */}
-        <EmailPromptProv
-          initialUserhashHandler={initialUserhashHandler.bind(this)}
-        />
-        {this.renderChoiceButtons(choiceHandler)}
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }
-        >
-          {this.renderAudioBookList(selectionHandlerMediaScreen)}
-        </ScrollView>
-        {this.renderPlayer(minimizePlayerHandler)}
-      </KeyboardAvoidingView>
+      <View style={styles.container}>
+        {this.renderScreenContent()}
+      </View>
       );
     }
   }
