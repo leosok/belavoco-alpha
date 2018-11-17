@@ -1554,6 +1554,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 2JQN7586SR;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-track-playeriosRNTrackPlayer/**",
@@ -1577,6 +1578,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "belavoco_alpha-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1590,6 +1592,7 @@
 				CODE_SIGN_ENTITLEMENTS = belavoco_alpha/belavoco_alpha.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2JQN7586SR;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-track-playeriosRNTrackPlayer/**",
@@ -1612,6 +1615,7 @@
 				PRODUCT_NAME = belavoco_alpha;
 				SWIFT_OBJC_BRIDGING_HEADER = "belavoco_alpha-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
