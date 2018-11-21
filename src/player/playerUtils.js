@@ -1,6 +1,7 @@
 // import RNAudioStreamer from 'react-native-audio-streamer';
 import { AsyncStorage } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
+import slash from 'slash';
 
 import settings from '../../settings';
 
@@ -67,9 +68,8 @@ const playerUtils = {
     },
     makeFileUrl(hash, fileName) {
         let ending = '';
-        // Generating a audiofile specific suffix for the play call. Empty ending is for the sendPlayCount API call
         if (fileName) {
-            ending = '/'.concat(fileName.split('\\').pop());
+            ending = '/'.concat(slash(fileName).split('/').pop());
         }
         const fileUrl = BACKEND_HOST.concat(hash, '/play', ending);
         return fileUrl;
