@@ -5,6 +5,7 @@ import OneSignal from 'react-native-onesignal';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import settings from './settings';
+import apiUtils from './src/api/apiUtils';
 
 export default class App extends Component {
 
@@ -14,6 +15,8 @@ export default class App extends Component {
   };
 
   componentWillMount() {
+    apiUtils.transmitVersionInfo();
+
     OneSignal.init(settings.getOneSignalKey());
 
     OneSignal.addEventListener('received', this.onReceived);
