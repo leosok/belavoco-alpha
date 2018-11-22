@@ -18,3 +18,5 @@ export * from './CommentInput';
 export * from './CommentSection';
 export * from './AutoPlaySwitch';
 export * from './FeedbackInput';
+export * from './ToggleButton';
+export * from './RecordingEdit';

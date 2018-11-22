@@ -40,7 +40,6 @@ class ChangeInput extends Component {
               visiblePrompt: false,
           })}
           onSubmit={() => {
-            console.log('Name geändert!');
             this.setState({
                 visiblePrompt: false,
             }, () => { 

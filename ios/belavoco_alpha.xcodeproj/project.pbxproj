@@ -1573,7 +1573,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco;
+				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco222;
 				PRODUCT_NAME = belavoco_alpha;
 				SWIFT_OBJC_BRIDGING_HEADER = "belavoco_alpha-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1611,7 +1611,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco;
+				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco222;
 				PRODUCT_NAME = belavoco_alpha;
 				SWIFT_OBJC_BRIDGING_HEADER = "belavoco_alpha-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
