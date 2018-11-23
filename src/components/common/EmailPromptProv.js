@@ -69,6 +69,7 @@ class EmailPromptProv extends React.Component {
             console.log(userdata);
             AsyncStorage.setItem('userdata', JSON.stringify(userdata));
             this.props.initialUserhashHandler(data.user_hash);
+            apiUtils.transmitVersionInfo();
             //TODO: version API call, damit die version auch beim ersten Login im Backend gesetzt wird
         });
     }

@@ -116,7 +116,6 @@ const apiUtils = {
         const userhash = await utils.getUserParameter('hash');
         const systemName = DeviceInfo.getSystemName();
         const buildVersion = DeviceInfo.getVersion();
-
         fetch(API_ENDPOINT_USER_VERSION, {
             method: 'PUT',
             headers: this.getRequestHeader(userhash),
