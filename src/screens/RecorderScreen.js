@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
    View,
-   ScrollView,
+   TouchableOpacity,
    StyleSheet,
    Linking,
    Text
@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // import AudiobookList from '../components/AudiobookList';
 import RecordingList from '../components/RecordingList';
-import { Button, Spinner, RecordingEdit } from '../components/common';
+import { Button, Spinner, RecordingEdit, IconButton } from '../components/common';
 
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
@@ -37,6 +37,7 @@ constructor(props) {
    user: null,
    selectedRecording: null,
    screenMode: 0, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
+   recording: false,
  };
 
  componentWillMount() {
@@ -62,13 +63,16 @@ refreshData() {
    .catch(e => console.log(e));
 }
 
-// updateAuthor() {
-//   apiUtils.updateAuthor(this.state.selectedRecording.hash);
-// }
+toggleRecording() {
+  // if (!this.state.recording) {
+  //   this.setState({ screenMode: 1 });
+  // } 
+  this.setState({ recording: !this.state.recording });
+}
 
-// updateTitle() {
-//   apiUtils.updateTitle(this.state.selectedRecording.hash);
-// }
+minimizeRecorder() {
+  this.setState({ screenMode: 0 });
+}
 
 returnFromEditingRecording() {
   this.setState({ 
@@ -100,12 +104,14 @@ editVisibilityHandlerRS(recording) {
 renderRecordingsInfo() {
   const {
     seperatorTextStyle,
+    seperatorStyle,
   } = styles;
 
   if (this.state.screenMode === 0) {
     return (
       <View style={{ flex: 9 }}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}> */}
+        <View style={seperatorStyle}>
           <Text style={seperatorTextStyle}>Meine Aufnahmen</Text>
         </View>
         <View style={{ flex: 8, backgroundColor: '#fff' }}>
@@ -118,7 +124,7 @@ renderRecordingsInfo() {
   } else if (this.state.screenMode === 2) {
     return (
       <View style={{ flex: 9 }}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={seperatorStyle}>
           <Text style={seperatorTextStyle}>Meine Aufnahmen</Text>
         </View>
         <View style={{ flex: 8 }}>
@@ -136,16 +142,56 @@ renderRecordingsInfo() {
   }
 }
 
+renderRecordButton() {
+  if (this.state.recording && this.state.screenMode === 1) {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => this.toggleRecording()}
+        >
+          <Text>STOP</Text>
+        </TouchableOpacity>
+        <IconButton 
+            onPress={this.minimizeRecorder.bind(this)}
+            name='arrow-round-up'
+            size={45}
+            type='ionicon'
+            color='red'
+        />
+      </View>
+      
+    );
+  } else if (this.state.recording && this.state.screenMode === 0) {
+    return (
+      <TouchableOpacity
+        onPress={() => this.toggleRecording()}
+      >
+        <Text>STOP</Text>
+      </TouchableOpacity>
+    );
+  } return (
+    <TouchableOpacity
+      onPress={() => this.toggleRecording()}
+    >
+      <Text>START</Text>
+    </TouchableOpacity>
+  );
+}
+
  render() {
+  const {
+    recorderStyle,
+  } = styles;
   console.log(this.state.selectedRecording);
   const url = 'http://www.belavo.co/';
   return (
     <View style={styles.container}>
-      <View style={{ flex: 3 }}>
-        <Button
+      <View style={recorderStyle}>
+        {/* <Button
           buttonText={'Aufnahme'}
           onPress={() => Linking.openURL(url)}
-        />
+        /> */}
+        {this.renderRecordButton()}
       </View>
      {this.renderRecordingsInfo()}
     </View>
@@ -154,12 +200,24 @@ renderRecordingsInfo() {
 }
 
 const styles = StyleSheet.create({
-   container: {
-     flex: 1,
-     paddingTop: 15,
-     backgroundColor: Colors.containerColor
+  container: {
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: Colors.containerColor
    },
-   seperatorTextStyle: {
-     fontSize: 18,
+  recorderStyle: {
+    flex: 3,
+    alignItems: 'center', 
+    justifyContent: 'center',
+   },
+   seperatorStyle: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    borderColor: 'grey',
+    borderTopWidth: 1,
+   },
+  seperatorTextStyle: {
+    fontSize: 18,
    },
  });
