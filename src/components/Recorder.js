@@ -32,8 +32,8 @@ export default class Recorder extends React.Component {
         paused: false,
         stoppedRecording: false,
         finished: false,
-        // audioPath: AudioUtils.DocumentDirectoryPath + '/test.aac',
-        audioPath: './test.aac',
+        audioPath: AudioUtils.DocumentDirectoryPath + '/test.aac',
+        // audioPath: './test.aac',
         hasPermission: true,
       };
   
@@ -48,34 +48,34 @@ export default class Recorder extends React.Component {
       }
   
       componentDidMount() {
-        // this.prepareRecordingPath(this.state.audioPath);
-        // AudioRecorder.onProgress = (data) => {
-        //     this.setState({ currentTime: Math.floor(data.currentTime) });
-        // };
-        // AudioRecorder.onFinished = (data) => {
-        //       // Android callback comes in the form of a promise instead.
-        //   if (Platform.OS === 'ios') {
-        //     this._finishRecording(data.status === 'OK', data.audioFileURL, data.audioFileSize);
-        //   }
-        // };
+        this.prepareRecordingPath(this.state.audioPath);
+        AudioRecorder.onProgress = (data) => {
+            this.setState({ currentTime: Math.floor(data.currentTime) });
+        };
+        AudioRecorder.onFinished = (data) => {
+              // Android callback comes in the form of a promise instead.
+          if (Platform.OS === 'ios') {
+            this._finishRecording(data.status === 'OK', data.audioFileURL, data.audioFileSize);
+          }
+        };
 
         AudioRecorder.requestAuthorization().then((isAuthorised) => {
-          // this.setState({ hasPermission: isAuthorised });
+          this.setState({ hasPermission: isAuthorised });
   
-          // if (!isAuthorised) return;
+          if (!isAuthorised) return;
   
-          // this.prepareRecordingPath(this.state.audioPath);
+          this.prepareRecordingPath(this.state.audioPath);
   
-          // AudioRecorder.onProgress = (data) => {
-          //   this.setState({ currentTime: Math.floor(data.currentTime) });
-          // };
+          AudioRecorder.onProgress = (data) => {
+            this.setState({ currentTime: Math.floor(data.currentTime) });
+          };
   
-          // AudioRecorder.onFinished = (data) => {
-          //   // Android callback comes in the form of a promise instead.
-          //   if (Platform.OS === 'ios') {
-          //     this._finishRecording(data.status === 'OK', data.audioFileURL, data.audioFileSize);
-          //   }
-          // };
+          AudioRecorder.onFinished = (data) => {
+            // Android callback comes in the form of a promise instead.
+            if (Platform.OS === 'ios') {
+              this._finishRecording(data.status === 'OK', data.audioFileURL, data.audioFileSize);
+            }
+          };
         });
       }
   
@@ -204,10 +204,10 @@ export default class Recorder extends React.Component {
         }
       }
   
-    //   _finishRecording(didSucceed, filePath, fileSize) {
-    //     this.setState({ finished: didSucceed });
-    //     console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
-    //   }
+      _finishRecording(didSucceed, filePath, fileSize) {
+        this.setState({ finished: didSucceed });
+        console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+      }
   
       render() {
         return (
