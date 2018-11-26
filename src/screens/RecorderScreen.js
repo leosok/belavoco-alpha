@@ -11,6 +11,8 @@ import axios from 'axios';
 
 // import AudiobookList from '../components/AudiobookList';
 import RecordingList from '../components/RecordingList';
+import Recorder from '../components/Recorder';
+
 import { Button, Spinner, RecordingEdit, IconButton } from '../components/common';
 
 import settings from '../../settings';
@@ -36,7 +38,7 @@ constructor(props) {
    recordings: [],
    user: null,
    selectedRecording: null,
-   screenMode: 0, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
+   screenMode: 1, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
    recording: false,
  };
 
@@ -191,7 +193,8 @@ renderRecordButton() {
           buttonText={'Aufnahme'}
           onPress={() => Linking.openURL(url)}
         /> */}
-        {this.renderRecordButton()}
+        {/* {this.renderRecordButton()} */}
+        <Recorder />
       </View>
      {this.renderRecordingsInfo()}
     </View>

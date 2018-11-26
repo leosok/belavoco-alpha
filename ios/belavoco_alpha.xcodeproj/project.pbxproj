@@ -60,6 +60,7 @@
 		FED5881EC8DB4E509B2F5BB5 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 825F7F4944E040AE9F97B627 /* Ionicons.ttf */; };
 		FF23B355219F3D8500B6AB96 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF23B34F219F3D4F00B6AB96 /* libRNDeviceInfo.a */; };
 		FF6F873B2199F107004243DA /* summy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6F873A2199F106004243DA /* summy.swift */; };
+		FFB9FE8121A826FF006EDF88 /* libRNAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FFB9FE8021A826AC006EDF88 /* libRNAudio.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -392,6 +393,13 @@
 			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
 			remoteInfo = RCTOneSignal;
 		};
+		FFB9FE7F21A826AC006EDF88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFB9FE7B21A826AB006EDF88 /* RNAudio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 42F559BA1CFC90C400DC3F84;
+			remoteInfo = RNAudio;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -449,6 +457,7 @@
 		FF6F87392199F106004243DA /* belavoco_alpha-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "belavoco_alpha-Bridging-Header.h"; sourceTree = "<group>"; };
 		FF6F873A2199F106004243DA /* summy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = summy.swift; sourceTree = "<group>"; };
 		FF6F887D219A06B0004243DA /* belavoco_alpha.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = belavoco_alpha.entitlements; path = belavoco_alpha/belavoco_alpha.entitlements; sourceTree = "<group>"; };
+		FFB9FE7B21A826AB006EDF88 /* RNAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAudio.xcodeproj; path = "../node_modules/react-native-audio/ios/RNAudio.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,6 +473,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFB9FE8121A826FF006EDF88 /* libRNAudio.a in Frameworks */,
 				FF23B355219F3D8500B6AB96 /* libRNDeviceInfo.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -679,6 +689,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FFB9FE7B21A826AB006EDF88 /* RNAudio.xcodeproj */,
 				FF23B321219F3D4E00B6AB96 /* RNDeviceInfo.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -798,6 +809,14 @@
 			isa = PBXGroup;
 			children = (
 				FF6F87382199F0EE004243DA /* libRCTOneSignal.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FFB9FE7C21A826AB006EDF88 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFB9FE8021A826AC006EDF88 /* libRNAudio.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -980,6 +999,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = FFB9FE7C21A826AB006EDF88 /* Products */;
+					ProjectRef = FFB9FE7B21A826AB006EDF88 /* RNAudio.xcodeproj */;
 				},
 				{
 					ProductGroup = FF23B322219F3D4E00B6AB96 /* Products */;
@@ -1318,6 +1341,13 @@
 			fileType = archive.ar;
 			path = libRCTOneSignal.a;
 			remoteRef = FF6F87372199F0EE004243DA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFB9FE8021A826AC006EDF88 /* libRNAudio.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNAudio.a;
+			remoteRef = FFB9FE7F21A826AC006EDF88 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

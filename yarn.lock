@@ -5519,6 +5519,11 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.2, react-lifecycles-com
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-audio@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-audio/-/react-native-audio-4.2.2.tgz#05f49e87544f2ffe6baebd684e197a88c8b13694"
+  integrity sha512-Aw7sFv2zwfpAcVB64E38FI3Fnnig/DQyy8DaLeuuqV6pb6VYCNNa+O3Nma3u5G4begMj0qPdAgjRfo3tBru7hQ==
+
 react-native-device-info@^0.24.3:
   version "0.24.3"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.24.3.tgz#f15eff8d09fe418eaf5e7c89ddaabbc5ed718fd7"

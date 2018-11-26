@@ -28,4 +28,6 @@ target 'belavoco_alpha' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'RNAudio', :path => '../node_modules/react-native-audio'
+
 end
