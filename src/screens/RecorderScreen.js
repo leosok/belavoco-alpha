@@ -38,7 +38,7 @@ constructor(props) {
    recordings: [],
    user: null,
    selectedRecording: null,
-   screenMode: 1, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
+   screenMode: 0, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
    recording: false,
  };
 

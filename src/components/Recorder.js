@@ -214,10 +214,12 @@ export default class Recorder extends React.Component {
         return (
           <View style={styles.container}>
             <View style={styles.controls}>
-              {this._renderButton('RECORD', () => { this._record(); }, this.state.recording)}
-              {this._renderButton('PLAY', () => { this._play(); })}
-              {this._renderButton('STOP', () => { this._stop(); })}
-              {this._renderPauseButton(() => { this.state.paused ? this._resume() : this._pause(); })}
+              <View style={styles.controls2}>
+                {this._renderButton('RECORD', () => { this._record(); }, this.state.recording)}
+                {this._renderButton('PLAY', () => { this._play(); })}
+                {this._renderButton('STOP', () => { this._stop(); })}
+                {this._renderPauseButton(() => { this.state.paused ? this._resume() : this._pause(); })}
+              </View>
               <Text style={styles.progressText}>{this.state.currentTime}s</Text>
             </View>
           </View>
@@ -234,14 +236,22 @@ export default class Recorder extends React.Component {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        // paddingLeft: 10,
+        // paddingRight: 10,
+      },
+      controls2: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // flex: 1,
       },
       progressText: {
-        paddingTop: 50,
-        fontSize: 50,
+        paddingTop: 20,
+        fontSize: 30,
         color: '#fff'
       },
       button: {
-        padding: 20
+        padding: 15
       },
       disabledButtonText: {
         color: '#eee'
