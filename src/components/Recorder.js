@@ -8,6 +8,7 @@ import { View,
          StyleSheet
         } from 'react-native';
 
+import Sound from 'react-native-sound';
 import TrackPlayer from 'react-native-track-player';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 
@@ -154,31 +155,31 @@ export default class Recorder extends React.Component {
         }
       }
   
-    // //   async _play() {
-    // //     if (this.state.recording) {
-    // //       await this._stop();
-    // //     }
+      async _play() {
+        if (this.state.recording) {
+          await this._stop();
+        }
   
-    // //     // These timeouts are a hacky workaround for some issues with react-native-sound.
-    // //     // See https://github.com/zmxv/react-native-sound/issues/89.
-    // //     setTimeout(() => {
-    // //       var sound = new Sound(this.state.audioPath, '', (error) => {
-    // //         if (error) {
-    // //           console.log('failed to load the sound', error);
-    // //         }
-    // //       });
+        // These timeouts are a hacky workaround for some issues with react-native-sound.
+        // See https://github.com/zmxv/react-native-sound/issues/89.
+        setTimeout(() => {
+          var sound = new Sound(this.state.audioPath, '', (error) => {
+            if (error) {
+              console.log('failed to load the sound', error);
+            }
+          });
   
-    // //       setTimeout(() => {
-    // //         sound.play((success) => {
-    // //           if (success) {
-    // //             console.log('successfully finished playing');
-    // //           } else {
-    // //             console.log('playback failed due to audio decoding errors');
-    // //           }
-    // //         });
-    // //       }, 100);
-    // //     }, 100);
-    // //   }
+          setTimeout(() => {
+            sound.play((success) => {
+              if (success) {
+                console.log('successfully finished playing');
+              } else {
+                console.log('playback failed due to audio decoding errors');
+              }
+            });
+          }, 100);
+        }, 100);
+      }
   
       async _record() {
         if (this.state.recording) {
