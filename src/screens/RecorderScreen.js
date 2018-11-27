@@ -21,7 +21,7 @@ import utils from '../utils/utils';
 
 import Colors from '../constants/Colors';
 
-const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
+const API_ENDPOINT_RECORDS = settings.getBackendHost().concat('/api/get/records');
 
 export default class RecorderScreen extends Component {
  static navigationOptions = {
@@ -31,6 +31,7 @@ export default class RecorderScreen extends Component {
 constructor(props) {
   super(props);
   this.editVisibilityHandlerRS = this.editVisibilityHandlerRS.bind(this);
+  this.refreshRecordingsHandler = this.refreshRecordingsHandler.bind(this);
 }
 
  state = {
@@ -55,7 +56,7 @@ constructor(props) {
  }
 
 refreshData() {
-   axios.get(API_ENDPOINT_ALL, {
+   axios.get(API_ENDPOINT_RECORDS, {
      headers: apiUtils.getRequestHeader(this.state.user.userhash)
    })
    .then(response => this.setState({
@@ -87,7 +88,10 @@ editVisibilityHandlerRS(recording) {
     selectedRecording: recording,
     screenMode: 2,
   });  
-  console.log('editVisibitly in Recorder Screen');
+}
+
+refreshRecordingsHandler(newRecordings) {
+  this.setState({ recordings: newRecordings });
 }
 
  renderRecordings() {
@@ -133,10 +137,7 @@ renderRecordingsInfo() {
           <RecordingEdit 
             recording={this.state.selectedRecording}
             onPress={this.returnFromEditingRecording.bind(this)}
-            // updateAuthor={apiUtils.updateAuthor.bind(this)}
-            // updateAuthor={this.updateAuthor.bind(this)}
-            // updateAuthor={this.updateTitle.bind(this)}
-            // updateTitle={apiUtils.updateTitle.bind(this)}
+            refreshRecordingsHandler={this.refreshRecordingsHandler.bind(this)}
           />
         </View>
       </View>
@@ -184,7 +185,6 @@ renderRecordButton() {
   const {
     recorderStyle,
   } = styles;
-  console.log(this.state.selectedRecording);
   const url = 'http://www.belavo.co/';
   return (
     <View style={styles.container}>

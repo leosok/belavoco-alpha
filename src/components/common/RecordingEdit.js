@@ -3,22 +3,40 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Button, ChangeInput } from '.';
 
+import utils from '../../utils/utils';
 import apiUtils from '../../api/apiUtils';
 
 // Make a component
 // const RecordingEdit = ({ recording, onPress, updateAuthor, updateTitle }) => {
 class RecordingEdit extends React.Component {
 
-    updateAuthor(author) {
-        console.log('updateAuthor from RecordingEdit');
-        console.log(author);
-        apiUtils.updateAuthor(this.props.recording.hash, author);
+    state = {
+        recording: this.props.recording,
     }
 
     updateTitle(title) {
         console.log('updateTitle from RecordingEdit');
-        console.log(title);        
-        apiUtils.updateTitle(this.props.recording.hash, title);
+        console.log(title);    
+        const updateData = utils.makeUpdateRecordingJSON(this.state.recording.author, title);
+        this.updateRecording(updateData);
+    }
+
+    async updateAuthor(author) {
+        console.log('updateAuthor from RecordingEdit');
+        console.log(author);
+        const updateData = utils.makeUpdateRecordingJSON(author, this.state.recording.title);
+        this.updateRecording(updateData);
+    }
+
+    async updateRecording(updateData) {
+        let i; 
+        const newRecordings = await apiUtils.updateRecording(this.state.recording.hash, updateData);
+        this.props.refreshRecordingsHandler(newRecordings);
+        for (i = 0; i < Object.keys(this.state.recording).length; i++) {
+            if (this.state.recording.hash === newRecordings[i].hash) {
+                this.setState({ recording: newRecordings[i] });
+            }
+        }
     }
 
     render() {
@@ -42,7 +60,7 @@ class RecordingEdit extends React.Component {
         times_played,
         length,
         is_active
-      } = this.props.recording;
+      } = this.state.recording;
 
         return (
             <View style={container}>

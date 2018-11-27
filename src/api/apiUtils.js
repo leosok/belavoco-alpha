@@ -133,7 +133,7 @@ const apiUtils = {
         const userhash = await utils.getUserParameter('hash');
         const endpoint = API_ENDPOINT_AUDIOBOOK.concat(trackhash, '/activity');
         fetch(endpoint, {
-            method: 'UPDATE',
+            method: 'PUT',
             headers: {
                 'Authorization': userhash,
                 Accept: 'application/json',
@@ -141,33 +141,19 @@ const apiUtils = {
                 },
         });
     },
-    async updateAuthor(trackhash, author) {
-        console.log('Update AUthor!!!');
-        console.log(trackhash);
-        console.log(author);
+    async updateRecording(trackhash, updateData) {
+        console.log('Update Recording Data!!!');
         const userhash = await utils.getUserParameter('hash');
-        const endpoint = API_ENDPOINT_AUDIOBOOK.concat(trackhash, '/author');
-        fetch(endpoint, {
+        const endpoint = API_ENDPOINT_AUDIOBOOK.concat(trackhash, '/update');
+        const response = await fetch(endpoint, {
             method: 'PUT',
             headers: this.getRequestHeader(userhash),
             body: JSON.stringify({
-                new_author: author,
+                updateData,
             })
         });
-    },
-    async updateTitle(trackhash, title) {
-        console.log('Update Title!!!');
-        console.log(trackhash);
-        console.log(title);
-        const userhash = await utils.getUserParameter('hash');
-        const endpoint = API_ENDPOINT_AUDIOBOOK.concat(trackhash, '/title');
-        fetch(endpoint, {
-            method: 'PUT',
-            headers: this.getRequestHeader(userhash),
-            body: JSON.stringify({
-                new_title: title,
-            })
-        });
+        const json = await response.json();
+        return json;
     },
     function8() {
         console.log(7);

@@ -95,6 +95,12 @@ const utils = {
         const playId = await AsyncStorage.getItem('onesignalplayid');
         return playId;
     },
+    makeUpdateRecordingJSON(author, title) {
+        const obj = new Object();
+        obj.author = author;
+        obj.title = title;
+        return obj;
+    },
     function5() {
         console.log(5);
     },
