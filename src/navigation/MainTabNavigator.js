@@ -14,7 +14,7 @@ const RecorderStack = createStackNavigator({
 });
 
 RecorderStack.navigationOptions = {
-  tabBarLabel: 'Aufnahme',
+  tabBarLabel: 'Aufnehmen',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -33,7 +33,7 @@ const MediaStack = createStackNavigator({
 });
 
 MediaStack.navigationOptions = {
-  tabBarLabel: 'Hörbücher',
+  tabBarLabel: 'Hören',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -52,7 +52,7 @@ const SettingsStack = createStackNavigator({
 });
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'Einstellen',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -67,7 +67,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MediaStack,
+  //MediaStack,
   RecorderStack,
   SettingsStack
 });

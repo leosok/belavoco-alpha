@@ -25,7 +25,7 @@ const DEBUG_STATE = settings.getDebugState();
 
 export default class SettingsScreen extends Component {
   static navigationOptions = {
-    title: 'Settings',
+    title: 'Einstellen',
   };
   
   constructor(props) {

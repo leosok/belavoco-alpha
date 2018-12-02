@@ -35,7 +35,7 @@ const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
 @observer
 export default class MediaScreen extends Component {
   static navigationOptions = {
-    title: 'Hörbücher',
+    title: 'Hören',
   };
 
   constructor(props) {

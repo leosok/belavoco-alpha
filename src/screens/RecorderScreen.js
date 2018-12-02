@@ -24,7 +24,7 @@ const API_ENDPOINT_RECORDS = settings.getBackendHost().concat('/api/get/records'
 
 export default class RecorderScreen extends Component {
  static navigationOptions = {
-   title: 'Aufnahme',
+   title: 'Aufnehmen',
  };
 
 constructor(props) {
@@ -40,7 +40,7 @@ constructor(props) {
    recordings: [],
    user: null,
    selectedRecording: null,
-   screenMode: 0, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
+   screenMode: 1, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
    recording: false,
  };
 
