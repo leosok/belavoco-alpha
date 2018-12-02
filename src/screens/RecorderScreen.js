@@ -3,7 +3,6 @@ import {
    View,
    TouchableOpacity,
    StyleSheet,
-   Linking,
    Text
    } from 'react-native';
 
@@ -32,6 +31,8 @@ constructor(props) {
   super(props);
   this.editVisibilityHandlerRS = this.editVisibilityHandlerRS.bind(this);
   this.refreshRecordingsHandler = this.refreshRecordingsHandler.bind(this);
+  this.goToFullScreen = this.goToFullScreen.bind(this);
+  this.goToStandardScreen = this.goToStandardScreen.bind(this);
 }
 
  state = {
@@ -77,9 +78,15 @@ minimizeRecorder() {
   this.setState({ screenMode: 0 });
 }
 
-returnFromEditingRecording() {
+goToStandardScreen() {
   this.setState({ 
     screenMode: 0,
+  });  
+}
+
+goToFullScreen() {
+  this.setState({ 
+    screenMode: 1,
   });  
 }
 
@@ -136,7 +143,7 @@ renderRecordingsInfo() {
         <View style={{ flex: 8 }}>
           <RecordingEdit 
             recording={this.state.selectedRecording}
-            onPress={this.returnFromEditingRecording.bind(this)}
+            onPress={this.goToStandardScreen.bind(this)}
             refreshRecordingsHandler={this.refreshRecordingsHandler.bind(this)}
           />
         </View>
@@ -145,56 +152,19 @@ renderRecordingsInfo() {
   }
 }
 
-renderRecordButton() {
-  if (this.state.recording && this.state.screenMode === 1) {
-    return (
-      <View>
-        <TouchableOpacity
-          onPress={() => this.toggleRecording()}
-        >
-          <Text>STOP</Text>
-        </TouchableOpacity>
-        <IconButton 
-            onPress={this.minimizeRecorder.bind(this)}
-            name='arrow-round-up'
-            size={45}
-            type='ionicon'
-            color='red'
-        />
-      </View>
-      
-    );
-  } else if (this.state.recording && this.state.screenMode === 0) {
-    return (
-      <TouchableOpacity
-        onPress={() => this.toggleRecording()}
-      >
-        <Text>STOP</Text>
-      </TouchableOpacity>
-    );
-  } return (
-    <TouchableOpacity
-      onPress={() => this.toggleRecording()}
-    >
-      <Text>START</Text>
-    </TouchableOpacity>
-  );
-}
-
  render() {
   const {
     recorderStyle,
   } = styles;
-  const url = 'http://www.belavo.co/';
+
   return (
     <View style={styles.container}>
       <View style={recorderStyle}>
-        {/* <Button
-          buttonText={'Aufnahme'}
-          onPress={() => Linking.openURL(url)}
-        /> */}
-        {/* {this.renderRecordButton()} */}
-        <Recorder />
+        <Recorder 
+          goToFullScreen={this.goToFullScreen.bind(this)}
+          recordingDone={this.goToStandardScreen.bind(this)}
+          screenMode={this.state.screenMode}
+        />
       </View>
      {this.renderRecordingsInfo()}
     </View>
@@ -205,7 +175,7 @@ renderRecordButton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    // paddingTop: 15,
     backgroundColor: Colors.containerColor
    },
   recorderStyle: {
