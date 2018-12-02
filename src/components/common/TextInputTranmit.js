@@ -12,7 +12,6 @@ class TextInputTranmit extends React.Component {
         inputText: '',
         text: this.props.text,
         placeholder: this.props.placeholder,
-        // placeholder: 'Hallo',
       };
 
     toggleInputActivity() {
@@ -24,14 +23,13 @@ class TextInputTranmit extends React.Component {
         if (this.props.returnText) {
             this.setState({ 
                 text: this.state.inputText,
-                placeholder: this.state.inputText
             },
                 this.props.returnText(this.state.inputText)
             );
         } else {
             this.setState({ text: this.state.inputText });
         }
-        
+        this.setState({ placeholder: this.state.inputText });     
         console.log('in TextInputTranmit.js: INPUT DONE!!!');
     }
 
@@ -92,7 +90,6 @@ class TextInputTranmit extends React.Component {
     }
 
     render() {
-        console.log('PLACEHOLDER: ' + this.state.placeholder);
         return (
             <View style={styles.containerStyle}>
                 {this.renderTextOrInput()}
