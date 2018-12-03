@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
    View,
-   TouchableOpacity,
    StyleSheet,
-   Text
+   Text,
+   Platform,
+   KeyboardAvoidingView
    } from 'react-native';
 
 import axios from 'axios';
@@ -40,7 +41,7 @@ constructor(props) {
    recordings: [],
    user: null,
    selectedRecording: null,
-   screenMode: 1, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
+   screenMode: 0, // Modes: 0 - recording + info; 1 - recording only; 2 - recording + info (edit mode)
    recording: false,
  };
 
@@ -153,21 +154,39 @@ renderRecordingsInfo() {
 }
 
  render() {
+  //Redndering abhängig vom OS. Besonderheit in Bezug auf KB-Eingabe von iOS muss berücksichtigt werden
   const {
     recorderStyle,
   } = styles;
-
-  return (
-    <View style={styles.container}>
-      <View style={recorderStyle}>
-        <Recorder 
-          goToFullScreen={this.goToFullScreen.bind(this)}
-          recordingDone={this.goToStandardScreen.bind(this)}
-          screenMode={this.state.screenMode}
-        />
+  if (Platform.OS === 'ios') {
+    return (
+      <KeyboardAvoidingView 
+        style={styles.container} 
+        contentContainerStyle={styles.container} 
+        behavior="position" 
+        keyboardVerticalOffset={-100}
+      >
+        <View style={recorderStyle}>
+          <Recorder 
+            goToFullScreen={this.goToFullScreen.bind(this)}
+            recordingDone={this.goToStandardScreen.bind(this)}
+            screenMode={this.state.screenMode}
+          />
+        </View>
+       {this.renderRecordingsInfo()}
+      </KeyboardAvoidingView>
+      );
+    } return (
+      <View style={styles.container}>
+        <View style={recorderStyle}>
+          <Recorder 
+            goToFullScreen={this.goToFullScreen.bind(this)}
+            recordingDone={this.goToStandardScreen.bind(this)}
+            screenMode={this.state.screenMode}
+          />
+        </View>
+       {this.renderRecordingsInfo()}
       </View>
-     {this.renderRecordingsInfo()}
-    </View>
     );
   }  
 }

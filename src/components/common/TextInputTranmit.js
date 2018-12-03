@@ -1,6 +1,13 @@
 // Import a library to help create a component
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback, TextInput, TouchableOpacity } from 'react-native';
+import { 
+    View, 
+    Text, 
+    TouchableWithoutFeedback, 
+    TextInput, 
+    Platform,
+    KeyboardAvoidingView 
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const empty = 'Keine Angabe';
@@ -21,12 +28,14 @@ class TextInputTranmit extends React.Component {
     inputDone() {
         this.toggleInputActivity();
         if (this.props.returnText) {
+            console.log(1);
             this.setState({ 
                 text: this.state.inputText,
             },
                 this.props.returnText(this.state.inputText)
             );
         } else {
+            console.log(2);
             this.setState({ text: this.state.inputText });
         }
         this.setState({ placeholder: this.state.inputText });     

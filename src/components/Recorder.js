@@ -6,6 +6,7 @@ import { View,
          TouchableHighlight,
          Platform,
          StyleSheet,
+         KeyboardAvoidingView
         } from 'react-native';
 
 import { Icon } from 'react-native-elements';
@@ -32,8 +33,16 @@ import apiUtils from '../api/apiUtils';
 
 const instructionTitle = 'Letzter Schritt';
 const instructionText = 'Jetzt musst du nur noch die wichtigsten Informationen zu deinem Text angeben.';
+const parametersIncomplete = 'Deine Angaben sind unvollständig.';
 
 export default class Recorder extends React.Component {
+    constructor(props) {
+      super(props);
+      this.setAuthor = this.setAuthor.bind(this);
+      this.setTitle = this.setTitle.bind(this);
+      this.setReader = this.setReader.bind(this);
+    }
+
     state = {
         currentTime: 0.0,
         recording: false,
@@ -42,7 +51,10 @@ export default class Recorder extends React.Component {
         finished: false,
         audioPath: AudioUtils.DocumentDirectoryPath + '/recording.aac',
         hasPermission: true,
-        prepareForTransmission: true,
+        prepareForTransmission: false,
+        author: '',
+        title: '',
+        reader: '',
       };
   
       prepareRecordingPath(audioPath) {
@@ -87,29 +99,29 @@ export default class Recorder extends React.Component {
         });
       }
   
-      _renderButton(title, onPress, active) {
-        const style = (active) ? styles.activeButtonText : styles.buttonText;
+      // _renderButton(title, onPress, active) {
+      //   const style = (active) ? styles.activeButtonText : styles.buttonText;
   
-        return (
-          <TouchableHighlight style={styles.button} onPress={onPress}>
-            <Text style={style}>
-              {title}
-            </Text>
-          </TouchableHighlight>
-        );
-      }
+      //   return (
+      //     <TouchableHighlight style={styles.button} onPress={onPress}>
+      //       <Text style={style}>
+      //         {title}
+      //       </Text>
+      //     </TouchableHighlight>
+      //   );
+      // }
 
-      _renderPauseButton(onPress, active) {
-        const style = (active) ? styles.activeButtonText : styles.buttonText;
-        const title = this.state.paused ? 'RESUME' : 'PAUSE';
-        return (
-          <TouchableHighlight style={styles.button} onPress={onPress}>
-            <Text style={style}>
-              {title}
-            </Text>
-          </TouchableHighlight>
-        );
-      }
+      // _renderPauseButton(onPress, active) {
+      //   const style = (active) ? styles.activeButtonText : styles.buttonText;
+      //   const title = this.state.paused ? 'RESUME' : 'PAUSE';
+      //   return (
+      //     <TouchableHighlight style={styles.button} onPress={onPress}>
+      //       <Text style={style}>
+      //         {title}
+      //       </Text>
+      //     </TouchableHighlight>
+      //   );
+      // }
   
       async _pause() {
         if (!this.state.recording) {
@@ -227,12 +239,29 @@ export default class Recorder extends React.Component {
       }
 
       async transmitRecording() {
-        // if (this.state.recording) {
-        //   await this._stop();
-        // }
-        apiUtils.transmitRecording();
-        this.props.recordingDone();
-        this.setState({ prepareForTransmission: false });
+        const {
+          author,
+          title,
+          reader,
+        } = this.state;
+             
+        if ((author || title || reader) === '') {
+          alert(parametersIncomplete);
+        } else {
+          apiUtils.transmitRecording(author, title, reader);
+          this.props.recordingDone();
+          this.setState({ prepareForTransmission: false });
+        }
+      }
+
+      setAuthor(someArg) {
+        this.setState({ author: someArg });
+      }
+      setTitle(someArg) {
+        this.setState({ title: someArg });
+      }
+      setReader(someArg) {
+        this.setState({ reader: someArg });
       }
 
       renderPlayButton() {
@@ -314,18 +343,21 @@ export default class Recorder extends React.Component {
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.parameterInput}>
                   <TextInputTranmit 
+                    returnText={this.setAuthor.bind(this)}
                     inputActiv={true}
                     title='Autor:'
                     text=''
                     placeholder='Name des Autors'
                   />
                   <TextInputTranmit 
+                    returnText={this.setTitle.bind(this)}
                     inputActiv={true}
                     title='Titel:'
                     text=''
                     placeholder='Titel des Textes'
                   />
                   <TextInputTranmit 
+                    returnText={this.setReader.bind(this)}
                     inputActiv={true}
                     title='Gelesen von:'
                     text=''
