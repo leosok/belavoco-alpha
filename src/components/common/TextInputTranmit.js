@@ -16,9 +16,9 @@ const empty = 'Keine Angabe';
 class TextInputTranmit extends React.Component {  
     state = {
         inputActiv: this.props.inputActiv || false,
-        inputText: '',
+        inputText: this.props.text,
         text: this.props.text,
-        placeholder: this.props.placeholder,
+        placeholder: this.props.placeholder ? this.props.placeholder : this.props.text,
       };
 
     toggleInputActivity() {
@@ -28,14 +28,12 @@ class TextInputTranmit extends React.Component {
     inputDone() {
         this.toggleInputActivity();
         if (this.props.returnText) {
-            console.log(1);
             this.setState({ 
                 text: this.state.inputText,
             },
                 this.props.returnText(this.state.inputText)
             );
         } else {
-            console.log(2);
             this.setState({ text: this.state.inputText });
         }
         this.setState({ placeholder: this.state.inputText });     
@@ -58,6 +56,7 @@ class TextInputTranmit extends React.Component {
                         <View style={{ width: '85%' }}>
                             <TextInput
                                 style={textInputStyle}
+                                backgroundColor={this.props.inputColor ? this.props.inputColor : 'white'}
                                 height={30}
                                 paddingLeft={5}
                                 // multiline={true}
@@ -114,7 +113,7 @@ const styles = {
     textInputStyle: {
         fontSize: 20,
         marginLeft: 5,
-        backgroundColor: 'white',
+        // backgroundColor: this.props.inputColor ? this.props.inputColor : 'white',
         height: 30,
     },
     titleStyle: {

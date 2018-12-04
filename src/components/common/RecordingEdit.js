@@ -1,10 +1,12 @@
 // Import a library to help create a component
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Button, ChangeInput } from '.';
+import { Button, ChangeInput, TextInputTranmit } from '.';
 
 import utils from '../../utils/utils';
 import apiUtils from '../../api/apiUtils';
+
+import Colors from '../../constants/Colors';
 
 // Make a component
 // const RecordingEdit = ({ recording, onPress, updateAuthor, updateTitle }) => {
@@ -17,14 +19,21 @@ class RecordingEdit extends React.Component {
     updateTitle(title) {
         console.log('updateTitle from RecordingEdit');
         console.log(title);    
-        const updateData = utils.makeUpdateRecordingJSON(this.state.recording.author, title);
+        const updateData = utils.makeUpdateRecordingJSON(this.state.recording.author, title, this.state.recording.reader);
         this.updateRecording(updateData);
     }
 
-    async updateAuthor(author) {
+    updateAuthor(author) {
         console.log('updateAuthor from RecordingEdit');
         console.log(author);
-        const updateData = utils.makeUpdateRecordingJSON(author, this.state.recording.title);
+        const updateData = utils.makeUpdateRecordingJSON(author, this.state.recording.title, this.state.recording.reader);
+        this.updateRecording(updateData);
+    }
+
+    updateReader(reader) {
+        console.log('updateReader from RecordingEdit');
+        console.log(reader);
+        const updateData = utils.makeUpdateRecordingJSON(this.state.recording.author, this.state.recording.title, reader);
         this.updateRecording(updateData);
     }
 
@@ -64,44 +73,36 @@ class RecordingEdit extends React.Component {
 
         return (
             <View style={container}>
-                <View style={lineStyle}>
-                    <View style={textContainer}>
-                        <Text style={itemStyle}>Titel: </Text>
-                        <Text style={textStyle}>{title}</Text>
-                    </View>
-                    <View style={buttonContainer}>
-                        <ChangeInput 
-                            buttonText={'Ändern'}
-                            promptTitle={'Titel ändern'}
-                            handleToUpdate={this.updateTitle.bind(this)}
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={styles.parameterInput}>
+                        <TextInputTranmit 
+                            returnText={this.updateTitle.bind(this)}
+                            title='Titel:'
+                            text={title}
+                            inputColor={Colors.containerColor}
                         />
-                    </View>
-                </View>
-                <View style={lineStyle}>
-                    <View style={textContainer}>
-                        <Text style={itemStyle}>Autor: </Text>
-                        <Text style={textStyle}>{author}</Text>
-                    </View>
-                    <View style={buttonContainer}>
-                        <ChangeInput 
-                            buttonText={'Ändern'}
-                            promptTitle={'Autor ändern'}
-                            handleToUpdate={this.updateAuthor.bind(this)}
+                        <TextInputTranmit 
+                            returnText={this.updateAuthor.bind(this)}
+                            title='Autor:'
+                            text={author}
+                            inputColor={Colors.containerColor}
+                            
                         />
+                        <TextInputTranmit 
+                            returnText={this.updateReader.bind(this)}
+                            //TODO: updateReader muss auch eingeführt werden auf Server API
+                            title='Gelesen von:'
+                            text={reader}
+                            inputColor={Colors.containerColor}
+                        />
+                        <View style={{ height: 40 }}>
+                            <Button
+                                buttonText={'Zurück'}
+                                onPress={this.props.onPress}
+                            />
+                        </View>
                     </View>
                 </View>
-                <View style={lineStyle}>
-                    <View style={textContainer}>
-                        <Text style={itemStyle}>Vorgelesen von: </Text>
-                        <Text style={textStyle}>{reader}</Text>
-                    </View>
-                    <View style={buttonContainer} />
-                </View>
-                <Button
-                    style={{ flex: 1 }}
-                    buttonText={'Zurück'}
-                    onPress={this.props.onPress}
-                />
             </View>
         );
     }
@@ -115,7 +116,12 @@ const styles = {
         // alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
+        marginLeft: 5,
+        marginRight: 5,
     },
+    parameterInput: {
+        flex: 1,
+      },
     lineStyle: {
         flex: 2,
         flexDirection: 'row',
