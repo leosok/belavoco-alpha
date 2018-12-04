@@ -5,12 +5,18 @@ import { View,
          Text, 
          TouchableHighlight,
          Platform,
-         StyleSheet
+         StyleSheet,
+         KeyboardAvoidingView
         } from 'react-native';
 
+import { Icon } from 'react-native-elements';
+
 import Sound from 'react-native-sound';
-import TrackPlayer from 'react-native-track-player';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
+
+import { IconButton, TextInputTranmit, Button, InstructionText } from './common';
+
+import apiUtils from '../api/apiUtils';
 
 // import {
 //     IconButton,
@@ -25,7 +31,17 @@ import { AudioRecorder, AudioUtils } from 'react-native-audio';
 
 // Make a component
 
+const instructionTitle = 'Letzter Schritt';
+const instructionText = 'Jetzt musst du nur noch die wichtigsten Informationen zu deinem Text angeben.';
+const parametersIncomplete = 'Deine Angaben sind unvollständig.';
+
 export default class Recorder extends React.Component {
+    constructor(props) {
+      super(props);
+      this.setAuthor = this.setAuthor.bind(this);
+      this.setTitle = this.setTitle.bind(this);
+      this.setReader = this.setReader.bind(this);
+    }
 
     state = {
         currentTime: 0.0,
@@ -33,9 +49,12 @@ export default class Recorder extends React.Component {
         paused: false,
         stoppedRecording: false,
         finished: false,
-        audioPath: AudioUtils.DocumentDirectoryPath + '/test.aac',
-        // audioPath: './test.aac',
+        audioPath: AudioUtils.DocumentDirectoryPath + '/recording.aac',
         hasPermission: true,
+        prepareForTransmission: false,
+        author: '',
+        title: '',
+        reader: '',
       };
   
       prepareRecordingPath(audioPath) {
@@ -80,29 +99,29 @@ export default class Recorder extends React.Component {
         });
       }
   
-      _renderButton(title, onPress, active) {
-        const style = (active) ? styles.activeButtonText : styles.buttonText;
+      // _renderButton(title, onPress, active) {
+      //   const style = (active) ? styles.activeButtonText : styles.buttonText;
   
-        return (
-          <TouchableHighlight style={styles.button} onPress={onPress}>
-            <Text style={style}>
-              {title}
-            </Text>
-          </TouchableHighlight>
-        );
-      }
-  
-      _renderPauseButton(onPress, active) {
-        const style = (active) ? styles.activeButtonText : styles.buttonText;
-        const title = this.state.paused ? 'RESUME' : 'PAUSE';
-        return (
-          <TouchableHighlight style={styles.button} onPress={onPress}>
-            <Text style={style}>
-              {title}
-            </Text>
-          </TouchableHighlight>
-        );
-      }
+      //   return (
+      //     <TouchableHighlight style={styles.button} onPress={onPress}>
+      //       <Text style={style}>
+      //         {title}
+      //       </Text>
+      //     </TouchableHighlight>
+      //   );
+      // }
+
+      // _renderPauseButton(onPress, active) {
+      //   const style = (active) ? styles.activeButtonText : styles.buttonText;
+      //   const title = this.state.paused ? 'RESUME' : 'PAUSE';
+      //   return (
+      //     <TouchableHighlight style={styles.button} onPress={onPress}>
+      //       <Text style={style}>
+      //         {title}
+      //       </Text>
+      //     </TouchableHighlight>
+      //   );
+      // }
   
       async _pause() {
         if (!this.state.recording) {
@@ -123,7 +142,6 @@ export default class Recorder extends React.Component {
           console.warn('Can\'t resume, not paused!');
           return;
         }
-  
         try {
           await AudioRecorder.resumeRecording();
           this.setState({ paused: false });
@@ -157,7 +175,8 @@ export default class Recorder extends React.Component {
   
       async _play() {
         if (this.state.recording) {
-          await this._stop();
+          // await this._stop();
+          await this._pause();
         }
   
         // These timeouts are a hacky workaround for some issues with react-native-sound.
@@ -199,6 +218,7 @@ export default class Recorder extends React.Component {
         this.setState({ recording: true, paused: false });
   
         try {
+          this.props.goToFullScreen();
           const filePath = await AudioRecorder.startRecording();
         } catch (error) {
           console.error(error);
@@ -210,18 +230,161 @@ export default class Recorder extends React.Component {
         console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
       }
   
+      async prepareRecording() {
+        if (this.state.recording) {
+          await this._stop();
+        }
+        this.setState({ prepareForTransmission: true });
+        // this.props.recordingDone();
+      }
+
+      async transmitRecording() {
+        const {
+          author,
+          title,
+          reader,
+        } = this.state;
+             
+        if ((author || title || reader) === '') {
+          alert(parametersIncomplete);
+        } else {
+          apiUtils.transmitRecording(author, title, reader);
+          this.props.recordingDone();
+          this.setState({ prepareForTransmission: false });
+        }
+      }
+
+      setAuthor(someArg) {
+        this.setState({ author: someArg });
+      }
+      setTitle(someArg) {
+        this.setState({ title: someArg });
+      }
+      setReader(someArg) {
+        this.setState({ reader: someArg });
+      }
+
+      renderPlayButton() {
+        return (
+          <TouchableHighlight style={styles.recordButton} onPress={() => this._play()}>
+            <Icon 
+              name='play-arrow'
+              size={45}
+              type='materialicons'
+              color='red'
+            />
+          </TouchableHighlight>
+        );
+      }
+
+      renderRecordButton() {
+        if (!this.state.recording) {
+          return (
+            <TouchableHighlight style={styles.recordButton} onPress={() => this._record()}>
+              <Icon 
+                name='fiber-manual-record'
+                size={45}
+                type='materialicons'
+                color='red'
+              />
+            </TouchableHighlight>
+          );
+        } else if (this.state.recording && !this.state.paused) {
+          return (
+            <TouchableHighlight style={styles.recordButton} onPress={() => this._pause()}>
+              <Icon 
+                name='pause'
+                size={45}
+                type='materialicons'
+                color='grey'
+              />
+            </TouchableHighlight>
+          );
+        } else if (this.state.recording && this.state.paused) {
+          return (
+            <TouchableHighlight style={styles.recordButton} onPress={() => this._resume()}>
+              <Icon 
+                name='repeat'
+                size={45}
+                type='materialicons'
+                color='grey'
+              />
+            </TouchableHighlight>
+          );
+        }
+      }
+
+      renderRecordingScreen() {
+        // renders recorder JSX, based on screenMode, transmitted from RecorderScreen.js
+        if (this.props.screenMode === 1) {  // recording is active
+          if (!this.state.prepareForTransmission) {
+            return (
+              <View style={styles.container}>
+                {this.renderPlayButton()}
+                {this.renderRecordButton()}
+                <IconButton 
+                    onPress={this.prepareRecording.bind(this)}
+                    name='arrow-round-up'
+                    size={45}
+                    type='ionicon'
+                    color='red'
+                />
+            </View>
+            );
+          } return (
+            <View style={styles.containerParamMode}>
+              <View style={styles.instructions}>
+                <InstructionText 
+                  title={instructionTitle}
+                  text={instructionText}
+                />
+                {/* <Text>Hallo</Text> */}
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.parameterInput}>
+                  <TextInputTranmit 
+                    returnText={this.setAuthor.bind(this)}
+                    inputActiv={true}
+                    title='Autor:'
+                    text=''
+                    placeholder='Name des Autors'
+                  />
+                  <TextInputTranmit 
+                    returnText={this.setTitle.bind(this)}
+                    inputActiv={true}
+                    title='Titel:'
+                    text=''
+                    placeholder='Titel des Textes'
+                  />
+                  <TextInputTranmit 
+                    returnText={this.setReader.bind(this)}
+                    inputActiv={true}
+                    title='Gelesen von:'
+                    text=''
+                    placeholder='Name des Vorlesenden'
+                  />
+                  <View style={{ height: 40 }}>
+                    <Button
+                      buttonText={'Veröffentlichen'}
+                      onPress={() => this.transmitRecording()}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          );
+        } return (
+          <View style={styles.container}>
+            {this.renderRecordButton()}
+          </View>
+        );
+      }
+
       render() {
+        console.log('Screenmode: ' + this.props.screenMode);
         return (
           <View style={styles.container}>
-            <View style={styles.controls}>
-              <View style={styles.controls2}>
-                {this._renderButton('RECORD', () => { this._record(); }, this.state.recording)}
-                {this._renderButton('PLAY', () => { this._play(); })}
-                {this._renderButton('STOP', () => { this._stop(); })}
-                {this._renderPauseButton(() => { this.state.paused ? this._resume() : this._pause(); })}
-              </View>
-              <Text style={styles.progressText}>{this.state.currentTime}s</Text>
-            </View>
+            {this.renderRecordingScreen()}
           </View>
         );
       }
@@ -230,7 +393,16 @@ export default class Recorder extends React.Component {
     const styles = StyleSheet.create({
       container: {
         flex: 1,
-        backgroundColor: '#2b608a',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+      },
+      containerParamMode: {
+        flex: 1,
+        alignItems: 'center',
+        marginLeft: 5,
+        marginRight: 5,
       },
       controls: {
         justifyContent: 'center',
@@ -245,6 +417,15 @@ export default class Recorder extends React.Component {
         alignItems: 'center',
         // flex: 1,
       },
+      instructions: {
+        alignItems: 'center', 
+        paddingTop: 20,
+        paddingBottom: 20,
+        // backgroundColor: 'red', 
+      },
+      parameterInput: {
+        flex: 1,
+      },
       progressText: {
         paddingTop: 20,
         fontSize: 30,
@@ -252,6 +433,20 @@ export default class Recorder extends React.Component {
       },
       button: {
         padding: 15
+      },
+      recordButton: {
+        // flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        borderColor: 'black',
+        backgroundColor: 'white',
+        // padding: 20,
+        // marginLeft: 5,
+        // marginRight: 5
       },
       disabledButtonText: {
         color: '#eee'

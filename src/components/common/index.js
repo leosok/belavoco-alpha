@@ -20,3 +20,5 @@ export * from './AutoPlaySwitch';
 export * from './FeedbackInput';
 export * from './ToggleButton';
 export * from './RecordingEdit';
+export * from './TextInputTranmit';
+export * from './InstructionText';

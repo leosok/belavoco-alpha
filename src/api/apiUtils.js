@@ -1,6 +1,7 @@
 import axios from 'axios';
 import TrackPlayer from 'react-native-track-player';
 import DeviceInfo from 'react-native-device-info';
+import { AudioUtils } from 'react-native-audio';
 
 import settings from '../../settings';
 import utils from '../utils/utils';
@@ -11,6 +12,8 @@ const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
 const API_ENDPOINT_USER_VERSION = settings.getBackendHost().concat('/api/user/version');
 const API_ENDPOINT_COMMENT = settings.getBackendHost().concat('/api/comment/');
 const API_ENDPOINT_FEEDBACK = settings.getBackendHost().concat('/api/feedback/');
+const API_ENDPOINT_RECORDING = settings.getBackendHost().concat('/api/recording/');
+// const API_ENDPOINT_RECORDING = 'https://belavoco.free.beeceptor.com';
 //TODO: Beeceptor configuration in settings.js
 //For Testing:
 // const API_ENDPOINT_UPDATE_USER = 'https://belavoco.free.beeceptor.com';
@@ -154,6 +157,34 @@ const apiUtils = {
         });
         const json = await response.json();
         return json;
+    },
+    async transmitRecording(authorR, titleR, readerR) {
+        console.log('Transmit Recording');
+        const path = 'file://'.concat(AudioUtils.DocumentDirectoryPath, '/recording.aac');
+        const formData = new FormData();
+        formData.append('recording', {
+          uri: path,
+          name: 'recording.aac',
+          type: 'audio/aac',
+        });
+        formData.append('parameters', {
+            author: authorR,
+            title: titleR,
+            reader: readerR,
+        });
+        
+        try {
+          const res = await fetch(API_ENDPOINT_RECORDING, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            body: formData,
+          });
+          const json = await res.json();
+        } catch (err) {
+          alert(err);
+        }
     },
     function8() {
         console.log(7);
