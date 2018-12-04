@@ -11,7 +11,8 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    LikeButtonGeneric } from './common';
+    LikeButtonGeneric,
+    CommentButton } from './common';
 
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
@@ -70,10 +71,15 @@ class AudiobookDetail extends React.Component {
         const substractLike = this.substractLike;
 
         return (
-            <TouchableOpacity onPress={() => this.startPlayPress()}>
+            <View>
+            {/* <TouchableOpacity onPress={() => this.startPlayPress()}> */}
             <Card>
                 <CardSection>
-                    <View style={infoContainer}>
+                    {/* <View style={infoContainer}> */}
+                    <TouchableOpacity 
+                        onPress={() => this.startPlayPress()}
+                        style={infoContainer}
+                    >
                         <View>
                             <Text style={authorStyle}>{author}</Text>
                             <Text numberOfLines={1} style={titleStyle}>{title}</Text>
@@ -104,8 +110,9 @@ class AudiobookDetail extends React.Component {
                                 />
                             </View>
                         </View>
-                    </View>
-                    <LikeButtonGeneric
+                    {/* </View> */}
+                    </TouchableOpacity>
+                    {/* <LikeButtonGeneric
                         hash={hash}
                         size={45}
                         like={this.state.like}
@@ -113,10 +120,16 @@ class AudiobookDetail extends React.Component {
                         likeHandler={likeHandler.bind(this)}
                         addLike={apiUtils.addLike.bind(this)}
                         substractLike={apiUtils.substractLike.bind(this)}
+                    /> */}
+                    <CommentButton 
+                        onPress={() => console.log(hash)}
+                        numberOfComments={3}
+                        // numberOfComments={times_played}
                     />
                 </CardSection>
             </Card>
-            </TouchableOpacity>
+            </View>
+            // {/* </TouchableOpacity> */}
         );
     }
 }
@@ -125,7 +138,7 @@ const styles = {
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        flex: 4
+        flex: 4,
     },
     playedContainer: {
         justifyContent: 'center',
