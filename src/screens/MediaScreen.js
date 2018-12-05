@@ -16,6 +16,7 @@ import { observer } from 'mobx-react';
 
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
+import CommentView from '../components/CommentView';
 
 import {
   Card,
@@ -44,11 +45,15 @@ export default class MediaScreen extends Component {
     this.initialUserhashHandler.bind(this);
     this.minimizePlayerHandler.bind(this);
     this.selectionHandlerMediaScreen = this.selectionHandlerMediaScreen.bind(this);
+    this.showCommentsHandlerMediaScreen = this.showCommentsHandlerMediaScreen.bind(this);
+    this.hideCommentsHandler = this.hideCommentsHandler.bind(this);
   }
 
   state = {
+    screenMode: 0, // 0 - audiobooks (+ AudioPlayer), 1 - comments (+ AudioPlayer)
     loading: true,
     audiobooks: [],
+    audiobookForComments: null,
     typeChoice: 'all',
     playerActivity: false,
     playerFullScreen: false,
@@ -130,6 +135,19 @@ export default class MediaScreen extends Component {
     });
   }
 
+  showCommentsHandlerMediaScreen(audiobookFComments) {
+    this.setState({ 
+      screenMode: 1,
+      audiobookForComments: audiobookFComments    
+    });
+  }
+
+  hideCommentsHandler() {
+    this.setState({ 
+      screenMode: 0,
+    });
+  }
+
   renderChoiceButtons(choiceHandler) {
     if (this.state.playerFullScreen === false) {
       return (
@@ -159,7 +177,7 @@ export default class MediaScreen extends Component {
   renderScreenContent() {
     const choiceHandler = this.choiceHandler;
     const initialUserhashHandler = this.initialUserhashHandler;
-    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
+    // const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const minimizePlayerHandler = this.minimizePlayerHandler;
     return (
       //  {/* TODO: only load EmailPromptProv when email empty using userdata state */}
@@ -176,24 +194,34 @@ export default class MediaScreen extends Component {
           />
           }
         >
-        {this.renderAudioBookList(selectionHandlerMediaScreen)}
+        {this.renderAudioBookListOrComments()}
         </ScrollView>
         {this.renderPlayer(minimizePlayerHandler)}
       </View>
     );
   }
 
-  renderAudioBookList(selectionHandlerMediaScreen) {
+  renderAudioBookListOrComments() {
     if (this.state.loading) {
         return <Spinner />;
-    }
+    } 
+    if (this.state.screenMode === 0) {
       return (
         <AudiobookList
           audioBookChoice={this.state.typeChoice}
           audiobooks={this.state.audiobooks}
-          selectionHandlerMediaScreen={selectionHandlerMediaScreen}
+          selectionHandlerMediaScreen={this.selectionHandlerMediaScreen}
+          showCommentsHandlerMediaScreen={this.showCommentsHandlerMediaScreen}
         />
       );
+    } else if (this.state.screenMode === 1) {
+      return (
+        <CommentView 
+          audiobook={this.state.audiobookForComments} 
+          hideComments={this.hideCommentsHandler}
+        />
+      );
+    }
   }
 
   renderPlayer(minimizePlayerHandler) {

@@ -8,6 +8,7 @@ class AudiobookList extends Component {
     constructor(props) {
         super(props);
         this.selectionHandlerList = this.selectionHandlerList.bind(this);
+        this.showCommentsHandler = this.showCommentsHandler.bind(this);
       }
 
     state = { 
@@ -18,7 +19,11 @@ class AudiobookList extends Component {
         this.setState({ selectedAudiobook: audiobookToPlay },
         this.props.selectionHandlerMediaScreen(audiobookToPlay),
         );        
-      }
+    }
+
+    showCommentsHandler(audiobookForComments) {
+        this.props.showCommentsHandlerMediaScreen(audiobookForComments);
+    }
 
     renderAudiobookChoice(audioBookChoice, selectionHandlerList) {
         if (audioBookChoice === 'all') {
@@ -28,6 +33,7 @@ class AudiobookList extends Component {
                             key={audiobook.id} 
                             audiobook={audiobook} 
                             selectionHandlerList={selectionHandlerList}
+                            showCommentsHandler={this.showCommentsHandler}
                             selected={this.state.selectedAudiobook}
                             localLikes={this.state.localLikes}
                         />)
@@ -41,6 +47,7 @@ class AudiobookList extends Component {
                         key={audiobook.id} 
                         audiobook={audiobook} 
                         selectionHandlerList={selectionHandlerList}
+                        showCommentsHandler={this.showCommentsHandler}
                         selected={this.state.selectedAudiobook}
                     />
                 : 
@@ -55,6 +62,7 @@ class AudiobookList extends Component {
                         key={audiobook.id} 
                         audiobook={audiobook}
                         selectionHandlerList={selectionHandlerList}
+                        showCommentsHandler={this.showCommentsHandler}
                         selected={this.state.selectedAudiobook}
                     />
                 : 

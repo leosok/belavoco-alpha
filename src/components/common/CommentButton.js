@@ -24,7 +24,6 @@ class CommentButton extends React.Component {
 
     textStyleDynamic() {
         const numDigits = this.props.numberOfComments.toString().length;
-        console.log(this.props.numberOfComments.toString().length);
         if (numDigits === 1) {
             return this.getStyleJSON(26);
         } else if (numDigits === 2) {
@@ -37,7 +36,6 @@ class CommentButton extends React.Component {
     render() {
         const {
             container,
-            textStyle,
         } = styles;
     
         let numberOfComments = this.props.numberOfComments;
@@ -54,11 +52,8 @@ class CommentButton extends React.Component {
                     onPress={this.props.onPress}
                     name='comment'
                     size={60}
-                    // type='fontawesome'
                     color='grey'
-                    // underlayColor={Colors.audioPlayer}
                 />
-                {/* <Text style={textStyle}>{numberOfComments}</Text> */}
                 <Text style={this.textStyleDynamic()}>{numberOfComments}</Text>
             </View>
         );
@@ -67,19 +62,9 @@ class CommentButton extends React.Component {
 
 const styles = {
     container: {
-        // flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
-    textStyle: {
-        fontSize: 18,
-        fontFamily: 'Helvetica',
-        position: 'absolute',
-        right: 20,
-        bottom: 28,
-        // marginBottom: 50,
-        // zIndex: 1
-      }
 };
 
 // Make the compoent available to other parts of the app

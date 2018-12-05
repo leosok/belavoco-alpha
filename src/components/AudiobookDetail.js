@@ -43,6 +43,10 @@ class AudiobookDetail extends React.Component {
         setTimeout(() => this.props.selectionHandlerList(this.props.audiobook), 50);
       }
 
+    commentPress() {
+        this.props.showCommentsHandler(this.props.audiobook);
+    }
+
       render() {
         const {
             id,
@@ -122,7 +126,7 @@ class AudiobookDetail extends React.Component {
                         substractLike={apiUtils.substractLike.bind(this)}
                     /> */}
                     <CommentButton 
-                        onPress={() => console.log(hash)}
+                        onPress={() => this.commentPress()}
                         numberOfComments={3}
                         // numberOfComments={times_played}
                     />
