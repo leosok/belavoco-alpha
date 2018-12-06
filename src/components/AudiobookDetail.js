@@ -21,20 +21,28 @@ import apiUtils from '../api/apiUtils';
 class AudiobookDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.likeHandler = this.likeHandler.bind(this);
+        // this.likeHandler = this.likeHandler.bind(this);
       }
 
     state = {
         selectedAudiobook: null,
-        like: this.props.audiobook.liked,
+        // like: this.props.audiobook.liked,
     }
 
-    async likeHandler(alterLike) {
-        this.setState({
-            like: !this.state.like
-        });
-        this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
-      }
+    // componentWillReceiveProps(nextProps) {
+    //     if (this.props !== nextProps) {
+    //         this.setState({
+    //             like: nextProps.audiobook.liked,
+    //         });
+    //     }
+    // }
+
+    // async likeHandler(alterLike) {
+    //     this.setState({
+    //         like: !this.state.like
+    //     });
+    //     this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
+    //   }
 
     startPlayPress() {
         // '' ensures the Player to replay a track that is reclicked by setStating 
@@ -71,8 +79,8 @@ class AudiobookDetail extends React.Component {
         } = styles;
 
         const likeHandler = this.likeHandler;
-        const addLike = this.addLike;
-        const substractLike = this.substractLike;
+        // const addLike = this.addLike;
+        // const substractLike = this.substractLike;
 
         return (
             <View>

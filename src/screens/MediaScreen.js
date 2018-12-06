@@ -186,16 +186,7 @@ export default class MediaScreen extends Component {
           initialUserhashHandler={initialUserhashHandler.bind(this)}
         />
         {this.renderChoiceButtons(choiceHandler)}
-        <ScrollView
-          refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-          }
-        >
         {this.renderAudioBookListOrComments()}
-        </ScrollView>
         {this.renderPlayer(minimizePlayerHandler)}
       </View>
     );
@@ -207,12 +198,23 @@ export default class MediaScreen extends Component {
     } 
     if (this.state.screenMode === 0) {
       return (
-        <AudiobookList
-          audioBookChoice={this.state.typeChoice}
-          audiobooks={this.state.audiobooks}
-          selectionHandlerMediaScreen={this.selectionHandlerMediaScreen}
-          showCommentsHandlerMediaScreen={this.showCommentsHandlerMediaScreen}
-        />
+        <ScrollView
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+          }
+        >
+          <AudiobookList
+            audioBookChoice={this.state.typeChoice}
+            audiobooks={this.state.audiobooks}
+            selectionHandlerMediaScreen={this.selectionHandlerMediaScreen}
+            showCommentsHandlerMediaScreen={this.showCommentsHandlerMediaScreen}
+          />
+        </ScrollView>
+
+          
       );
     } else if (this.state.screenMode === 1) {
       return (
