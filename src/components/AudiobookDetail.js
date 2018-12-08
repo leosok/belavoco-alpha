@@ -63,6 +63,7 @@ class AudiobookDetail extends React.Component {
             reader,
             file_url,
             hash,
+            times_commented,
             times_liked,
             times_played,
             length,
@@ -139,8 +140,7 @@ class AudiobookDetail extends React.Component {
                     >
                         <CommentButton 
                             onPress={() => this.commentPress()}
-                            numberOfComments={3}
-                            // numberOfComments={times_played}
+                            numberOfComments={times_commented}
                         />
                     </TouchableOpacity>
                     
