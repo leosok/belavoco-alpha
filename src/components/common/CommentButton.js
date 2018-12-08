@@ -4,11 +4,11 @@ import { View, Text } from 'react-native';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
-const fFamily = 'Helvetica';
+const fFamily = 'Avenir-Medium';
 const fPosition = 'absolute';
 const fColor = 'grey';
 const fSize = 14;
-const fBottom = 16;
+const fBottom = 14;
 
 // Make a component
 class CommentButton extends React.Component {
@@ -27,12 +27,12 @@ class CommentButton extends React.Component {
     textStyleDynamic() {
         const numDigits = this.props.numberOfComments.toString().length;
         if (numDigits === 1) {
-            return this.getStyleJSON(22);
+            return this.getStyleJSON(21);
         } else if (numDigits === 2) {
-            return this.getStyleJSON(19);
+            return this.getStyleJSON(18);
         } else if (numDigits === 3) {
-            return this.getStyleJSON(16);
-        } return this.getStyleJSON(15);
+            return this.getStyleJSON(15);
+        } return this.getStyleJSON(14);
     }
 
     render() {
@@ -64,8 +64,9 @@ class CommentButton extends React.Component {
 
 const styles = {
     container: {
-        justifyContent: 'space-around',
         alignItems: 'center',
+        height: 40,
+        width: 50,
     },
 };
 
