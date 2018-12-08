@@ -42,7 +42,7 @@ import Colors from '../constants/Colors';
 // Make a component
 
 let interval;
-const thirtySize = 35;
+const thirtySize = 30;
 const API_ENDPOINT_COMMENTS = settings.getBackendHost().concat('/api/comment/');
 
 class ProgressBar extends ProgressComponent {
@@ -257,31 +257,37 @@ export default class AudioPlayer extends React.Component {
             return (
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
-                        <View style={playButtonContainer}>
-                            <PlayButton
-                                playingState={this.state.playingState}
-                                PlayButtonPress={PlayButtonPress}
+                        <View style={buttonContainer}>
+                            <Icon 
+                                onPress={playerUtils.rewindThirty.bind(this)}
+                                name='replay-30'
+                                size={thirtySize}
+                                type='materialicons'
+                                color='grey'
+                                underlayColor={Colors.audioPlayer}
                             />
+                            <View style={playButtonContainer}>
+                                <PlayButton
+                                    playingState={this.state.playingState}
+                                    PlayButtonPress={PlayButtonPress}
+                                />
+                            </View>
+                            <Icon 
+                                onPress={playerUtils.forwardThirty.bind(this)}
+                                name='forward-30'
+                                size={thirtySize}
+                                type='materialicons'
+                                color='grey'
+                                underlayColor={Colors.audioPlayer}
+                            /> 
                         </View>
-                        {/* <TouchableOpacity
-                            onPress={this.minimizePlayer.bind(this)}
-                            style={infoContainer}
-                        > */}
                         <View style={infoContainer}>
                             <Text numberOfLines={1} style={authorStyle}>{TrackStore.artist}</Text>
                             <Text numberOfLines={1} style={titleStyle}>{TrackStore.title}</Text>
-                        </View>                           
-                        {/* </TouchableOpacity> */}
-                        {/* <IconButton 
-                            onPress={this.minimizePlayer.bind(this)}
-                            name='arrow-round-up'
-                            size={20}
-                            type='ionicon'
-                            color='grey'
-                        /> */}
+                        </View>
                         <LikeButtonGeneric
                             hash={this.props.audiobook.hash}
-                            size={45}
+                            size={35}
                             like={this.state.like}
                             // colorLike='grey'
                             likeHandler={this.likeHandler.bind(this)}
@@ -418,8 +424,8 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
-        marginLeft: 5,
-        marginRight: 5,
+        // marginLeft: 5,
+        // marginRight: 5,
         flex: 1,
     },
     buttonContainer: {
@@ -432,7 +438,7 @@ const styles = {
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        marginLeft: 12,
+        marginLeft: 5,
         flex: 5,
     },
     authorStyle: {

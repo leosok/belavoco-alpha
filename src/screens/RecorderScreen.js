@@ -7,6 +7,8 @@ import {
     } from 'react-native';
 import { Button } from '../components/common';
 
+import { NameInputInitial } from '../components/specific';
+
 import Colors from '../constants/Colors';
 
 export default class RecorderScreen extends Component {
@@ -18,6 +20,7 @@ export default class RecorderScreen extends Component {
     const url = 'http://www.belavo.co/';
     return (
         <View style={styles.container}>
+        <NameInputInitial />
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <Button
             buttonText={'Aufnahme'}

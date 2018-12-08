@@ -75,7 +75,7 @@ class AudiobookDetail extends React.Component {
             readerStyle,
             infoContainer,
             titleStyle,
-            likeButtonContainer,
+            buttonContainer
         } = styles;
 
         const likeHandler = this.likeHandler;
@@ -133,11 +133,17 @@ class AudiobookDetail extends React.Component {
                         addLike={apiUtils.addLike.bind(this)}
                         substractLike={apiUtils.substractLike.bind(this)}
                     /> */}
-                    <CommentButton 
+                    <TouchableOpacity 
+                        style={buttonContainer} 
                         onPress={() => this.commentPress()}
-                        numberOfComments={3}
-                        // numberOfComments={times_played}
-                    />
+                    >
+                        <CommentButton 
+                            onPress={() => this.commentPress()}
+                            numberOfComments={3}
+                            // numberOfComments={times_played}
+                        />
+                    </TouchableOpacity>
+                    
                 </CardSection>
             </Card>
             </View>
@@ -150,7 +156,11 @@ const styles = {
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        flex: 4,
+        flex: 5,
+    },
+    buttonContainer: { 
+        justifyContent: 'flex-start', 
+        flex: 1 
     },
     playedContainer: {
         justifyContent: 'center',
@@ -187,12 +197,6 @@ const styles = {
         alignSelf: 'center',
         marginLeft: 5,
         marginRight: 5
-    },
-    likeButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        // width: 50,
-        // flex: 1,
     },
 };
 

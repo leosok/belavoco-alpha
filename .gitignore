@@ -56,4 +56,7 @@ buck-out/
 *.jsbundle
 
 # Settings
+
 environ.js
+# Archiv
+ARCHIV

@@ -6,8 +6,9 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 
 const fFamily = 'Helvetica';
 const fPosition = 'absolute';
-const fSize = 16;
-const fBottom = 29;
+const fColor = 'grey';
+const fSize = 14;
+const fBottom = 16;
 
 // Make a component
 class CommentButton extends React.Component {
@@ -16,6 +17,7 @@ class CommentButton extends React.Component {
         return {
             fontSize: fSize,
             fontFamily: fFamily,
+            color: fColor,
             position: fPosition,
             right: rightMargin,
             bottom: fBottom,
@@ -25,12 +27,12 @@ class CommentButton extends React.Component {
     textStyleDynamic() {
         const numDigits = this.props.numberOfComments.toString().length;
         if (numDigits === 1) {
-            return this.getStyleJSON(26);
-        } else if (numDigits === 2) {
             return this.getStyleJSON(22);
+        } else if (numDigits === 2) {
+            return this.getStyleJSON(19);
         } else if (numDigits === 3) {
-            return this.getStyleJSON(18);
-        } return this.getStyleJSON(18);
+            return this.getStyleJSON(16);
+        } return this.getStyleJSON(15);
     }
 
     render() {
@@ -51,8 +53,8 @@ class CommentButton extends React.Component {
                 <Icon 
                     onPress={this.props.onPress}
                     name='comment'
-                    size={60}
-                    color='grey'
+                    size={45}
+                    color={fColor}
                 />
                 <Text style={this.textStyleDynamic()}>{numberOfComments}</Text>
             </View>
