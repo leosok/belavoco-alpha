@@ -11,7 +11,8 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    LikeButtonGeneric } from './common';
+    LikeButtonGeneric,
+    CommentButton } from './common';
 
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
@@ -20,20 +21,28 @@ import apiUtils from '../api/apiUtils';
 class AudiobookDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.likeHandler = this.likeHandler.bind(this);
+        // this.likeHandler = this.likeHandler.bind(this);
       }
 
     state = {
         selectedAudiobook: null,
-        like: this.props.audiobook.liked,
+        // like: this.props.audiobook.liked,
     }
 
-    async likeHandler(alterLike) {
-        this.setState({
-            like: !this.state.like
-        });
-        this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
-      }
+    // componentWillReceiveProps(nextProps) {
+    //     if (this.props !== nextProps) {
+    //         this.setState({
+    //             like: nextProps.audiobook.liked,
+    //         });
+    //     }
+    // }
+
+    // async likeHandler(alterLike) {
+    //     this.setState({
+    //         like: !this.state.like
+    //     });
+    //     this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
+    //   }
 
     startPlayPress() {
         // '' ensures the Player to replay a track that is reclicked by setStating 
@@ -41,6 +50,10 @@ class AudiobookDetail extends React.Component {
         this.props.selectionHandlerList('');
         setTimeout(() => this.props.selectionHandlerList(this.props.audiobook), 50);
       }
+
+    commentPress() {
+        this.props.showCommentsHandler(this.props.audiobook);
+    }
 
       render() {
         const {
@@ -50,6 +63,7 @@ class AudiobookDetail extends React.Component {
             reader,
             file_url,
             hash,
+            times_commented,
             times_liked,
             times_played,
             length,
@@ -62,18 +76,23 @@ class AudiobookDetail extends React.Component {
             readerStyle,
             infoContainer,
             titleStyle,
-            likeButtonContainer,
+            buttonContainer
         } = styles;
 
         const likeHandler = this.likeHandler;
-        const addLike = this.addLike;
-        const substractLike = this.substractLike;
+        // const addLike = this.addLike;
+        // const substractLike = this.substractLike;
 
         return (
-            <TouchableOpacity onPress={() => this.startPlayPress()}>
+            <View>
+            {/* <TouchableOpacity onPress={() => this.startPlayPress()}> */}
             <Card>
                 <CardSection>
-                    <View style={infoContainer}>
+                    {/* <View style={infoContainer}> */}
+                    <TouchableOpacity 
+                        onPress={() => this.startPlayPress()}
+                        style={infoContainer}
+                    >
                         <View>
                             <Text style={authorStyle}>{author}</Text>
                             <Text numberOfLines={1} style={titleStyle}>{title}</Text>
@@ -104,8 +123,9 @@ class AudiobookDetail extends React.Component {
                                 />
                             </View>
                         </View>
-                    </View>
-                    <LikeButtonGeneric
+                    {/* </View> */}
+                    </TouchableOpacity>
+                    {/* <LikeButtonGeneric
                         hash={hash}
                         size={45}
                         like={this.state.like}
@@ -113,10 +133,21 @@ class AudiobookDetail extends React.Component {
                         likeHandler={likeHandler.bind(this)}
                         addLike={apiUtils.addLike.bind(this)}
                         substractLike={apiUtils.substractLike.bind(this)}
-                    />
+                    /> */}
+                    <TouchableOpacity 
+                        style={buttonContainer} 
+                        onPress={() => this.commentPress()}
+                    >
+                        <CommentButton 
+                            onPress={() => this.commentPress()}
+                            numberOfComments={times_commented}
+                        />
+                    </TouchableOpacity>
+                    
                 </CardSection>
             </Card>
-            </TouchableOpacity>
+            </View>
+            // {/* </TouchableOpacity> */}
         );
     }
 }
@@ -125,7 +156,11 @@ const styles = {
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        flex: 4
+        flex: 5,
+    },
+    buttonContainer: { 
+        justifyContent: 'flex-start', 
+        flex: 1 
     },
     playedContainer: {
         justifyContent: 'center',
@@ -162,12 +197,6 @@ const styles = {
         alignSelf: 'center',
         marginLeft: 5,
         marginRight: 5
-    },
-    likeButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        // width: 50,
-        // flex: 1,
     },
 };
 

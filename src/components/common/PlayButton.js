@@ -15,7 +15,7 @@ import { Spinner } from '.';
 
 import PlayerStore from '../../stores/Player';
 
-const iconSize = 45;
+const iconSize = 40;
 
 // Make a component
 @observer

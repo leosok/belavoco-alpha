@@ -95,6 +95,14 @@ const utils = {
         const playId = await AsyncStorage.getItem('onesignalplayid');
         return playId;
     },
+    getAudioBookFromHash(hash, audiobooks) {
+        let i;
+        for (i = 0; i < Object.keys(audiobooks).length; i++) {
+            if (audiobooks[i].hash === hash) {
+                return audiobooks[i];
+            }
+        }
+    },
     function5() {
         console.log(5);
     },

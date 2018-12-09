@@ -23,7 +23,8 @@ import {
     IconButton, 
     CommentSection,
     Comment,
-    AutoPlaySwitch
+    AutoPlaySwitch,
+    LikeButtonGeneric
     } from './common';
 
 import settings from '../../settings';
@@ -41,7 +42,7 @@ import Colors from '../constants/Colors';
 // Make a component
 
 let interval;
-const thirtySize = 35;
+const thirtySize = 30;
 const API_ENDPOINT_COMMENTS = settings.getBackendHost().concat('/api/comment/');
 
 class ProgressBar extends ProgressComponent {
@@ -60,21 +61,24 @@ export default class AudioPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.PlayButtonPress = this.PlayButtonPress.bind(this);
+        this.likeHandler = this.likeHandler.bind(this);
       }
 
       state = {
         playingState: 'PLAYING',
         fullscreen: this.props.fullscreen,
+        like: null,
         trackhash: '',
         position: 0,
         length: 0,
         comments: [],
         loadingComments: true,
         loadingLatestComment: false,
-        frButtons: 0                    // 0 - thirty buttons; 1 - skip buttons
+        frButtons: 0,                    // 0 - thirty buttons; 1 - skip buttons
     };
 
     componentDidMount() {
+        this.setState({ like: this.props.audiobook.liked });
         TrackPlayer.setupPlayer();
         TrackPlayer.updateOptions({
             // stopWithApp: true,
@@ -104,8 +108,10 @@ export default class AudioPlayer extends React.Component {
             playerUtils.resetAndPlay(nextProps.audiobooks, nextProps.audiobook);
            }
         if (this.props !== nextProps) {
+            // console.log('nextProps: ' + nextProps.liked);
             this.setState({
                 fullscreen: nextProps.fullscreen,
+                like: nextProps.audiobook.liked,
             });
         }
     }
@@ -145,6 +151,15 @@ export default class AudioPlayer extends React.Component {
     PlayButtonPress() {
         this.playOrPause();
     }
+
+    likeHandler(alterLike) {
+        this.setState({
+            like: !this.state.like
+        },
+        () => { this.props.audiobook.liked = this.state.like }
+        );
+        this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
+      }
 
     async playOrPause() {
         if (PlayerStore.playbackState === TrackPlayer.STATE_PAUSED) {
@@ -242,25 +257,42 @@ export default class AudioPlayer extends React.Component {
             return (
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
-                        <View style={playButtonContainer}>
-                            <PlayButton
-                                playingState={this.state.playingState}
-                                PlayButtonPress={PlayButtonPress}
+                        <View style={buttonContainer}>
+                            <Icon 
+                                onPress={playerUtils.rewindThirty.bind(this)}
+                                name='replay-30'
+                                size={thirtySize}
+                                type='materialicons'
+                                color='grey'
+                                underlayColor={Colors.audioPlayer}
                             />
+                            <View style={playButtonContainer}>
+                                <PlayButton
+                                    playingState={this.state.playingState}
+                                    PlayButtonPress={PlayButtonPress}
+                                />
+                            </View>
+                            <Icon 
+                                onPress={playerUtils.forwardThirty.bind(this)}
+                                name='forward-30'
+                                size={thirtySize}
+                                type='materialicons'
+                                color='grey'
+                                underlayColor={Colors.audioPlayer}
+                            /> 
                         </View>
-                        <TouchableOpacity
-                            onPress={this.minimizePlayer.bind(this)}
-                            style={infoContainer}
-                        >
+                        <View style={infoContainer}>
                             <Text numberOfLines={1} style={authorStyle}>{TrackStore.artist}</Text>
                             <Text numberOfLines={1} style={titleStyle}>{TrackStore.title}</Text>
-                        </TouchableOpacity>
-                        <IconButton 
-                            onPress={this.minimizePlayer.bind(this)}
-                            name='arrow-round-up'
-                            size={20}
-                            type='ionicon'
-                            color='grey'
+                        </View>
+                        <LikeButtonGeneric
+                            hash={this.props.audiobook.hash}
+                            size={35}
+                            like={this.state.like}
+                            // colorLike='grey'
+                            likeHandler={this.likeHandler.bind(this)}
+                            addLike={apiUtils.addLike.bind(this)}
+                            substractLike={apiUtils.substractLike.bind(this)}
                         />
                     </View>
                     <View style={progressContainerStyle}>
@@ -392,8 +424,8 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
-        marginLeft: 5,
-        marginRight: 5,
+        // marginLeft: 5,
+        // marginRight: 5,
         flex: 1,
     },
     buttonContainer: {
@@ -406,7 +438,7 @@ const styles = {
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        marginLeft: 12,
+        marginLeft: 5,
         flex: 5,
     },
     authorStyle: {
