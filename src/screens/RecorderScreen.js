@@ -19,6 +19,8 @@ import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
 import utils from '../utils/utils';
 
+import { NameInputInitial } from '../components/specific';
+
 import Colors from '../constants/Colors';
 
 const API_ENDPOINT_RECORDS = settings.getBackendHost().concat('/api/get/records');
@@ -138,6 +140,7 @@ renderRecordingsInfo() {
   } else if (this.state.screenMode === 2) {
     return (
       <View style={{ flex: 9 }}>
+        <NameInputInitial />
         <View style={seperatorStyle}>
           <Text style={seperatorTextStyle}>Meine Aufnahmen</Text>
         </View>

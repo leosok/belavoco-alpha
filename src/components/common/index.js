@@ -22,3 +22,4 @@ export * from './ToggleButton';
 export * from './RecordingEdit';
 export * from './TextInputTranmit';
 export * from './InstructionText';
+export * from './CommentButton';
