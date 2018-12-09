@@ -5,8 +5,8 @@ const BACKEND_HOST = 'https://www.belavo.co';
 const BACKEND_HOST_DEBUG = 'http://192.168.178.107:8080';
 //const BACKEND_HOST_DEBUG = 'https://belavoco.free.beeceptor.com';
 
-const DEBUG = true;
-// const DEBUG = false;
+// const DEBUG = true;
+const DEBUG = false;
 
 const settings = {
     getOneSignalKey() {
