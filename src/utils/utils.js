@@ -103,6 +103,16 @@ const utils = {
             }
         }
     },
+    setProgressStatus(trackhash, progressStatus) {
+        // const storageParam = 'progress:'.concat(trackhash);
+        const storageParam = 'progress';
+        AsyncStorage.setItem(storageParam, JSON.stringify(progressStatus));
+    },
+    async getProgressStatus() {
+        const retrievedItem = await AsyncStorage.getItem('progress');
+        const progressStatus = JSON.parse(retrievedItem);
+        return progressStatus;
+    },
     function5() {
         console.log(5);
     },

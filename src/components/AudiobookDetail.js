@@ -12,7 +12,8 @@ import {
     CardSection,
     InfoIcon,
     LikeButtonGeneric,
-    CommentButton } from './common';
+    CommentButton, 
+    ProgressStatus} from './common';
 
 import settings from '../../settings';
 import apiUtils from '../api/apiUtils';
@@ -76,7 +77,8 @@ class AudiobookDetail extends React.Component {
             readerStyle,
             infoContainer,
             titleStyle,
-            buttonContainer
+            buttonContainer,
+            playStatus
         } = styles;
 
         const likeHandler = this.likeHandler;
@@ -89,61 +91,68 @@ class AudiobookDetail extends React.Component {
             <Card>
                 <CardSection>
                     {/* <View style={infoContainer}> */}
-                    <TouchableOpacity 
-                        onPress={() => this.startPlayPress()}
-                        style={infoContainer}
-                    >
-                        <View>
-                            <Text style={authorStyle}>{author}</Text>
-                            <Text numberOfLines={1} style={titleStyle}>{title}</Text>
+                    <View style={{ flex: 1, flexDirection: 'column', marginLeft: 8, marginRight: 8 }}>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <TouchableOpacity 
+                                onPress={() => this.startPlayPress()}
+                                style={infoContainer}
+                            >
+                                <View>
+                                    <Text style={authorStyle}>{author}</Text>
+                                    <Text numberOfLines={1} style={titleStyle}>{title}</Text>
+                                </View>
+                                <View style={textContainerColumn}>
+                                    <Text numberOfLines={1} style={readerStyle}>Es liest {reader}</Text>
+                                    <View style={textContainerRow}>
+
+                                        <InfoIcon
+                                            type="evilicon"
+                                            name="clock"
+                                            text={moment().startOf('day')
+                                            .seconds(length)
+                                            .format('mm:ss')}
+                                            extraMargin='3'
+                                        />
+
+                                        <InfoIcon
+                                            type="materialicon"
+                                            name="replay"
+                                            text={times_played}
+                                        />
+
+                                        <InfoIcon
+                                            type="evilicon"
+                                            name="like"
+                                            text={times_liked}
+                                        />
+                                    </View>
+                                </View>
+                            {/* </View> */}
+                            </TouchableOpacity>
+                            {/* <LikeButtonGeneric
+                                hash={hash}
+                                size={45}
+                                like={this.state.like}
+                                // colorLike='grey'
+                                likeHandler={likeHandler.bind(this)}
+                                addLike={apiUtils.addLike.bind(this)}
+                                substractLike={apiUtils.substractLike.bind(this)}
+                            /> */}
+                            <TouchableOpacity 
+                                style={buttonContainer} 
+                                onPress={() => this.commentPress()}
+                            >
+                                <CommentButton 
+                                    onPress={() => this.commentPress()}
+                                    numberOfComments={times_commented}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <View style={textContainerColumn}>
-                            <Text numberOfLines={1} style={readerStyle}>Es liest {reader}</Text>
-                            <View style={textContainerRow}>
-
-                                <InfoIcon
-                                    type="evilicon"
-                                    name="clock"
-                                    text={moment().startOf('day')
-                                    .seconds(length)
-                                    .format('mm:ss')}
-                                    extraMargin='3'
-                                />
-
-                                <InfoIcon
-                                    type="materialicon"
-                                    name="replay"
-                                    text={times_played}
-                                />
-
-                                <InfoIcon
-                                    type="evilicon"
-                                    name="like"
-                                    text={times_liked}
-                                />
-                            </View>
-                        </View>
-                    {/* </View> */}
-                    </TouchableOpacity>
-                    {/* <LikeButtonGeneric
-                        hash={hash}
-                        size={45}
-                        like={this.state.like}
-                        // colorLike='grey'
-                        likeHandler={likeHandler.bind(this)}
-                        addLike={apiUtils.addLike.bind(this)}
-                        substractLike={apiUtils.substractLike.bind(this)}
-                    /> */}
-                    <TouchableOpacity 
-                        style={buttonContainer} 
-                        onPress={() => this.commentPress()}
-                    >
-                        <CommentButton 
-                            onPress={() => this.commentPress()}
-                            numberOfComments={times_commented}
+                        <ProgressStatus 
+                            trackProgress={0}
+                            trackLength={length}
                         />
-                    </TouchableOpacity>
-                    
+                    </View>
                 </CardSection>
             </Card>
             </View>
@@ -175,21 +184,21 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginLeft: 8,
+        // marginLeft: 8,
         marginTop: 6,
     },
     authorStyle: {
         fontSize: 15,
-        marginLeft: 8,
+        // marginLeft: 8,
     },
     titleStyle: {
         fontSize: 17,
-        marginLeft: 8,
+        // marginLeft: 8,
         flex: 1,
     },
     readerStyle: {
         fontSize: 12,
-        marginLeft: 8,
+        // marginLeft: 8,
         flex: 1,
     },
     playedStyle: {

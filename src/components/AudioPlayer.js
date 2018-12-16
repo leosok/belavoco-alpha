@@ -386,6 +386,8 @@ export default class AudioPlayer extends React.Component {
     }
 
     render() {
+        console.log('Current Trackhash (in state): ' + this.state.trackhash);
+        console.log('Current Position (in state): ' + this.state.position);
         return (
             <View style={styles.containerStyle}>
                 {this.renderPlayerContent()}

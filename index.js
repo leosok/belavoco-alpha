@@ -33,10 +33,17 @@ TrackPlayer.registerEventHandler(async (data) => {
     //   } else if(data.type == 'remote-previous') {
     //     TrackPlayer.skipToPrevious()
       } else if (data.type === 'playback-state') {
+        if (data.state === TrackPlayer.STATE_PAUSED) {
+          //If Track is paused, progressStatus is trasmitted to backend, to keep progress stored for next session
+          const trackhash = await TrackPlayer.getCurrentTrack();
+          const progressStatus = await TrackPlayer.getPosition();
+          apiUtils.transmitProgress(trackhash, progressStatus);
+        }
         PlayerStore.playbackState = data.state;
       }
     if (data.type === 'playback-queue-ended') {
       console.log('QUEUE ENDED!!!!');
+      // console.log(await TrackPlayer.getPosition());
       i = i + 1;
       PlayerStore.playbackType = data.type;
       // Makes sure, that Queue ended is only called at the end of a Queue (see playerUtils.resetAndPlay())

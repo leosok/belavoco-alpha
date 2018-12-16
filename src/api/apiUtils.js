@@ -6,7 +6,7 @@ import settings from '../../settings';
 import utils from '../utils/utils';
 import playerUtils from '../player/playerUtils';
 
-const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
+const API_ENDPOINT_TRACK = settings.getBackendHost().concat('/api/set/');
 const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
 const API_ENDPOINT_USER_VERSION = settings.getBackendHost().concat('/api/user/version');
 const API_ENDPOINT_COMMENT = settings.getBackendHost().concat('/api/comment/');
@@ -18,19 +18,19 @@ const API_ENDPOINT_FEEDBACK = settings.getBackendHost().concat('/api/feedback/')
 const apiUtils = {
     async addLike(hash) {
         const userhash = await utils.getUserParameter('hash');
-        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/like'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_TRACK.concat(hash, '/like'), userhash);
     },
     async substractLike(hash) {
         const userhash = await utils.getUserParameter('hash');
-        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/unlike'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_TRACK.concat(hash, '/unlike'), userhash);
     },
     async addLikeComment(hash) {
         const userhash = await utils.getUserParameter('hash');
-        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/comment/like'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_TRACK.concat(hash, '/comment/like'), userhash);
     },
     async substractLikeComment(hash) {
         const userhash = await utils.getUserParameter('hash');
-        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/comment/unlike'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_TRACK.concat(hash, '/comment/unlike'), userhash);
     },
     //TODO: Rebuild with axios
     transmitUserHash(endpoint, userhash) {
@@ -125,6 +125,25 @@ const apiUtils = {
                 },
             })
         });
+    },
+    async transmitProgress(trackhash, progressStatus) {
+        const endpoint = API_ENDPOINT_TRACK.concat(trackhash, '/progress');
+        const userhash = await utils.getUserParameter('hash');
+
+        console.log('##############');
+        console.log('Track Hash: ' + trackhash);
+        console.log('Progress Status: ' + progressStatus);
+        console.log('##############');
+
+        // fetch(endpoint, {
+        //     method: 'PUT',
+        //     headers: this.getRequestHeader(userhash),
+        //     body: JSON.stringify({
+        //     progress: {
+        //         status: progressStatus,
+        //         },
+        //     })
+        // });
     },
     function8() {
         console.log(7);
