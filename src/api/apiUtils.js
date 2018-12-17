@@ -126,24 +126,26 @@ const apiUtils = {
             })
         });
     },
-    async transmitProgress(trackhash, progressStatus) {
+    async transmitProgress() {
+        const storedProgress = await utils.getProgressStatus();
+        const trackhash = storedProgress.trackhash;
+        const progressStatus = storedProgress.progressStatus;
+        // const endpoint = 'https://belavoco.free.beeceptor.com';
         const endpoint = API_ENDPOINT_TRACK.concat(trackhash, '/progress');
         const userhash = await utils.getUserParameter('hash');
 
-        console.log('##############');
-        console.log('Track Hash: ' + trackhash);
-        console.log('Progress Status: ' + progressStatus);
-        console.log('##############');
+        console.log('#############');
+        console.log(trackhash);
+        console.log(progressStatus);
+        console.log('#############');
 
-        // fetch(endpoint, {
-        //     method: 'PUT',
-        //     headers: this.getRequestHeader(userhash),
-        //     body: JSON.stringify({
-        //     progress: {
-        //         status: progressStatus,
-        //         },
-        //     })
-        // });
+        fetch(endpoint, {
+            method: 'PUT',
+            headers: this.getRequestHeader(userhash),
+            body: JSON.stringify({
+                progress: progressStatus,
+            })
+        });
     },
     function8() {
         console.log(7);

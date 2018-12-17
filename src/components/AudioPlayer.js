@@ -92,11 +92,15 @@ export default class AudioPlayer extends React.Component {
         playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
 
         interval = setInterval(async () => {
+            const trackhashGet = await TrackPlayer.getCurrentTrack();
+            const positionGet = await TrackPlayer.getPosition();
+            const lengthGet = await TrackPlayer.getDuration();
             this.setState({
-                trackhash: await TrackPlayer.getCurrentTrack(),
-                position: await TrackPlayer.getPosition(),
-                length: await TrackPlayer.getDuration()
+                trackhash: trackhashGet,
+                position: positionGet,
+                length: lengthGet
             });
+            utils.setProgressStatus(trackhashGet, positionGet);
         }, 500);
 
         this.subscription = DeviceEventEmitter.addListener(

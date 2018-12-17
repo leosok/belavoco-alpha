@@ -16,6 +16,7 @@ let i = 0;
 AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerEventHandler(async (data) => {
     if (data.type === 'playback-track-changed') {
+        apiUtils.transmitProgress();
         apiUtils.sendPlayCount();
         DeviceEventEmitter.emit('playback-info', 'TRACK_CHANGED');
         if (data.nextTrack) {
@@ -33,12 +34,11 @@ TrackPlayer.registerEventHandler(async (data) => {
     //   } else if(data.type == 'remote-previous') {
     //     TrackPlayer.skipToPrevious()
       } else if (data.type === 'playback-state') {
-        if (data.state === TrackPlayer.STATE_PAUSED) {
-          //If Track is paused, progressStatus is trasmitted to backend, to keep progress stored for next session
-          const trackhash = await TrackPlayer.getCurrentTrack();
-          const progressStatus = await TrackPlayer.getPosition();
-          apiUtils.transmitProgress(trackhash, progressStatus);
-        }
+        if (data.state === TrackPlayer.STATE_PAUSED || data.state === TrackPlayer.STATE_STOPPED) {
+          //If Track is paused or stopped, progressStatus is trasmitted to backend, 
+          //to keep progress stored for next session
+          apiUtils.transmitProgress();
+        } 
         PlayerStore.playbackState = data.state;
       }
     if (data.type === 'playback-queue-ended') {

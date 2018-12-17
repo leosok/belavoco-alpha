@@ -104,12 +104,15 @@ const utils = {
         }
     },
     setProgressStatus(trackhash, progressStatus) {
+        const itemToStore = { 'trackhash': trackhash, 'progressStatus': progressStatus };
         // const storageParam = 'progress:'.concat(trackhash);
-        const storageParam = 'progress';
-        AsyncStorage.setItem(storageParam, JSON.stringify(progressStatus));
+        const storageParam = 'storedProgress';
+        if (progressStatus > 0) {
+            AsyncStorage.setItem(storageParam, JSON.stringify(itemToStore));
+        }
     },
     async getProgressStatus() {
-        const retrievedItem = await AsyncStorage.getItem('progress');
+        const retrievedItem = await AsyncStorage.getItem('storedProgress');
         const progressStatus = JSON.parse(retrievedItem);
         return progressStatus;
     },

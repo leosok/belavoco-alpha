@@ -68,15 +68,15 @@ class ProgressStatus extends React.Component {
     }
 }
 
-const styles = {
-    container: { 
-        backgroundColor: 'red', 
-        height: 2, 
-        width: '100%', 
-        flex: 1,
-        marginTop: 5,
-    },
-};
+// const styles = {
+//     container: { 
+//         backgroundColor: 'red', 
+//         height: 2, 
+//         width: '100%', 
+//         flex: 1,
+//         marginTop: 5,
+//     },
+// };
 
 // Make the compoent available to other parts of the app
 export { ProgressStatus };
