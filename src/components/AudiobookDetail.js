@@ -68,6 +68,7 @@ class AudiobookDetail extends React.Component {
             times_liked,
             times_played,
             length,
+            isNew
         } = this.props.audiobook;
 
         const {
@@ -89,7 +90,9 @@ class AudiobookDetail extends React.Component {
             <View>
             {/* <TouchableOpacity onPress={() => this.startPlayPress()}> */}
             <Card>
-                <CardSection>
+                <CardSection
+                    isNew={isNew}
+                >
                     {/* <View style={infoContainer}> */}
                     <View style={{ flex: 1, flexDirection: 'column', marginLeft: 8, marginRight: 8 }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
