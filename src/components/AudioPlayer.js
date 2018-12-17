@@ -103,6 +103,11 @@ export default class AudioPlayer extends React.Component {
             utils.setProgressStatus(trackhashGet, positionGet);
         }, 500);
 
+        setInterval(async () => {
+            //Transmitting progressStatus every 5 seconds to server
+            apiUtils.transmitProgress();
+        }, 5000);
+
         this.subscription = DeviceEventEmitter.addListener(
                     'playback-info', this.playbackState.bind(this));
       }
