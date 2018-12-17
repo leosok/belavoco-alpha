@@ -61,22 +61,12 @@ class ProgressStatus extends React.Component {
 
     render() {
         return (
-            <View style={{ height: 5 }}>
+            <View style={{ height: 5, marginBottom: -5 }}>
                 <View style={this.statusStyle()} />
             </View>
         );
     }
 }
-
-// const styles = {
-//     container: { 
-//         backgroundColor: 'red', 
-//         height: 2, 
-//         width: '100%', 
-//         flex: 1,
-//         marginTop: 5,
-//     },
-// };
 
 // Make the compoent available to other parts of the app
 export { ProgressStatus };
