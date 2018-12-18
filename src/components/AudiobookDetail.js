@@ -27,23 +27,7 @@ class AudiobookDetail extends React.Component {
 
     state = {
         selectedAudiobook: null,
-        // like: this.props.audiobook.liked,
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (this.props !== nextProps) {
-    //         this.setState({
-    //             like: nextProps.audiobook.liked,
-    //         });
-    //     }
-    // }
-
-    // async likeHandler(alterLike) {
-    //     this.setState({
-    //         like: !this.state.like
-    //     });
-    //     this.props.audiobook.times_liked = this.props.audiobook.times_liked + alterLike;
-    //   }
 
     startPlayPress() {
         // '' ensures the Player to replay a track that is reclicked by setStating 
@@ -83,8 +67,6 @@ class AudiobookDetail extends React.Component {
         } = styles;
 
         const likeHandler = this.likeHandler;
-        // const addLike = this.addLike;
-        // const substractLike = this.substractLike;
 
         return (
             <View>
@@ -132,15 +114,6 @@ class AudiobookDetail extends React.Component {
                                 </View>
                             {/* </View> */}
                             </TouchableOpacity>
-                            {/* <LikeButtonGeneric
-                                hash={hash}
-                                size={45}
-                                like={this.state.like}
-                                // colorLike='grey'
-                                likeHandler={likeHandler.bind(this)}
-                                addLike={apiUtils.addLike.bind(this)}
-                                substractLike={apiUtils.substractLike.bind(this)}
-                            /> */}
                             <TouchableOpacity 
                                 style={buttonContainer} 
                                 onPress={() => this.commentPress()}

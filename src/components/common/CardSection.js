@@ -34,7 +34,6 @@ class CardSection extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             // <TouchableOpacity>
                 <View style={this.setBackgroundColor()}>

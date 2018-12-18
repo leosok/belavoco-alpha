@@ -19,6 +19,7 @@ const playerUtils = {
             TrackPlayer.add(playlist).then(() => {
                 TrackPlayer.skip(audioBookToPlay.hash);
                 TrackPlayer.play();
+                // TrackPlayer.seekTo(audioBookToPlay.progressStatus);
             });
         } 
     },
