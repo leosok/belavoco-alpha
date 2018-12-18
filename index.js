@@ -29,10 +29,10 @@ TrackPlayer.registerEventHandler(async (data) => {
             TrackPlayer.play();
       } else if (data.type === 'remote-pause') {
           TrackPlayer.pause();
-    //   } else if(data.type == 'remote-next') {
-    //     TrackPlayer.skipToNext()
-    //   } else if(data.type == 'remote-previous') {
-    //     TrackPlayer.skipToPrevious()
+      } else if (data.type == 'remote-next') {
+        TrackPlayer.skipToNext();
+      } else if (data.type == 'remote-previous') {
+        TrackPlayer.skipToPrevious();
       } else if (data.type === 'playback-state') {
         if (data.state === TrackPlayer.STATE_PAUSED || data.state === TrackPlayer.STATE_STOPPED) {
           //If Track is paused or stopped, progressStatus is trasmitted to backend, 

@@ -35,6 +35,12 @@ const playerUtils = {
         const newPosition = await TrackPlayer.getPosition() - 30;
         TrackPlayer.seekTo(newPosition);
     },
+    async skipPrevious() {
+        TrackPlayer.skipToPrevious();
+    },
+    async skipNext() {
+        TrackPlayer.skipToNext();
+    },
     async loadAutoplayStatus() {
         let autoplayStatus = await AsyncStorage.getItem('autoplay');
         if (autoplayStatus === 'true') {

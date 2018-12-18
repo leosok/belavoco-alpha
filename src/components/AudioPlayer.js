@@ -4,6 +4,7 @@ import React from 'react';
 import { View,
          Text, 
          TouchableOpacity,
+         TouchableWithoutFeedback,
          DeviceEventEmitter
         } from 'react-native';
 
@@ -74,7 +75,7 @@ export default class AudioPlayer extends React.Component {
         comments: [],
         loadingComments: true,
         loadingLatestComment: false,
-        frButtons: 0,                    // 0 - thirty buttons; 1 - skip buttons
+        thirtyButtons: true,                    // true - thirty buttons; false - skip buttons
     };
 
     componentDidMount() {
@@ -85,8 +86,8 @@ export default class AudioPlayer extends React.Component {
             capabilities: [
               TrackPlayer.CAPABILITY_PLAY,
               TrackPlayer.CAPABILITY_PAUSE,
-            //   TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-            //   TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+              TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+              TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
             ]
         });
         playerUtils.resetAndPlay(this.props.audiobooks, this.props.audiobook);
@@ -189,6 +190,10 @@ export default class AudioPlayer extends React.Component {
         this.props.minimizePlayerHandler();
     }
 
+    toggleButtons() {
+        this.setState({ thirtyButtons: !this.state.thirtyButtons });
+    }
+
     renderPlayerContent() {
         const PlayButtonPress = this.PlayButtonPress;
         const {
@@ -266,34 +271,13 @@ export default class AudioPlayer extends React.Component {
             return (
                 <View style={containerStyle}>
                     <View style={infoContainerStyle}>
-                        <View style={buttonContainer}>
-                            <Icon 
-                                onPress={playerUtils.rewindThirty.bind(this)}
-                                name='replay-30'
-                                size={thirtySize}
-                                type='materialicons'
-                                color='grey'
-                                underlayColor={Colors.audioPlayer}
-                            />
-                            <View style={playButtonContainer}>
-                                <PlayButton
-                                    playingState={this.state.playingState}
-                                    PlayButtonPress={PlayButtonPress}
-                                />
+                        {this.renderButtons(PlayButtonPress)}
+                        <TouchableWithoutFeedback onPress={this.toggleButtons.bind(this)} >
+                            <View style={infoContainer}>
+                                <Text numberOfLines={1} style={authorStyle}>{TrackStore.artist}</Text>
+                                <Text numberOfLines={1} style={titleStyle}>{TrackStore.title}</Text>
                             </View>
-                            <Icon 
-                                onPress={playerUtils.forwardThirty.bind(this)}
-                                name='forward-30'
-                                size={thirtySize}
-                                type='materialicons'
-                                color='grey'
-                                underlayColor={Colors.audioPlayer}
-                            /> 
-                        </View>
-                        <View style={infoContainer}>
-                            <Text numberOfLines={1} style={authorStyle}>{TrackStore.artist}</Text>
-                            <Text numberOfLines={1} style={titleStyle}>{TrackStore.title}</Text>
-                        </View>
+                        </TouchableWithoutFeedback>
                         <LikeButtonGeneric
                             hash={this.props.audiobook.hash}
                             size={35}
@@ -316,13 +300,73 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
+    renderButtons(PlayButtonPress) {
+        const {
+            playButtonContainer,
+            buttonContainer,
+        } = styles;
+        if (this.state.thirtyButtons) {
+            return (
+                <View style={buttonContainer}>
+                    <Icon 
+                        onPress={playerUtils.rewindThirty.bind(this)}
+                        name='replay-30'
+                        size={thirtySize}
+                        type='materialicons'
+                        color='grey'
+                        underlayColor={Colors.audioPlayer}
+                    />
+                    <View style={playButtonContainer}>
+                        <PlayButton
+                            playingState={this.state.playingState}
+                            PlayButtonPress={PlayButtonPress}
+                        />
+                    </View>
+                    <Icon 
+                        onPress={playerUtils.forwardThirty.bind(this)}
+                        name='forward-30'
+                        size={thirtySize}
+                        type='materialicons'
+                        color='grey'
+                        underlayColor={Colors.audioPlayer}
+                    /> 
+                </View>
+            );
+        } return (
+            <View style={buttonContainer}>
+                <Icon 
+                    onPress={playerUtils.skipPrevious.bind(this)}
+                    name='skip-previous'
+                    size={thirtySize}
+                    type='materialicons'
+                    color='grey'
+                    underlayColor={Colors.audioPlayer}
+                />
+                <View style={playButtonContainer}>
+                    <PlayButton
+                        playingState={this.state.playingState}
+                        PlayButtonPress={PlayButtonPress}
+                    />
+                </View>
+                <Icon 
+                    onPress={playerUtils.skipNext.bind(this)}
+                    name='skip-next'
+                    size={thirtySize}
+                    type='materialicons'
+                    color='grey'
+                    underlayColor={Colors.audioPlayer}
+                /> 
+            </View>
+        );
+    }
+
     renderButtonsLargePlayer(PlayButtonPress) {
         const {
             playButtonContainer,
             buttonContainer,
         } = styles;
 
-        if (this.state.frButtons === 0) {
+        if (this.state.thirtyButtons) {
             return (
                 <View style={{ flex: 1, flexDirection: 'row', }}>
                     <TouchableOpacity 
@@ -395,6 +439,7 @@ export default class AudioPlayer extends React.Component {
     }
 
     render() {
+        console.log(this.state.thirtyButtons);
         // console.log('Current Trackhash (in state): ' + this.state.trackhash);
         // console.log('Current Position (in state): ' + this.state.position);
         return (

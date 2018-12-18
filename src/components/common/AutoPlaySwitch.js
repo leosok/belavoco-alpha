@@ -11,7 +11,7 @@ import playerUtils from '../../player/playerUtils';
 class AutoPlaySwitch extends React.Component {
 
     state = {
-        autoplay: false,
+        autoplay: true,
     };
 
     componentDidMount() {
