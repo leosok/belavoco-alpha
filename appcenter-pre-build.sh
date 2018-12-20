@@ -11,3 +11,5 @@ sed -i '' "s/\$ONESIGNAL_API_KEY/$ONESIGNAL_API_KEY/g" settings.js
 cat settings.js
 
 echo "Updated OS-API-Key!"
+echo "removing drawables: (duplicate recources)"
+rm -r android/app/src/main/res/drawable-*
