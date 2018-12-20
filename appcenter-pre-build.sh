@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 #Replacing Secret Variables from ENV
-envsubst < settings.js > .tmp
-mv ".tmp" "settings.js"
+
+echo "Arguments for updating:"
+echo " - ONESIGNAL_API_KEY: $ONESIGNAL_API_KEY"
+
+sed -i "s/\$ONESIGNAL_API_KEY/$ONESIGNAL_API_KEY/g" settings.js
+
+
+# Print out file for reference
+cat settings.js
+
+echo "Updated OS-API-Key!"
