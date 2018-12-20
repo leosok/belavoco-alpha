@@ -4,7 +4,7 @@
 echo "Arguments for updating:"
 echo " - ONESIGNAL_API_KEY: $ONESIGNAL_API_KEY"
 
-sed -i "s/\$ONESIGNAL_API_KEY/$ONESIGNAL_API_KEY/g" settings.js
+sed -i '' "s/\$ONESIGNAL_API_KEY/$ONESIGNAL_API_KEY/g" settings.js
 
 
 # Print out file for reference
