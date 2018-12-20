@@ -1,4 +1,4 @@
-import { ONESIGNAL_API_KEY_LOCAL } from './environ';
+//import { ONESIGNAL_API_KEY_LOCAL } from './environ';
 
 let ONESIGNAL_API_KEY = '$ONESIGNAL_API_KEY';
 const BACKEND_HOST = 'https://www.belavo.co';
@@ -10,9 +10,9 @@ const DEBUG = false;
 
 const settings = {
     getOneSignalKey() {
-        if (ONESIGNAL_API_KEY === '$ONESIGNAL_API_KEY') {
-            ONESIGNAL_API_KEY = ONESIGNAL_API_KEY_LOCAL;
-        }
+        //if (ONESIGNAL_API_KEY === '$ONESIGNAL_API_KEY') {
+        //    ONESIGNAL_API_KEY = ONESIGNAL_API_KEY_LOCAL;
+        //}
         return ONESIGNAL_API_KEY;
     },
     getBackendHost() {
